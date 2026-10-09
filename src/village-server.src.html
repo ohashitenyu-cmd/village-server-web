@@ -31,9 +31,9 @@
   --surface-container:#f3ede1; --surface-container-high:#ede7da; --surface-container-highest:#e7e1d3;
   --vs-red-ink:#b4123b; --vs-yellow-ink:#765400; --vs-green-ink:#006c47; --vs-blue-ink:#006689; --vs-purple-ink:#7a32c3;
   --vs-green-soft:#d5f3e2;
-  --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(27 28 43 / .06);
-  --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
-  --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
+  --vs-tile-bg:#ffffff; --vs-hover:rgb(27 28 43 / .06);
+  --vs-e1:0 1px 2px rgb(27 28 43 / .14),0 1px 3px 1px rgb(27 28 43 / .08);
+  --vs-e2:0 1px 2px rgb(27 28 43 / .16),0 3px 8px 2px rgb(27 28 43 / .12);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) body:not(.light){
@@ -48,9 +48,9 @@
     --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
     --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
     --vs-green-soft:#103a2a;
-    --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(236 231 220 / .07);
-    --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
-    --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
+    --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
+    --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
+    --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
     color-scheme:dark;
   }
 }
@@ -66,9 +66,9 @@
   --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
   --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
   --vs-green-soft:#103a2a;
-  --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(236 231 220 / .07);
-  --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
-  --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
+  --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
+  --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
+  --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
   color-scheme:dark;
 }
 :root:has(body.dark){color-scheme:dark}
@@ -134,11 +134,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-tile:hover,.vs-row:hover,.vs-game:hover{box-shadow:var(--vs-e2); background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
 .vs-tile:focus-visible,.vs-row:focus-visible,.vs-game:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
 .vs-go{color:var(--on-surface-variant); flex:none}
-.vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1rem}
+.vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1.25rem}
 .vs-tile>.vs-go{position:absolute; inset:2rem 1.25rem auto auto}
 .vs-tile-text{display:flex; flex-direction:column; gap:.125rem; inline-size:100%; box-sizing:border-box}
 .vs-tile-cap{font-size:.8125rem; line-height:1.5; color:var(--on-surface-variant)}
-.vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
+.vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1.25rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
 .vs-row>.max{display:flex; flex-direction:column; min-inline-size:0}
 .vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
 .vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
@@ -203,7 +203,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 }
 
 /* ---- 参加手順 ---- */
-.vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1rem; overflow:hidden}
+.vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
 .vs-game-img{display:block; aspect-ratio:10/3; overflow:hidden; background:var(--vs-night)}
 .vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; transition:transform var(--speed3)}
 .vs-game:hover .vs-game-img img{transform:scale(1.03)}
@@ -217,11 +217,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-stepper>li{flex:1; position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:.5rem; font-size:.75rem; font-weight:500; line-height:1.3; color:var(--on-surface-variant); min-inline-size:0}
 .vs-stepper>li:last-child{flex:0 0 auto}
 .vs-stepper>li:not(:last-child)::after{content:""; position:absolute; inset-block-start:1.25rem; inset-inline:3rem .5rem; block-size:2px; margin-block-start:-1px; background:var(--outline-variant)}
-.vs-stepper>li.done:not(:last-child)::after{background:var(--primary)}
+.vs-stepper>li.done:not(:last-child)::after{background:var(--vs-green)}
 .vs-stepper>li.current{color:var(--on-surface); font-weight:700}
 .vs-sdot{flex:none; inline-size:2.5rem; block-size:2.5rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-highest); color:var(--on-surface-variant)}
 .vs-sdot>i{--_size:1.25rem}
-.done>.vs-sdot{background:var(--primary); color:var(--on-primary)}
+.done>.vs-sdot{background:var(--vs-green); color:var(--vs-night)}
 .current>.vs-sdot{background:var(--primary-container); color:var(--on-primary-container); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
 .vs-stepsec{border-block-start:1px solid var(--outline-variant); padding-block:1.5rem; scroll-margin-top:6rem}
 .vs-steplabel{display:flex; align-items:center; gap:.25rem; font-size:.75rem; font-weight:700; letter-spacing:.06em; color:var(--on-surface-variant)}
@@ -249,6 +249,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-ask{font-size:.75rem; font-weight:700; color:var(--vs-blue-ink)}
 .vs-ric{flex:none; inline-size:2.25rem; block-size:2.25rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-high); color:var(--on-surface-variant); transition:background-color var(--speed2)}
 .vs-ric>i{--_size:1.25rem}
+.vs-rrow.checked .vs-ric{background:var(--vs-green); color:var(--vs-night)}
 .vs-rrow.checked .vs-rtitle b{color:var(--on-surface-variant)}
 .vs-rcheck{display:flex; align-items:center; min-block-size:3.75rem; padding-inline:.5rem 0}
 .vs-rbody{padding:0 0 1rem calc(2.25rem + .875rem)}
@@ -301,7 +302,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 
 /* ---- そのほか ---- */
 .vs-photo{margin:0}
-.vs-photo img{display:block; inline-size:100%; max-inline-size:100%; aspect-ratio:16/9; object-fit:cover; border-radius:1rem; background:var(--surface-container-high)}
+.vs-photo img{display:block; inline-size:100%; max-inline-size:100%; aspect-ratio:16/9; object-fit:cover; border-radius:1.5rem; background:var(--surface-container-high)}
 .vs-photo figcaption{margin-block-start:.5rem; font-size:.8125rem; color:var(--on-surface-variant)}
 .vs-time{flex:none; inline-size:3.25rem; font-weight:800; font-size:1.125rem; color:var(--vs-blue-ink); font-variant-numeric:tabular-nums}
 .vs-big{font-size:2.5rem; font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums}
@@ -350,7 +351,6 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 
 /* ---- フッター ---- */
 footer.vs-footer{display:block; margin-block-start:5rem; padding:2.5rem 0 1rem; border-block-start:4px solid; border-image:linear-gradient(90deg,var(--vs-red) 0 20%,var(--vs-yellow) 20% 40%,var(--vs-green) 40% 60%,var(--vs-blue) 60% 80%,var(--vs-purple) 80% 100%) 1; min-block-size:0}
-footer.vs-footer nav{align-items:flex-start}
 .vs-footer h2{font-size:.875rem; font-weight:700; margin:0 0 .5rem}
 .vs-footer ul{list-style:none; margin:0; padding:0}
 .vs-footer li a{display:flex; align-items:center; justify-content:flex-start; gap:.25rem; min-block-size:2.25rem; font-size:.875rem; color:var(--on-surface-variant)}
@@ -378,13 +378,18 @@ body:not(.vs-ready) .page.active{animation:none}
       <span class="vs-wordmark">Village Server</span>
     </a>
     <div class="max"></div>
+    <nav class="l vs-links" aria-label="グローバルナビゲーション">
+      <a class="button transparent" href="#about" data-nav="about">サーバーについて</a>
+      <a class="button transparent" href="#rules" data-nav="rules">ルール</a>
+      <a class="button transparent" href="#support" data-nav="support">サポート</a>
+    </nav>
     <button class="circle transparent" type="button" id="theme-btn" aria-label="ダークモードにする"><i>dark_mode</i></button>
     <button type="button" id="login-btn" data-act="login" aria-label="Discordでログイン"><i>login</i><span class="m l">ログイン</span></button>
     <a class="button circle transparent" id="me-btn" href="#mypage" aria-label="マイページ" hidden><i>account_circle</i></a>
   </nav>
 </header>
 
-<nav class="left m l" aria-label="メインメニュー">
+<nav class="left m" aria-label="メインメニュー">
   <a href="#home" data-nav="home"><i>home</i><div>ホーム</div></a>
   <a href="#about" data-nav="about"><i>cottage</i><div>サーバー</div></a>
   <a href="#rules" data-nav="rules"><i>gavel</i><div>ルール</div></a>
@@ -975,7 +980,7 @@ store.set('accent', null); B.removeAttribute('style');
 function setGame(g, fromRoute){
   if (!GAMES[g]) return;
   state.game = g; store.set('game', g);
-  $$('[data-gamechips]').forEach(n => { n.innerHTML = ['asa','pal'].map(k => { const on = k === g; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-game="' + k + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(GAMES[k].short) + '</span></button>'; }).join(''); });
+  $$('[data-gamechips]').forEach(n => { n.innerHTML = ['asa','pal'].map(k => { const on = k === g; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-game="' + k + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(GAMES[k].short) + '</span></button>'; }).join(''); });
   renderRules(); renderRates(); renderSteps();
   if (!fromRoute && (state.route === 'join-asa' || state.route === 'join-pal')) location.hash = 'join-' + g;
 }
@@ -1035,7 +1040,7 @@ function ruleRows(g, scope){
   return rulesFor(g).map(r => {
     const on = state.ruleChecks[g].indexOf(r.id) >= 0, cid = 'rc-' + scope + '-' + g + '-' + r.id;
     const t = g === 'pal' && r.tp ? r.tp : r.t, d = g === 'pal' && r.dp ? r.dp : r.d;
-    return '<li class="vs-rrow' + (on ? ' checked' : '') + '" data-rrow="' + r.id + '"><details><summary><span class="vs-ric">' + '<i>' + r.i + '</i>' + '</span><span class="vs-rtitle"><b>' + esc(t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
+    return '<li class="vs-rrow' + (on ? ' checked' : '') + '" data-rrow="' + r.id + '"><details><summary><span class="vs-ric"><i>' + (on ? 'check' : r.i) + '</i></span><span class="vs-rtitle"><b>' + esc(t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
       '<div class="vs-rbody"><p class="vs-body vs-muted">' + esc(d) + '</p>' +
       (r.list ? '<ul class="vs-body vs-muted">' + r.list.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : '') +
       (r.ng ? '<p class="vs-ex ng"><i>block</i><span>' + esc(r.ng) + '</span></p>' : '') +
@@ -1044,11 +1049,9 @@ function ruleRows(g, scope){
   }).join('');
 }
 function ruleCount(g){ const all = rulesFor(g); return [all.filter(r => state.ruleChecks[g].indexOf(r.id) >= 0).length, all.length]; }
-
 function updateRuleCounters(){
   const g = state.game, c = ruleCount(g);
   $$('[data-rulecount]').forEach(el => { el.textContent = c[0] + ' / ' + c[1]; });
-
   $$('[data-ruleprog]').forEach(el => { el.setAttribute('aria-valuemax', c[1]); el.setAttribute('aria-valuenow', c[0]); const pg = el.querySelector('progress'); if (pg) pg.value = Math.round(c[0] / c[1] * 100); });
   $('#rules-back').innerHTML = c[0] === c[1] ? '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button vs-mt-s" href="#join-' + g + '"><span>参加手順へ戻る</span><i>arrow_forward</i></a>' : '';
 }
@@ -1084,7 +1087,7 @@ function renderSteps(){
   $('#steps-done').hidden = cur !== -1;
   $('#stepper').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), cls = done ? 'done' : (i === cur ? 'current' : '');
-    return '<li class="' + cls + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="vs-sdot">' + '<i>' + (done ? 'check' : s.icon) + '</i>' + '</span><span>' + esc(s.short || s.t) + '</span></li>';
+    return '<li class="' + cls + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="vs-sdot"><i>' + (done ? 'check' : s.icon) + '</i></span><span>' + esc(s.short || s.t) + '</span></li>';
   }).join('');
   $('#steps-list').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), isCur = i === cur;
@@ -1137,7 +1140,7 @@ function renderRates(){
 }
 function renderCommands(){
   const cats = [['all','すべて']].concat(CMD_GROUPS.map(g => [g.key, g.title]));
-  $('#cmd-cats').innerHTML = cats.map(c => { const on = state.cmdCat === c[0]; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-cmdcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#cmd-cats').innerHTML = cats.map(c => { const on = state.cmdCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-cmdcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.cmdQ.trim().toLowerCase();
   const groups = CMD_GROUPS.filter(g => state.cmdCat === 'all' || g.key === state.cmdCat)
     .map(g => Object.assign({}, g, { items: g.items.filter(c => !q || (c[0] + c[1] + g.title).toLowerCase().indexOf(q) >= 0) }))
@@ -1164,7 +1167,7 @@ function linkChip(l){
   return '<a class="chip" href="#' + esc(to) + '"><span>' + label + '</span><i>arrow_forward</i></a>';
 }
 function renderFaq(){
-  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.faqQ.trim().toLowerCase();
   const list = FAQ.filter(f => (state.faqCat === 'all' || f[0] === state.faqCat) && (!q || (f[1] + f[2]).toLowerCase().indexOf(q) >= 0));
   $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-body vs-muted">' + esc(f[2]) + '</p>' + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
@@ -1185,7 +1188,7 @@ function renderMypage(){
     return '<a class="vs-row wave" href="#" data-ext="Elderの依頼の詳細"><i class="' + (working ? 'ink-yellow' : 'ink-green') + '">' + (working ? 'hourglass_top' : 'check_circle') + '</i><span class="max"><b class="vs-title-m">' + esc(r.t) + '</b><span class="vs-support">' + esc(r.d) + 'に依頼</span></span><span class="vs-status ' + (working ? 'c-yellow' : 'c-green') + '">' + esc(r.s) + '</span><i class="vs-go">open_in_new</i></a>';
   }).join('');
   const linked = state.link.status === 'linked';
-  $('#mp-link').innerHTML = '<h2 class="vs-title-l" id="mp-link-h">' + 'ARK連携</h2><ul class="vs-list vs-mt-s"><li><span class="max vs-muted">状態</span><span class="vs-status ' + (linked ? 'c-green' : 'c-red') + '">' + (linked ? '連携済' : '未連携') + '</span></li>' +
+  $('#mp-link').innerHTML = '<h2 class="vs-title-l" id="mp-link-h">ARK連携</h2><ul class="vs-list vs-mt-s"><li><span class="max vs-muted">状態</span><span class="vs-status ' + (linked ? 'c-green' : 'c-red') + '">' + (linked ? '連携済' : '未連携') + '</span></li>' +
     (linked ? '<li><span class="max vs-muted">サバイバー</span><b>むらびと</b></li></ul><a class="button transparent vs-mt-s" href="#join-asa"><i>refresh</i><span>再連携する</span></a>'
       : '</ul><p class="vs-note vs-mt-s"><i>info</i><span>連携すると、撤去までの日数が7日から30日にのびます。</span></p><a class="button vs-mt-s" href="#join-asa"><i>key</i><span>連携コードを発行</span></a>');
 }
@@ -1338,7 +1341,7 @@ D.addEventListener('change', e => {
     cb.checked = t.checked;
     const row = cb.closest('.vs-rrow'); if (!row) return;
     row.classList.toggle('checked', t.checked);
-    
+    const ic = row.querySelector('.vs-ric>i'); if (ic) ic.textContent = t.checked ? 'check' : rule.i;
     const d = row.querySelector('details'); if (t.checked && d) d.open = false;
   });
   updateRuleCounters();
