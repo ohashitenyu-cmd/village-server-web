@@ -184,13 +184,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-gate>.max{margin-block-start:1rem}
 
 /* ---- TOP：写真のメインビジュアル ---- */
-/* 写真は重ねず、テキスト面（夜色）と並べてそのまま見せる */
-.vs-hero{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame)}
-.vs-hero-media{margin:0; order:2; min-block-size:100%}
-.vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; aspect-ratio:16/9; object-fit:cover; object-position:50% 45%}
-.vs-hero-body{position:relative; overflow:hidden; isolation:isolate; display:flex; flex-direction:column; justify-content:center; padding:clamp(1.5rem,1rem + 2.5vw,3rem)}
-@media (max-width:992px){ .vs-hero{grid-template-columns:minmax(0,1fr)} .vs-hero-media{order:0} }
-.vs-hero-body::before{content:""; position:absolute; inset:auto -20% -45% -20%; block-size:90%; z-index:-1; background:radial-gradient(closest-side,rgb(242 188 27 / .24),rgb(238 57 91 / .06) 60%,transparent)}
+.vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
+.vs-hero-media{position:absolute; inset:0}
+.vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; object-position:50% 40%}
+.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(22 24 39 / .94) 0%,rgb(22 24 39 / .78) 34%,rgb(22 24 39 / .18) 68%,rgb(22 24 39 / 0) 100%),radial-gradient(60% 55% at 12% 100%,rgb(242 188 27 / .22),transparent 70%)}
+.vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:36rem}
 .vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
 .vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
 .vs-hero h1{color:var(--vs-flame)}
@@ -199,7 +197,10 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-cta:focus-visible{outline:3px solid var(--vs-flame); outline-offset:3px}
 .vs-ghost{color:var(--vs-flame) !important}
 @media (max-width:600px){
-  .vs-hero-body{padding:1.25rem 1.25rem 1.5rem}
+  .vs-hero{display:block; min-block-size:0}
+  .vs-hero-media{position:relative; aspect-ratio:4/3}
+  .vs-hero-media::after{background:linear-gradient(0deg,var(--vs-night) 0%,rgb(22 24 39 / 0) 45%)}
+  .vs-hero-body{padding:.25rem 1.25rem 1.5rem}
 }
 
 /* ---- 参加手順 ---- */
@@ -268,7 +269,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-flames svg{inline-size:1.125rem; block-size:1.5rem; fill:var(--outline-variant); transition:fill var(--speed3)}
 .vs-flames svg.lit{fill:url(#vs-fire-g)}
 .vs-sdot>svg,.vs-ric>svg{inline-size:.875rem; block-size:1.25rem; fill:currentColor}
-.vs-sparks{position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
+.vs-sparks{position:absolute; inset:auto auto 0 0; inline-size:min(60%,28rem); block-size:100%; pointer-events:none; overflow:hidden}
 .vs-sparks span{position:absolute; inset-block-end:-.5rem; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:var(--c); box-shadow:0 0 .75rem var(--c); opacity:0}
 .vs-camp{flex:none; inline-size:5rem; block-size:auto} .vs-camp-lg{inline-size:7rem}
 .vs-camp-flame,.vs-camp-v{transform-box:fill-box; transform-origin:50% 100%}
@@ -433,15 +434,15 @@ body:not(.vs-ready) .page.active{animation:none}
   <!-- ===================== TOP ===================== -->
   <div class="page active" id="p-home">
     <section class="vs-hero" aria-labelledby="hero-title">
-      <figure class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></figure>
+      <div class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></div>
+      <div class="vs-sparks" aria-hidden="true">
+        <span style="--c:#efbb0c; left:10%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
+        <span style="--c:#ee395b; left:22%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
+        <span style="--c:#40c68b; left:33%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
+        <span style="--c:#009acf; left:6%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
+        <span style="--c:#a257eb; left:42%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
+      </div>
       <div class="vs-hero-body">
-        <div class="vs-sparks" aria-hidden="true">
-          <span style="--c:#efbb0c; left:12%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
-          <span style="--c:#ee395b; left:30%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
-          <span style="--c:#40c68b; left:48%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
-          <span style="--c:#009acf; left:66%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
-          <span style="--c:#a257eb; left:84%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
-        </div>
         <p class="vs-eyebrow"><svg viewBox="0 0 512 512" aria-hidden="true"><use href="#vs-mark"></use></svg>ARK:SA ・ パルワールド</p>
         <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1">焚き火を囲んで、<br>長く遊べる村。</h1>
         <p class="vs-hero-sub">手間が少なく、冒険と育成をじっくり楽しめるサーバーです。</p>
