@@ -1,0 +1,1366 @@
+<title>Village Server</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Roboto+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block">
+<!-- Beer CSS 5.0.3 (MIT, https://www.beercss.com). アーティファクトは外部スタイルシートを読み込めないため、beer.min.css をここに埋め込んでいます。 -->
+<style id="beer-css">/*__BEERCSS__*/</style>
+<style>
+/* Layout: 12列グリッド1本・全ページ左揃え。左右余白は --vs-gutter（16/24/32px）でヘッダーと本文を同じ左端に揃える。
+   見た目のルール：押せるもの＝浮いた面＋矢印（またはシェブロン）＋ホバー。押せない情報＝面を持たず、見出しと区切り線で並べる。
+   色：ロゴの焚き火パレット。黄色の面には必ず濃い文字。選択・ナビは夜空の藍。書体は Noto Sans JP 1ファミリー（M3 の文字階層）。 */
+:root{
+  --vs-night:#161827; --vs-flame:#f3eee3; --vs-flame-2:#cfcabe; --vs-ember:#f2bc1b;
+  --vs-red:#ee395b; --vs-yellow:#efbb0c; --vs-green:#40c68b; --vs-blue:#009acf; --vs-purple:#a257eb;
+  --font:"Noto Sans JP","Hiragino Sans","Yu Gothic UI",Meiryo,sans-serif;
+  --vs-mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --font-icon:"Material Symbols Rounded";
+  --vs-gutter:1rem; --vs-sp:2.5rem;
+}
+@media (min-width:601px){ :root{ --vs-gutter:1.5rem; --vs-sp:3rem } }
+@media (min-width:993px){ :root{ --vs-gutter:2rem } }
+:root, html body.light{
+  --primary:#2c3060; --on-primary:#fff8ec; --primary-container:#f4c02a; --on-primary-container:#291d00;
+  --secondary:#575a7a; --on-secondary:#ffffff; --secondary-container:#e0e1f6; --on-secondary-container:#15183a;
+  --tertiary:#006689; --on-tertiary:#ffffff; --tertiary-container:#cdebfa; --on-tertiary-container:#00293b;
+  --error:#ba1a1a; --on-error:#ffffff; --error-container:#ffdad6; --on-error-container:#410002;
+  --background:#fdfaf4; --on-background:#1b1c2b; --surface:#fdfaf4; --on-surface:#1b1c2b;
+  --surface-variant:#e8e2d4; --on-surface-variant:#4a4858; --outline:#7b7889; --outline-variant:#dcd6c8;
+  --shadow:#000000; --scrim:#000000; --inverse-surface:#2a2c42; --inverse-on-surface:#f4efe4; --inverse-primary:#bfc3f7;
+  --surface-dim:#ded8cb; --surface-bright:#fdfaf4; --surface-container-lowest:#ffffff; --surface-container-low:#f8f3e9;
+  --surface-container:#f3ede1; --surface-container-high:#ede7da; --surface-container-highest:#e7e1d3;
+  --vs-red-ink:#b4123b; --vs-yellow-ink:#765400; --vs-green-ink:#006c47; --vs-blue-ink:#006689; --vs-purple-ink:#7a32c3;
+  --vs-green-soft:#d5f3e2;
+  --vs-tile-bg:#ffffff; --vs-hover:rgb(27 28 43 / .06);
+  --vs-e1:0 1px 2px rgb(27 28 43 / .14),0 1px 3px 1px rgb(27 28 43 / .08);
+  --vs-e2:0 1px 2px rgb(27 28 43 / .16),0 3px 8px 2px rgb(27 28 43 / .12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) body:not(.light){
+    --primary:#f3eee3; --on-primary:#1e2138; --primary-container:#f4c02a; --on-primary-container:#291d00;
+    --secondary:#c3c5e6; --on-secondary:#2c2f4c; --secondary-container:#383b5e; --on-secondary-container:#e0e1f6;
+    --tertiary:#73d1ff; --on-tertiary:#003549; --tertiary-container:#004d68; --on-tertiary-container:#c7eaff;
+    --error:#ffb4ab; --on-error:#690005; --error-container:#93000a; --on-error-container:#ffdad6;
+    --background:#11131f; --on-background:#ece7dc; --surface:#11131f; --on-surface:#ece7dc;
+    --surface-variant:#444657; --on-surface-variant:#c7c4d3; --outline:#918fa0; --outline-variant:#363849;
+    --inverse-surface:#ece7dc; --inverse-on-surface:#2a2c3d; --inverse-primary:#2c3060;
+    --surface-dim:#11131f; --surface-bright:#373a4a; --surface-container-lowest:#0c0e18; --surface-container-low:#181a28;
+    --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
+    --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
+    --vs-green-soft:#103a2a;
+    --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
+    --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
+    --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"] body:not(.light), html body.dark{
+  --primary:#f3eee3; --on-primary:#1e2138; --primary-container:#f4c02a; --on-primary-container:#291d00;
+  --secondary:#c3c5e6; --on-secondary:#2c2f4c; --secondary-container:#383b5e; --on-secondary-container:#e0e1f6;
+  --tertiary:#73d1ff; --on-tertiary:#003549; --tertiary-container:#004d68; --on-tertiary-container:#c7eaff;
+  --error:#ffb4ab; --on-error:#690005; --error-container:#93000a; --on-error-container:#ffdad6;
+  --background:#11131f; --on-background:#ece7dc; --surface:#11131f; --on-surface:#ece7dc;
+  --surface-variant:#444657; --on-surface-variant:#c7c4d3; --outline:#918fa0; --outline-variant:#363849;
+  --inverse-surface:#ece7dc; --inverse-on-surface:#2a2c3d; --inverse-primary:#2c3060;
+  --surface-dim:#11131f; --surface-bright:#373a4a; --surface-container-lowest:#0c0e18; --surface-container-low:#181a28;
+  --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
+  --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
+  --vs-green-soft:#103a2a;
+  --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
+  --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
+  --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
+  color-scheme:dark;
+}
+:root:has(body.dark){color-scheme:dark}
+html{scrollbar-gutter:stable}
+body{background-color:var(--surface); color:var(--on-surface); font-family:var(--font); font-size:.9375rem; line-height:1.7; letter-spacing:.02em}
+[hidden]{display:none !important}
+
+/* ---- 文字（M3：Display / Headline / Title / Body / Label） ---- */
+h1,h2,h3,h4,h5,h6{font-family:var(--font); font-weight:700; letter-spacing:0; text-wrap:balance; margin:0}
+p{max-inline-size:44rem}
+.vs-display{font-size:clamp(2rem,1.45rem + 2.4vw,3.25rem); line-height:1.22; font-weight:900; letter-spacing:-.01em}
+.vs-headline{font-size:clamp(1.5rem,1.3rem + .8vw,2rem); line-height:1.35; font-weight:700}
+.vs-title-l{font-size:1.25rem; line-height:1.45; font-weight:700}
+.vs-title-m{font-size:1rem; line-height:1.5; font-weight:700}
+.vs-body{font-size:.9375rem; line-height:1.75}
+.vs-support{font-size:.8125rem; line-height:1.6; color:var(--on-surface-variant)}
+.vs-label{font-size:.75rem; line-height:1.4; font-weight:700; letter-spacing:.06em; color:var(--on-surface-variant)}
+.vs-muted{color:var(--on-surface-variant)}
+.vs-tnum{font-variant-numeric:tabular-nums}
+.vs-title-m + .vs-support, .vs-title-l + .vs-support, .vs-title-m + .vs-body, .vs-title-l + .vs-body{margin-block-start:.25rem !important}
+.ink-red{color:var(--vs-red-ink)} .ink-yellow{color:var(--vs-yellow-ink)} .ink-green{color:var(--vs-green-ink)} .ink-blue{color:var(--vs-blue-ink)} .ink-purple{color:var(--vs-purple-ink)}
+
+/* ---- 枠組み：12列グリッド・同じ左端 ---- */
+main.responsive{box-sizing:border-box; padding:1.5rem var(--vs-gutter) 8rem}
+header.vs-topbar{padding-inline:0; background-color:var(--surface); transition:background-color var(--speed3), box-shadow var(--speed3)}
+header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shadow:0 1px 0 var(--outline-variant)}
+.vs-bar{box-sizing:border-box; max-inline-size:75rem; inline-size:100%; margin-inline:auto; padding-inline:var(--vs-gutter); gap:.5rem}
+.vs-brand{gap:.625rem; color:var(--on-surface); justify-content:flex-start; border-radius:.75rem}
+.vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:.75rem; flex:none}
+.vs-wordmark{font-weight:800; font-size:1.25rem; letter-spacing:-.01em}
+.vs-seg>button{padding-inline:.875rem; gap:.25rem}
+.vs-seg>button:not(.active)>i{display:none}
+.vs-seg>button>i{--_size:1.125rem}
+.vs-links{gap:.25rem}
+.vs-avatar{font-weight:700}
+.grid>*{min-inline-size:0}
+main .grid{--_gap:1rem}
+@media (min-width:601px){ main .grid{--_gap:1.5rem} }
+.vs-section{margin-block-start:var(--vs-sp) !important}
+.vs-mt{margin-block-start:1.5rem !important}
+.vs-mt-s{margin-block-start:.75rem !important}
+.vs-sprite{position:absolute; inline-size:0; block-size:0; overflow:hidden}
+nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
+.vs-pagehead h1{flex:1; min-inline-size:0}
+.vs-pagehead h1:focus{outline:none}
+.vs-pagehead .vs-back{margin-inline-start:-.5rem}
+.vs-sechead{display:flex; align-items:center; gap:.5rem; min-block-size:2.5rem}
+.vs-sechead>h2,.vs-sechead>h3{flex:1; min-inline-size:0}
+.vs-sechead>i{--_size:1.5rem}
+.vs-sechead>*{margin:0 !important}
+.vs-info>i+*{margin-block-start:0 !important}
+.vs-steplabel+h2{margin-block-start:.25rem !important}
+.vs-label>i,.vs-support>i,.vs-support i{--_size:1rem; vertical-align:-.2em}
+
+/* ---- 押せるもの：浮いた面＋矢印＋ホバー ---- */
+.vs-dot{flex:none; inline-size:2.5rem; block-size:2.5rem; border-radius:50%; display:inline-grid; place-items:center; background:var(--vs-c,var(--vs-yellow)); color:var(--vs-night)}
+.vs-dot>i{--_size:1.375rem}
+.vs-dot.c-red{--vs-c:var(--vs-red)} .vs-dot.c-yellow{--vs-c:var(--vs-yellow)} .vs-dot.c-green{--vs-c:var(--vs-green)}
+.vs-dot.c-blue{--vs-c:var(--vs-blue)} .vs-dot.c-purple{--vs-c:var(--vs-purple)}
+.vs-dot.c-night{--vs-c:var(--vs-night); color:var(--vs-ember); box-shadow:inset 0 0 0 1px var(--outline-variant)}
+.vs-dot.large{inline-size:3rem; block-size:3rem} .vs-dot.large>i{--_size:1.5rem}
+.vs-tile,.vs-row,.vs-game{position:relative; box-sizing:border-box; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); text-align:start; white-space:normal; transition:box-shadow var(--speed2), background-image var(--speed2)}
+.vs-tile:hover,.vs-row:hover,.vs-game:hover{box-shadow:var(--vs-e2); background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
+.vs-tile:focus-visible,.vs-row:focus-visible,.vs-game:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+.vs-go{color:var(--on-surface-variant); flex:none}
+.vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1.25rem}
+.vs-tile>.vs-go{position:absolute; inset:2rem 1.25rem auto auto}
+.vs-tile-text{display:flex; flex-direction:column; gap:.125rem; inline-size:100%; box-sizing:border-box}
+.vs-tile-cap{font-size:.8125rem; line-height:1.5; color:var(--on-surface-variant)}
+.vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1.25rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
+.vs-row>.max{display:flex; flex-direction:column; min-inline-size:0}
+.vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
+.vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
+.vs-add-ic{inline-size:2.5rem; block-size:2.5rem; border-radius:.875rem; display:grid; place-items:center; background:var(--primary-container); color:var(--on-primary-container)}
+.vs-tiles.editing .vs-tile:not(.vs-add){box-shadow:inset 0 0 0 2px var(--outline-variant); background-color:var(--surface)}
+.vs-remove{position:absolute !important; inset:-.5rem -.5rem auto auto; z-index:2; box-shadow:var(--vs-e1)}
+@media (prefers-reduced-motion:no-preference){
+  .vs-tiles.editing .vs-tile:not(.vs-add){animation:vs-jiggle .26s ease-in-out infinite alternate}
+  .vs-tiles.editing .vs-tile:nth-child(even):not(.vs-add){animation-duration:.3s; animation-delay:-.13s}
+  .vs-tiles .vs-tile.removing{animation:vs-pop .22s ease-in forwards}
+}
+@keyframes vs-jiggle{from{transform:rotate(-1.3deg)}to{transform:rotate(1.3deg)}}
+@keyframes vs-pop{to{transform:scale(.6); opacity:0}}
+
+/* ---- 押せない情報：面を持たない ---- */
+.vs-figs>.vs-fig:not(:first-child){border-inline-start:1px solid var(--outline-variant); padding-inline-start:1rem}
+.vs-fig{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0}
+.vs-fig>i{color:var(--vs-yellow-ink); margin-block-end:.25rem}
+.vs-fig b{font-size:clamp(1.5rem,1.25rem + 1vw,2.25rem); font-weight:800; line-height:1.15; font-variant-numeric:tabular-nums}
+.vs-fig b small{font-size:.875rem; font-weight:500; margin-inline-start:.125rem}
+.vs-fig>span{font-size:.8125rem; line-height:1.45; color:var(--on-surface-variant)}
+.vs-ratefig{border-block-start:3px solid var(--vs-c,var(--outline-variant)); padding-block-start:.75rem}
+.vs-ratefig b{font-size:1.75rem}
+.vs-block{border-block-start:1px solid var(--outline-variant); padding-block-start:1.25rem}
+.vs-info>i{--_size:1.75rem; display:flex; margin-block-end:.5rem}
+.vs-list{list-style:none; margin:0; padding:0}
+.vs-list>li{display:flex; align-items:center; gap:1rem; min-block-size:3.5rem; padding-block:.5rem; border-block-end:1px solid var(--outline-variant); box-sizing:border-box}
+.vs-list>li:last-child{border-block-end:none}
+.vs-list>li>.max{min-inline-size:0}
+.vs-cols{display:grid; grid-template-columns:minmax(0,1fr); column-gap:1.5rem}
+@media (min-width:601px){ .vs-cols{grid-template-columns:repeat(2,minmax(0,1fr))} .vs-cols>li:nth-last-child(2):nth-child(odd){border-block-end:none} }
+.vs-n{flex:none; inline-size:1.5rem; font-weight:800; color:var(--vs-blue-ink); font-variant-numeric:tabular-nums}
+.vs-status{display:inline-flex; align-items:center; gap:.375rem; font-size:.8125rem; font-weight:700; white-space:nowrap; color:var(--vs-sc,var(--on-surface-variant))}
+.vs-status::before{content:""; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:currentColor}
+.vs-status.c-green{--vs-sc:var(--vs-green-ink)} .vs-status.c-yellow{--vs-sc:var(--vs-yellow-ink)} .vs-status.c-blue{--vs-sc:var(--vs-blue-ink)} .vs-status.c-red{--vs-sc:var(--vs-red-ink)}
+.vs-note{display:flex; align-items:flex-start; gap:.5rem; font-size:.875rem; line-height:1.6}
+.vs-note>i{--_size:1.25rem; flex:none; color:var(--on-surface-variant)}
+.vs-note.c-red{font-weight:700} .vs-note.c-red>i{color:var(--vs-red-ink)}
+.vs-cost{flex:none; font-size:.8125rem; font-weight:700; color:var(--vs-yellow-ink); font-variant-numeric:tabular-nums}
+.vs-cost.free{color:var(--on-surface-variant); font-weight:500}
+.vs-cmd{font-family:var(--vs-mono); font-size:.875rem; font-weight:500; color:var(--vs-purple-ink); background:none; padding:0}
+.vs-gate{display:block}
+.vs-gate>.max{margin-block-start:1rem}
+
+/* ---- TOP：写真のメインビジュアル ---- */
+.vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
+.vs-hero-media{position:absolute; inset:0}
+.vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; object-position:50% 40%}
+.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(22 24 39 / .94) 0%,rgb(22 24 39 / .78) 34%,rgb(22 24 39 / .18) 68%,rgb(22 24 39 / 0) 100%),radial-gradient(60% 55% at 12% 100%,rgb(242 188 27 / .22),transparent 70%)}
+.vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:36rem}
+.vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
+.vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
+.vs-hero h1{color:var(--vs-flame)}
+.vs-hero-sub{color:var(--vs-flame-2); font-size:1rem}
+.vs-cta{font-weight:700; font-size:1rem; padding-inline:1.75rem 1.5rem; box-shadow:0 .5rem 1.75rem rgb(242 188 27 / .3)}
+.vs-cta:focus-visible{outline:3px solid var(--vs-flame); outline-offset:3px}
+.vs-ghost{color:var(--vs-flame) !important}
+@media (max-width:600px){
+  .vs-hero{display:block; min-block-size:0}
+  .vs-hero-media{position:relative; aspect-ratio:4/3}
+  .vs-hero-media::after{background:linear-gradient(0deg,var(--vs-night) 0%,rgb(22 24 39 / 0) 45%)}
+  .vs-hero-body{padding:.25rem 1.25rem 1.5rem}
+}
+
+/* ---- 参加手順 ---- */
+.vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
+.vs-game-img{display:block; aspect-ratio:16/7; overflow:hidden; background:var(--vs-night)}
+.vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; transition:transform var(--speed3)}
+.vs-game:hover .vs-game-img img{transform:scale(1.03)}
+.vs-game-body{display:flex; flex-direction:column; gap:.25rem; padding:1.25rem}
+.vs-game-foot{display:flex; align-items:center; gap:.75rem; margin-block-start:.75rem}
+.vs-game-foot>.vs-go{margin-inline-start:auto}
+.vs-mini{display:flex; gap:.375rem}
+.vs-mini span{inline-size:2rem; block-size:.375rem; border-radius:.25rem; background:var(--surface-container-highest)}
+.vs-mini span.on{background:var(--vs-green)}
+.vs-stepper{list-style:none; margin:0; padding:0; display:flex}
+.vs-stepper>li{flex:1; position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:.5rem; font-size:.75rem; font-weight:500; line-height:1.3; color:var(--on-surface-variant); min-inline-size:0}
+.vs-stepper>li:last-child{flex:0 0 auto}
+.vs-stepper>li:not(:last-child)::after{content:""; position:absolute; inset-block-start:1.25rem; inset-inline:3rem .5rem; block-size:2px; margin-block-start:-1px; background:var(--outline-variant)}
+.vs-stepper>li.done:not(:last-child)::after{background:var(--vs-green)}
+.vs-stepper>li.current{color:var(--on-surface); font-weight:700}
+.vs-sdot{flex:none; inline-size:2.5rem; block-size:2.5rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-highest); color:var(--on-surface-variant)}
+.vs-sdot>i{--_size:1.25rem}
+.done>.vs-sdot{background:var(--vs-green); color:var(--vs-night)}
+.current>.vs-sdot{background:var(--primary-container); color:var(--on-primary-container); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
+.vs-stepsec{border-block-start:1px solid var(--outline-variant); padding-block:1.5rem; scroll-margin-top:6rem}
+.vs-steplabel{display:flex; align-items:center; gap:.25rem; font-size:.75rem; font-weight:700; letter-spacing:.06em; color:var(--on-surface-variant)}
+.vs-steplabel>i{--_size:1rem}
+.vs-stepsec.current .vs-steplabel{color:var(--vs-yellow-ink)}
+.vs-stepsec.done .vs-steplabel{color:var(--vs-green-ink)}
+.vs-done{display:flex; align-items:flex-start; gap:1rem; padding:1.5rem; border-radius:1.5rem; background:var(--vs-night); color:var(--vs-flame)}
+.vs-done .vs-support{color:var(--vs-flame-2)}
+.vs-ok{display:flex; align-items:center; gap:.5rem; font-weight:700; color:var(--vs-green-ink)}
+.vs-lf+.vs-lf{margin-block-start:1.5rem}
+.vs-lf .field{margin:0; max-inline-size:22rem}
+.vs-lf .field>input{font-family:var(--vs-mono); letter-spacing:.08em}
+.vs-wait{display:flex; align-items:center; gap:.5rem; color:var(--on-surface-variant); font-size:.875rem}
+@media (prefers-reduced-motion:no-preference){ .vs-spin{animation:vs-rot 1s linear infinite} }
+@keyframes vs-rot{to{transform:rotate(1turn)}}
+
+/* ---- 折りたたみ行（ルール・困った時）：押せる＝シェブロン＋ホバー ---- */
+.vs-rlist{list-style:none; margin:0; padding:0; border-block-start:1px solid var(--outline-variant)}
+.vs-rrow{display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; border-block-end:1px solid var(--outline-variant); scroll-margin-top:6rem}
+.vs-rrow.nocheck{grid-template-columns:minmax(0,1fr)}
+.vs-rrow>details>summary{display:flex; align-items:center; gap:.875rem; min-block-size:3.75rem; padding:.5rem .5rem .5rem 0; border-radius:.75rem; transition:background-color var(--speed2)}
+.vs-rrow>details>summary:hover{background-color:var(--vs-hover)}
+.vs-rrow>details>summary:focus-visible{outline:2px solid var(--primary); outline-offset:-2px}
+.vs-rtitle{flex:1; min-inline-size:0; display:flex; flex-wrap:wrap; align-items:baseline; gap:.125rem .5rem}
+.vs-ask{font-size:.75rem; font-weight:700; color:var(--vs-blue-ink)}
+.vs-ric{flex:none; inline-size:2.25rem; block-size:2.25rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-high); color:var(--on-surface-variant); transition:background-color var(--speed2)}
+.vs-ric>i{--_size:1.25rem}
+.vs-rrow.checked .vs-ric{background:var(--vs-green); color:var(--vs-night)}
+.vs-rrow.checked .vs-rtitle b{color:var(--on-surface-variant)}
+.vs-rcheck{display:flex; align-items:center; min-block-size:3.75rem; padding-inline:.5rem 0}
+.vs-rbody{padding:0 0 1rem calc(2.25rem + .875rem)}
+@media (max-width:600px){ .vs-rbody{padding-inline-start:0} }
+.vs-chev{transition:transform var(--speed2); color:var(--on-surface-variant)}
+details[open]>summary .vs-chev{transform:rotate(180deg)}
+.vs-ex{display:flex; gap:.5rem; align-items:flex-start; font-size:.875rem; line-height:1.6}
+.vs-ex>i{--_size:1.25rem}
+.vs-ex.ng>i{color:var(--vs-red-ink)} .vs-ex.ok>i{color:var(--vs-green-ink)}
+.vs-progressrow{display:flex; align-items:center; gap:1rem}
+
+/* ---- 火のモチーフ（ロゴの炎のシルエット） ---- */
+.vs-fh{display:flex; align-items:center; gap:.5rem}
+.vs-fmark{flex:none; inline-size:1rem; block-size:1.375rem; fill:url(#vs-fire-g)}
+.vs-flames{display:flex; flex-wrap:wrap; align-items:flex-end; gap:.25rem .375rem; flex:1}
+.vs-flames svg{inline-size:1.125rem; block-size:1.5rem; fill:var(--outline-variant); transition:fill var(--speed3)}
+.vs-flames svg.lit{fill:url(#vs-fire-g)}
+.vs-sdot>svg,.vs-ric>svg{inline-size:.875rem; block-size:1.25rem; fill:currentColor}
+.current>.vs-sdot{background:var(--vs-night); color:var(--vs-flame); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
+.vs-rrow.checked .vs-ric{background:var(--vs-night); color:var(--vs-flame)}
+.vs-wait .vs-fmark{inline-size:.875rem; block-size:1.25rem}
+.vs-sparks{position:absolute; inset:auto auto 0 0; inline-size:min(60%,28rem); block-size:100%; pointer-events:none; overflow:hidden}
+.vs-sparks span{position:absolute; inset-block-end:-.5rem; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:var(--c); box-shadow:0 0 .75rem var(--c); opacity:0}
+.vs-camp{flex:none; inline-size:5rem; block-size:auto}
+.vs-camp-flame,.vs-camp-v{transform-box:fill-box; transform-origin:50% 100%}
+.vs-camp-glow{transform-box:fill-box; transform-origin:center}
+@media (prefers-reduced-motion:no-preference){
+  .vs-sparks span{animation:vs-spark 7s linear infinite}
+  .vs-flick,.vs-camp-flame{animation:vs-flicker 2.6s ease-in-out infinite; transform-origin:50% 100%}
+  .vs-camp-glow{animation:vs-glow 2.6s ease-in-out infinite}
+  .vs-camp-v{animation:vs-sway 5s ease-in-out infinite}
+  .vs-camp-v:nth-of-type(2){animation-delay:-1s} .vs-camp-v:nth-of-type(3){animation-delay:-2s} .vs-camp-v:nth-of-type(4){animation-delay:-3s} .vs-camp-v:nth-of-type(5){animation-delay:-4s}
+}
+@keyframes vs-spark{0%{transform:translate(0,0) scale(1); opacity:0}10%{opacity:.95}75%{opacity:.5}100%{transform:translate(var(--dx),-24rem) scale(.4); opacity:0}}
+@keyframes vs-flicker{0%,100%{transform:scale(1,1) skewX(0)}30%{transform:scale(.94,1.06) skewX(-2deg)}65%{transform:scale(1.03,.97) skewX(1.5deg)}}
+@keyframes vs-glow{0%,100%{opacity:.8; transform:scale(1)}50%{opacity:1; transform:scale(1.06)}}
+@keyframes vs-sway{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ---- 選択状態：文字の背景に色を敷かない（チェック＋枠線で示す） ---- */
+.chip.vs-on{border-color:var(--primary) !important; box-shadow:inset 0 0 0 1px var(--primary); color:var(--on-surface) !important; font-weight:700}
+.vs-links>a[aria-current="page"]{color:var(--on-surface) !important; font-weight:700; box-shadow:inset 0 -3px 0 var(--vs-red)}
+
+/* ---- マイページ ---- */
+.vs-profile{display:flex; align-items:center; gap:1rem}
+.vs-profile>.max{display:flex; flex-direction:column; min-inline-size:0}
+.vs-profile-ic{--_size:3rem; color:var(--on-surface-variant)}
+.vs-setting{display:flex; align-items:center; gap:1rem; padding-block:1rem; border-block:1px solid var(--outline-variant)}
+.vs-setting>.max{display:flex; flex-direction:column; min-inline-size:0}
+.vs-setting-ic{color:var(--vs-yellow-ink)}
+.vs-setting.off .vs-setting-ic{color:var(--outline)}
+.vs-stack{display:flex; flex-direction:column; gap:.5rem}
+.vs-row>.max,.vs-list>li>.max,.vs-setting>.max,.vs-profile>.max{flex:1}
+
+/* ---- そのほか ---- */
+.vs-photo{margin:0}
+.vs-photo img{display:block; inline-size:100%; max-inline-size:100%; aspect-ratio:16/10; object-fit:cover; border-radius:1.5rem; background:var(--surface-container-high)}
+.vs-photo figcaption{margin-block-start:.5rem; font-size:.8125rem; color:var(--on-surface-variant)}
+.vs-time{flex:none; inline-size:3.25rem; font-weight:800; font-size:1.125rem; color:var(--vs-blue-ink); font-variant-numeric:tabular-nums}
+.vs-big{font-size:2.5rem; font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums}
+.vs-big small{font-size:1rem; font-weight:500; margin-inline-start:.25rem}
+.vs-chiprow{gap:.5rem}
+.vs-table-wrap{overflow-x:auto}
+.vs-ranks{min-inline-size:52rem; font-size:.875rem}
+.vs-ranks th,.vs-ranks td{padding:.875rem .5rem; text-align:center; border-block-end:1px solid var(--outline-variant)}
+.vs-ranks thead th{border-block-end:2px solid var(--outline); font-weight:500; color:var(--on-surface-variant); vertical-align:bottom}
+.vs-ranks tr>*:first-child{position:sticky; inset-inline-start:0; z-index:1; text-align:start; padding-inline:0 1rem; background:var(--surface); font-weight:500; min-inline-size:12rem}
+.vs-ranks thead b{display:block; font-size:.9375rem; font-weight:800; color:var(--on-surface)}
+.vs-ranks .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary)}
+.vs-ranks thead .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary), inset 0 2px 0 var(--primary)}
+.vs-ranks tfoot .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary), inset 0 -2px 0 var(--primary)}
+.vs-mine-label{display:block; font-size:.6875rem; font-weight:700; color:var(--primary)}
+.vs-ranks .yes{color:var(--vs-green-ink)}
+.vs-ranks .no{color:var(--outline)}
+.vs-ranks tfoot td{border:none}
+.vs-maps{list-style:none; margin:0; padding:0}
+.vs-maps li{display:grid; grid-template-columns:6.5rem minmax(0,1fr) 4.5rem; align-items:center; gap:1rem; padding:.75rem 0; font-size:.875rem; border-block-end:1px solid var(--outline-variant)}
+.vs-maps li:last-child{border-block-end:none}
+.vs-maps li>span{text-align:end; font-variant-numeric:tabular-nums}
+.vs-maps .warn{color:var(--vs-red-ink); font-weight:700}
+.vs-swatch{inline-size:3rem !important; block-size:3rem !important; padding:0 !important; border-radius:50% !important; background:var(--vs-tile-bg) !important; box-shadow:var(--vs-e1)}
+.vs-swatch>span{inline-size:1.75rem; block-size:1.75rem; border-radius:50%; background:var(--vs-c)}
+.vs-swatch[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--primary)}
+.vs-swatch.c-base>span{background:conic-gradient(var(--vs-red) 0 20%,var(--vs-yellow) 0 40%,var(--vs-green) 0 60%,var(--vs-blue) 0 80%,var(--vs-purple) 0)}
+.vs-swatch.c-red{--vs-c:var(--vs-red)} .vs-swatch.c-yellow{--vs-c:var(--vs-yellow)} .vs-swatch.c-green{--vs-c:var(--vs-green)} .vs-swatch.c-blue{--vs-c:var(--vs-blue)} .vs-swatch.c-purple{--vs-c:var(--vs-purple)}
+
+/* ---- AIに相談（FAB とチャットパネル） ---- */
+.vs-fab{position:fixed !important; z-index:60; inset:auto var(--vs-gutter) calc(1.5rem + env(safe-area-inset-bottom,0px)) auto; block-size:3.5rem !important; border-radius:1rem !important; padding-inline:1rem 1.25rem !important; gap:.5rem; box-shadow:var(--elevate2); font-weight:700}
+@media (max-width:600px){ .vs-fab{inset-block-end:calc(5.5rem + env(safe-area-inset-bottom,0px))} }
+dialog.vs-chatpanel{position:fixed; inset:auto var(--vs-gutter) calc(6rem + env(safe-area-inset-bottom,0px)) auto; transform:none !important; margin:0; padding:0; inline-size:min(25rem,calc(100vw - 2 * var(--vs-gutter))); min-inline-size:0; max-inline-size:none; block-size:min(38rem,calc(100dvh - 9rem)); max-block-size:none; border-radius:1.75rem; background:var(--surface-container-low); box-shadow:var(--elevate3); overflow:hidden; flex-direction:column; z-index:70}
+dialog.vs-chatpanel[open]{display:flex}
+@media (max-width:600px){ dialog.vs-chatpanel{inset:0; inline-size:100%; block-size:100%; border-radius:0} }
+body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden}
+.vs-chat-head{padding:.75rem .75rem .75rem 1.25rem; gap:.75rem; background:var(--surface-container); padding-block-start:calc(.75rem + env(safe-area-inset-top,0px))}
+.vs-chat{flex:1; display:flex; flex-direction:column; gap:.625rem; overflow-y:auto; padding:1rem 1.25rem}
+.vs-msg{max-inline-size:85%; padding:.625rem 1rem; border-radius:1.25rem; line-height:1.7; white-space:pre-line; font-size:.9375rem}
+.vs-msg.ai{align-self:flex-start; background:var(--surface-container-highest); border-end-start-radius:.25rem}
+.vs-msg.me{align-self:flex-end; background:var(--primary); color:var(--on-primary); border-end-end-radius:.25rem}
+.vs-msg-acts{white-space:normal; gap:.5rem; margin-block-start:.625rem}
+.vs-msg-acts .chip{background:var(--surface-container-lowest)}
+.vs-chat-form{padding:.75rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)); gap:.5rem; border-block-start:1px solid var(--outline-variant)}
+.vs-chat-form .field{flex:1; margin:0}
+
+/* ---- フッター ---- */
+footer.vs-footer{display:block; margin-block-start:5rem; padding:2.5rem 0 1rem; border-block-start:4px solid; border-image:linear-gradient(90deg,var(--vs-red) 0 20%,var(--vs-yellow) 20% 40%,var(--vs-green) 40% 60%,var(--vs-blue) 60% 80%,var(--vs-purple) 80% 100%) 1; min-block-size:0}
+.vs-footer h2{font-size:.875rem; font-weight:700; margin:0 0 .5rem}
+.vs-footer ul{list-style:none; margin:0; padding:0}
+.vs-footer li a{display:flex; align-items:center; justify-content:flex-start; gap:.25rem; min-block-size:2.25rem; font-size:.875rem; color:var(--on-surface-variant)}
+.vs-footer li a:hover{color:var(--on-surface); text-decoration:underline}
+.vs-footer li i{--_size:1rem}
+.vs-legal{display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem 1rem; margin-block-start:2rem; padding-block-start:1rem; border-block-start:1px solid var(--outline-variant); font-size:.75rem; color:var(--on-surface-variant)}
+.vs-legal a{color:var(--on-surface-variant); text-decoration:underline}
+
+#snack-act{color:var(--inverse-primary) !important; font-weight:700}
+dialog:modal::backdrop{visibility:visible; opacity:1}
+nav.bottom>a>div{font-size:.75rem; white-space:nowrap}
+body:not(.vs-ready) .page.active{animation:none}
+:focus-visible{outline-color:var(--primary)}
+@media (prefers-reduced-motion:reduce){ *{scroll-behavior:auto !important} .page.active{animation:none !important} }
+</style>
+<script>
+/* 最初の描画の前にライト／ダークを決める（ページ内の切り替え ＞ 表示側の指定 ＞ OS の設定） */
+(function(){var m=null;try{m=JSON.parse(localStorage.getItem('vs-mode'))}catch(e){}if(m!=='dark'&&m!=='light'){var dt=document.documentElement.getAttribute('data-theme');m=(dt==='dark'||dt==='light')?dt:((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light')}document.body.classList.add(m)})();
+</script>
+
+<header class="fixed vs-topbar" id="topbar">
+  <nav class="vs-bar" aria-label="サイト共通メニュー">
+    <a href="#home" class="vs-brand" aria-label="Village Server トップへ">
+      <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="120" fill="#161827"></rect><use href="#vs-mark"></use></svg>
+      <span class="vs-wordmark">Village Server</span>
+    </a>
+    <div class="max"></div>
+    <nav class="l vs-links" aria-label="グローバルナビゲーション">
+      <a class="button transparent" href="#about" data-nav="about">サーバーについて</a>
+      <a class="button transparent" href="#rules" data-nav="rules">ルール</a>
+      <a class="button transparent" href="#support" data-nav="support">サポート</a>
+    </nav>
+    <button class="circle transparent" type="button" id="theme-btn" aria-label="ダークモードにする"><i>dark_mode</i></button>
+    <button type="button" id="login-btn" data-act="login" aria-label="Discordでログイン"><i>login</i><span class="m l">ログイン</span></button>
+    <a class="button circle transparent" id="me-btn" href="#mypage" aria-label="マイページ" hidden><i>account_circle</i></a>
+  </nav>
+</header>
+
+<nav class="left m" aria-label="メインメニュー">
+  <a href="#home" data-nav="home"><i>home</i><div>ホーム</div></a>
+  <a href="#about" data-nav="about"><i>cottage</i><div>サーバー</div></a>
+  <a href="#rules" data-nav="rules"><i>gavel</i><div>ルール</div></a>
+  <a href="#support" data-nav="support"><i>support</i><div>サポート</div></a>
+  <a href="#mypage" data-nav="mypage"><i>account_circle</i><div>マイページ</div></a>
+</nav>
+
+<nav class="bottom s" aria-label="メインメニュー">
+  <a href="#home" data-nav="home"><i>home</i><div>ホーム</div></a>
+  <a href="#about" data-nav="about"><i>cottage</i><div>サーバー</div></a>
+  <a href="#rules" data-nav="rules"><i>gavel</i><div>ルール</div></a>
+  <a href="#support" data-nav="support"><i>support</i><div>サポート</div></a>
+  <a href="#mypage" data-nav="mypage"><i>account_circle</i><div>マイページ</div></a>
+</nav>
+
+<main class="responsive" id="main">
+  <svg class="vs-sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="vs-glow-g" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#f2bc1b" stop-opacity=".55"></stop>
+        <stop offset=".45" stop-color="#f2bc1b" stop-opacity=".16"></stop>
+        <stop offset="1" stop-color="#f2bc1b" stop-opacity="0"></stop>
+      </radialGradient>
+      <symbol id="vs-mark" viewBox="0 0 512 512">
+        <circle cx="256" cy="300" r="150" fill="url(#vs-glow-g)"></circle>
+        <path d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f3eee3"></path>
+        <circle cx="148" cy="230" r="38" fill="#40c68b"></circle>
+        <circle cx="364" cy="230" r="38" fill="#ee395b"></circle>
+        <circle cx="86" cy="322" r="43" fill="#a257eb"></circle>
+        <circle cx="426" cy="322" r="43" fill="#009acf"></circle>
+        <circle cx="256" cy="382" r="47" fill="#efbb0c"></circle>
+      </symbol>
+      <linearGradient id="vs-fire-g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f7c948"></stop>
+        <stop offset="1" stop-color="#ee4b3b"></stop>
+      </linearGradient>
+      <symbol id="vs-flame" viewBox="186 110 150 222"><path d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z"></path></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===================== TOP ===================== -->
+  <div class="page active" id="p-home">
+    <section class="vs-hero" aria-labelledby="hero-title">
+      <div class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></div>
+      <div class="vs-sparks" aria-hidden="true">
+        <span style="--c:#efbb0c; left:10%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
+        <span style="--c:#ee395b; left:22%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
+        <span style="--c:#40c68b; left:33%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
+        <span style="--c:#009acf; left:6%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
+        <span style="--c:#a257eb; left:42%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
+      </div>
+      <div class="vs-hero-body">
+        <p class="vs-eyebrow"><svg viewBox="0 0 512 512" aria-hidden="true"><use href="#vs-mark"></use></svg>ARK:SA ・ パルワールド</p>
+        <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1">焚き火を囲んで、<br>長く遊べる村。</h1>
+        <p class="vs-hero-sub">手間が少なく、冒険と育成をじっくり楽しめるサーバーです。</p>
+        <nav class="wrap vs-mt">
+          <a class="button extra primary-container vs-cta" href="#join"><span>はじめて参加する</span><i>arrow_forward</i></a>
+          <a class="button transparent vs-ghost" href="#" data-ext="Discordの招待リンク"><span>Discordをのぞく</span><i>open_in_new</i></a>
+        </nav>
+      </div>
+    </section>
+    <div class="grid vs-figs vs-mt" role="list" aria-label="サーバーの実績">
+      <div class="s4 vs-fig" role="listitem"><i>history</i><b>7<small>年以上</small></b><span>2019年から運営</span></div>
+      <div class="s4 vs-fig" role="listitem"><i>bolt</i><b>99<small>%</small></b><span>直近12か月の稼働率</span></div>
+      <div class="s4 vs-fig" role="listitem"><i>groups</i><b>2,530<small>人</small></b><span>Discord参加中</span></div>
+    </div>
+    <section class="vs-section" aria-labelledby="tiles-title">
+      <div class="vs-sechead">
+        <h2 id="tiles-title" class="vs-title-l vs-fh"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>目的から探す</h2>
+        <button class="circle transparent" type="button" id="tiles-edit" aria-pressed="false" aria-label="入口を編集"><i>edit</i></button>
+      </div>
+      <div class="grid vs-tiles vs-mt-s" id="tiles"></div>
+    </section>
+  </div>
+
+  <!-- ===================== 参加手順：ゲームを選ぶ ===================== -->
+  <div class="page" id="p-join">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#home" aria-label="TOPに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">どちらで遊びますか？</h1></nav>
+    <div class="grid vs-mt" id="join-choices"></div>
+  </div>
+
+  <!-- ===================== 参加手順：ステップ ===================== -->
+  <div class="page" id="p-steps">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#join" aria-label="ゲームの選択に戻る"><i>arrow_back</i></a><h1 class="vs-headline" id="steps-title" tabindex="-1">ARK:SAの参加手順</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <ol class="vs-stepper" id="stepper" aria-label="進み具合"></ol>
+        <div class="vs-done vs-mt" id="steps-done" hidden>
+          <svg class="vs-camp" viewBox="30 90 452 360" aria-hidden="true">
+            <ellipse class="vs-camp-glow" cx="256" cy="300" rx="200" ry="170" fill="url(#vs-glow-g)"></ellipse>
+            <path class="vs-camp-flame" d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f3eee3"></path>
+            <circle class="vs-camp-v" cx="148" cy="230" r="38" fill="#40c68b"></circle>
+            <circle class="vs-camp-v" cx="364" cy="230" r="38" fill="#ee395b"></circle>
+            <circle class="vs-camp-v" cx="86" cy="322" r="43" fill="#a257eb"></circle>
+            <circle class="vs-camp-v" cx="426" cy="322" r="43" fill="#009acf"></circle>
+            <circle class="vs-camp-v" cx="256" cy="382" r="47" fill="#efbb0c"></circle>
+          </svg>
+          <div class="max">
+            <h2 class="vs-title-l">準備完了。焚き火の輪へようこそ！</h2>
+            <nav class="wrap vs-mt-s">
+              <a class="button primary-container" href="#commands"><i>terminal</i><span>コマンド一覧</span></a>
+              <a class="button transparent vs-ghost" href="#rates"><i>speed</i><span>サーバー倍率</span></a>
+            </nav>
+          </div>
+        </div>
+        <div class="vs-mt" id="steps-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== サーバーについて ===================== -->
+  <div class="page" id="p-about">
+    <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1">サーバーについて</h1></nav>
+    <div class="grid vs-mt">
+      <a class="vs-tile s6 l3 wave" href="#intro"><span class="vs-dot large c-blue"><i>cottage</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー紹介</b><span class="vs-tile-cap">写真で見る村</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#rates"><span class="vs-dot large c-green"><i>speed</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー倍率</b><span class="vs-tile-cap">テイム・繁殖の速さ</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#commands"><span class="vs-dot large c-purple"><i>terminal</i></span><span class="vs-tile-text"><b class="vs-title-m">コマンド一覧</b><span class="vs-tile-cap">チャットで使う</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#api"><span class="vs-dot large c-red"><i>extension</i></span><span class="vs-tile-text"><b class="vs-title-m">導入API解説</b><span class="vs-tile-cap">便利な追加機能</span></span><i class="vs-go">arrow_forward</i></a>
+    </div>
+  </div>
+
+  <div class="page" id="p-intro">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">サーバー紹介</h1></nav>
+    <div class="grid vs-mt">
+      <figure class="s12 l7 vs-photo"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真" loading="lazy"><figcaption>テイムした仲間たちと集合</figcaption></figure>
+      <div class="s12 l5">
+        <h2 class="vs-title-l">有志でつくる、長く遊べるサーバー</h2>
+        <p class="vs-body">ARK:SAとパルワールドの非公式サーバーを運営する、Discordのコミュニティです。</p>
+        <a class="button primary-container vs-mt" href="#join"><span>参加手順へ</span><i>arrow_forward</i></a>
+      </div>
+    </div>
+    <section class="vs-section" aria-labelledby="pts-title">
+      <h2 class="vs-title-l vs-fh" id="pts-title"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>ARK:SAのポイント</h2>
+      <div class="grid vs-mt-s">
+        <div class="s12 m6 l3 vs-block vs-info"><i class="ink-red">support_agent</i><h3 class="vs-title-m">困ったら管理者に相談</h3><p class="vs-support">復元や迷惑行為の相談を受け付けます</p></div>
+        <div class="s12 m6 l3 vs-block vs-info"><i class="ink-green">speed</i><h3 class="vs-title-m">待ち時間の長い作業だけ速く</h3><p class="vs-support">テイム・孵化は速く、経験値は控えめ</p></div>
+        <div class="s12 m6 l3 vs-block vs-info"><i class="ink-blue">cottage</i><h3 class="vs-title-m">拠点の維持がかんたん</h3><p class="vs-support">1マップに入れば、全マップの撤去期限がのびます</p></div>
+        <div class="s12 m6 l3 vs-block vs-info"><i class="ink-purple">extension</i><h3 class="vs-title-m">バランスを崩さない便利機能</h3><p class="vs-support">ポイントショップ、生物の一括収納など</p></div>
+      </div>
+    </section>
+    <div class="grid vs-section">
+      <figure class="s12 m6 vs-photo"><img src="img/village-jungle.jpg" alt="ジャングルの岩場で、プレイヤーと生物が並んで記念撮影している様子" loading="lazy"><figcaption>ジャングルで記念撮影</figcaption></figure>
+      <figure class="s12 m6 vs-photo"><img src="img/village-desert.jpg" alt="砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子" loading="lazy"><figcaption>砂漠の遺跡で狩りの真っ最中</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="page" id="p-rates">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" id="rates-title" tabindex="-1">サーバー倍率</h1></nav>
+    <nav class="wrap vs-chiprow vs-mt-s" data-gamechips aria-label="表示するゲーム"></nav>
+    <div id="rates-body" class="vs-mt"></div>
+  </div>
+
+  <div class="page" id="p-commands">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">コマンド一覧</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l5">
+        <div class="field round fill prefix">
+          <i>search</i>
+          <input type="search" id="cmd-q" placeholder="コマンドを探す（例：pod）" aria-label="コマンドを検索" autocomplete="off">
+        </div>
+      </div>
+      <nav class="s12 l7 wrap vs-chiprow" id="cmd-cats" aria-label="分類で絞り込む"></nav>
+    </div>
+    <div class="grid vs-section" id="cmd-groups"></div>
+  </div>
+
+  <div class="page" id="p-api">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">導入API解説</h1></nav>
+    <div class="grid vs-mt" id="api-grid"></div>
+  </div>
+
+  <!-- ===================== ルール ===================== -->
+  <div class="page" id="p-rules">
+    <nav class="vs-pagehead"><h1 class="vs-headline" id="rules-title" tabindex="-1">ルール</h1></nav>
+    <nav class="wrap vs-chiprow vs-mt-s" data-gamechips aria-label="表示するゲーム"></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" data-ruleprog>
+          <span class="vs-flames" data-ruleflames></span>
+          <b class="vs-tnum" data-rulecount>0 / 0</b>
+        </div>
+        <p class="vs-support vs-mt-s">開いて読み、右のチェックを付けると火が灯ります。</p>
+        <ul class="vs-rlist vs-mt" id="rules-list"></ul>
+        <div class="vs-mt" id="rules-back"></div>
+        <section class="vs-section" aria-labelledby="rules-more">
+          <h2 class="vs-title-l vs-fh" id="rules-more"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>そのほか</h2>
+          <ul class="vs-rlist vs-mt-s">
+            <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>report</i></span><span class="vs-rtitle"><b>違反を見つけたら</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-support">[報告のしかた]　違反した場合は悪質と判断して対応します。[対応の流れ]</p></div></details></li>
+            <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>history</i></span><span class="vs-rtitle"><b>更新履歴</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">
+              <ul class="vs-list">
+                <li><span class="vs-label vs-tnum">2025-01-09</span><span class="max">コミュニケーションの記述を変更</span></li>
+                <li><span class="vs-label vs-tnum">2025-01-04</span><span class="max">不等価取引を禁止事項に追加</span></li>
+                <li><span class="vs-label vs-tnum">2024-12-22</span><span class="max">無償譲渡を禁止事項に追加</span></li>
+              </ul>
+            </div></details></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== サポート ===================== -->
+  <div class="page" id="p-support">
+    <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1">サポート</h1></nav>
+    <div class="grid vs-mt">
+      <a class="vs-tile s6 l3 wave" href="#trouble"><span class="vs-dot large c-green"><i>support</i></span><span class="vs-tile-text"><b class="vs-title-m">困った時一覧</b><span class="vs-tile-cap">よくある困りごと</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#scribe"><span class="vs-dot large c-blue"><i>manage_search</i></span><span class="vs-tile-text"><b class="vs-title-m">スクライブ</b><span class="vs-tile-cap">所持品・生物の記録</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#request"><span class="vs-dot large c-red"><i>support_agent</i></span><span class="vs-tile-text"><b class="vs-title-m">管理者依頼</b><span class="vs-tile-cap">Elderで依頼する</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 l3 wave" href="#ranks"><span class="vs-dot large c-yellow"><i>workspace_premium</i></span><span class="vs-tile-text"><b class="vs-title-m">ランク比較・購入</b><span class="vs-tile-cap">特典を比べる</span></span><i class="vs-go">arrow_forward</i></a>
+    </div>
+  </div>
+
+  <div class="page" id="p-scribe">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">スクライブ</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <div class="vs-gate">
+          <span class="vs-dot large c-blue" aria-hidden="true"><i>manage_search</i></span>
+          <div class="max">
+            <h2 class="vs-title-l">記録はScribeで探せます</h2>
+            <p class="vs-support">Village Portalの記録検索「Scribe」に移動して、所持品や生物の記録を探します。</p>
+            <a class="button large vs-mt" href="#" data-ext="Village PortalのScribe"><span>Scribeを開く</span><i>open_in_new</i></a>
+          </div>
+        </div>
+        <section class="vs-section" aria-labelledby="scribe-how">
+          <h2 class="vs-title-l vs-fh" id="scribe-how"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>Scribeでの探しかた</h2>
+          <ol class="vs-list vs-mt-s">
+            <li><span class="vs-n">1</span><i class="ink-blue">login</i><span class="max">Discordでログイン</span></li>
+            <li><span class="vs-n">2</span><i class="ink-blue">tune</i><span class="max">見る範囲を選ぶ（自分の記録／トライブの生物）</span></li>
+            <li><span class="vs-n">3</span><i class="ink-blue">filter_alt</i><span class="max">期間・マップ・記録の種類で絞り込む</span></li>
+            <li><span class="vs-n">4</span><i class="ink-blue">visibility</i><span class="max">日時・マップ・内容を確認</span></li>
+          </ol>
+        </section>
+        <section class="vs-section" aria-labelledby="scribe-miss">
+          <h2 class="vs-title-l vs-fh" id="scribe-miss"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>記録が見つからないとき</h2>
+          <div class="grid vs-mt-s">
+            <div class="s12 m6"><a class="vs-row wave" href="#request"><span class="vs-dot c-red"><i>support_agent</i></span><span class="max"><b class="vs-title-m">管理者依頼</b><span class="vs-support">Elderで管理者に相談</span></span><i class="vs-go">arrow_forward</i></a></div>
+            <div class="s12 m6"><a class="vs-row wave" href="#trouble"><span class="vs-dot c-green"><i>support</i></span><span class="max"><b class="vs-title-m">困った時一覧</b><span class="vs-support">よくある困りごと</span></span><i class="vs-go">arrow_forward</i></a></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="p-request">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">管理者依頼</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <div class="vs-gate">
+          <span class="vs-dot large c-red" aria-hidden="true"><i>support_agent</i></span>
+          <div class="max">
+            <h2 class="vs-title-l">依頼はElderで受け付けています</h2>
+            <p class="vs-support">Village Portalの依頼窓口「Elder」に移動して、依頼を出します。</p>
+            <a class="button large vs-mt" href="#" data-ext="Elder（Village Portal）"><span>Elderで依頼する</span><i>open_in_new</i></a>
+          </div>
+        </div>
+        <p class="vs-note c-red vs-mt"><i>block</i><span>管理者へのDMは禁止です。依頼は必ずElderから出してください。</span></p>
+        <section class="vs-section" aria-labelledby="req-what">
+          <h2 class="vs-title-l vs-fh" id="req-what"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>Elderで依頼できること</h2>
+          <ul class="vs-list vs-cols vs-mt-s" id="req-kinds"></ul>
+          <p class="vs-note vs-mt-s"><i>paid</i><span>所持品・生物の復元は有償で、BRONZE以上の方が対象です。</span></p>
+        </section>
+        <section class="vs-section" aria-labelledby="req-before">
+          <h2 class="vs-title-l vs-fh" id="req-before"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>依頼の前後に</h2>
+          <div class="grid vs-mt-s">
+            <div class="s12 m6"><a class="vs-row wave" href="#scribe"><span class="vs-dot c-blue"><i>manage_search</i></span><span class="max"><b class="vs-title-m">スクライブで記録を探す</b><span class="vs-support">日時やマップを確かめる</span></span><i class="vs-go">arrow_forward</i></a></div>
+            <div class="s12 m6"><a class="vs-row wave" href="#mypage"><span class="vs-dot c-yellow"><i>assignment</i></span><span class="max"><b class="vs-title-m">依頼状況を見る</b><span class="vs-support">マイページ</span></span><i class="vs-go">arrow_forward</i></a></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="p-ranks">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">ランク比較・購入</h1></nav>
+    <div class="vs-table-wrap vs-mt" id="ranks-table"></div>
+    <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みは村のAIが受け付けます。</p>
+  </div>
+
+  <div class="page" id="p-trouble">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">困った時一覧</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <div class="field round fill prefix">
+          <i>search</i>
+          <input type="search" id="faq-q" placeholder="言葉で探す（例：接続）" aria-label="困りごとを検索" autocomplete="off">
+        </div>
+        <nav class="wrap vs-chiprow vs-mt-s" id="faq-cats" aria-label="分類で絞り込む"></nav>
+        <ul class="vs-rlist vs-mt" id="faq-list"></ul>
+        <section class="vs-section" aria-labelledby="faq-more">
+          <h2 class="vs-title-l vs-fh" id="faq-more"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>解決しないときは</h2>
+          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-dot c-night"><i>forum</i></span><span class="max"><b class="vs-title-m">村のAIに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== マイページ ===================== -->
+  <div class="page" id="p-mypage">
+    <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1" id="mp-title">マイページ</h1></nav>
+    <div class="grid vs-mt">
+      <div class="s12 l8">
+        <div class="vs-gate" id="mp-out">
+          <span class="vs-dot large c-night" aria-hidden="true"><i>lock</i></span>
+          <div class="max">
+            <h2 class="vs-title-l">ログインすると使えます</h2>
+            <p class="vs-support">撤去期限・残高・依頼状況・ARK連携を確認できます。</p>
+            <button class="vs-mt" type="button" data-act="login"><i>login</i><span>Discordでログイン</span></button>
+          </div>
+        </div>
+        <div id="mp-in" hidden>
+          <div class="vs-profile">
+            <i class="vs-profile-ic">account_circle</i>
+            <div class="max"><b class="vs-title-m">@murabito_sample</b><span class="vs-support">Discordでログイン中 ・ ランク SILVER</span></div>
+            <button class="border" type="button" data-act="logout"><i>logout</i><span>ログアウト</span></button>
+          </div>
+
+          <section class="vs-section" aria-labelledby="mp-dec">
+            <h2 class="vs-title-l vs-fh" id="mp-dec"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>ARK:SAの撤去期限</h2>
+            <ul class="vs-maps vs-mt-s" id="mp-maps"></ul>
+            <div class="vs-setting vs-mt">
+              <i class="vs-setting-ic" id="mp-notify-ic">notifications_active</i>
+              <div class="max">
+                <b class="vs-title-m" id="mp-notify-label">撤去期限のお知らせ</b>
+                <span class="vs-support" id="mp-notify-desc">撤去の<b>7日前</b>と<b>1日前</b>に、DiscordのDMで届きます</span>
+              </div>
+              <label class="switch icon"><input type="checkbox" id="mp-notify" aria-labelledby="mp-notify-label" aria-describedby="mp-notify-desc"><span><i>check</i></span></label>
+            </div>
+            <p class="vs-note vs-mt-s"><i>info</i><span>どれか1つのマップに入ると、全マップの期限がのびます。</span></p>
+          </section>
+
+          <section class="vs-section" aria-labelledby="mp-bal">
+            <h2 class="vs-title-l vs-fh" id="mp-bal"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>残高</h2>
+            <p class="vs-big vs-mt-s"><span id="mp-balance">1,250</span><small>Moneta</small></p>
+            <p class="vs-support">ランクの申し込みに使えます。</p>
+          </section>
+
+          <section class="vs-section" aria-labelledby="mp-req">
+            <h2 class="vs-title-l vs-fh" id="mp-req"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>依頼状況</h2>
+            <p class="vs-support">Elderで出した依頼です。1件ずつ押すと、Elderで詳しく見られます。</p>
+            <div class="vs-stack vs-mt-s" id="mp-reqs"></div>
+            <a class="button transparent vs-mt-s" href="#request"><i>support_agent</i><span>新しく依頼する</span></a>
+          </section>
+
+          <section class="vs-section" id="mp-link" aria-labelledby="mp-link-h"></section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== フッター ===================== -->
+  <footer class="vs-footer">
+    <div class="grid">
+      <div class="s12 l4">
+        <a href="#home" class="row vs-brand" aria-label="Village Server トップへ">
+          <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="120" fill="#161827"></rect><use href="#vs-mark"></use></svg>
+          <span class="vs-wordmark">Village Server</span>
+        </a>
+        <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
+      </div>
+      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="サポート"><div><h2>サポート</h2><ul><li><a href="#trouble">困った時一覧</a></li><li><a href="#scribe">スクライブ</a></li><li><a href="#request">管理者依頼</a></li><li><a href="#ranks">ランク比較・購入</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="そのほか"><div><h2>そのほか</h2><ul><li><a href="#mypage">マイページ</a></li><li><a href="#" data-ext="Village Portal">Village Portal<i>open_in_new</i></a></li><li><a href="#" data-ext="Wiki">Wiki<i>open_in_new</i></a></li></ul></div></nav>
+    </div>
+    <div class="vs-legal"><span>© Village Server ・ デザインのプロトタイプ</span><a href="#" data-ext="特定商取引法に基づく表記">特定商取引法に基づく表記</a></div>
+  </footer>
+</main>
+
+<button class="primary-container vs-fab" type="button" id="fab" aria-controls="chat" aria-expanded="false"><i>forum</i><span>AIに相談</span></button>
+
+<dialog id="chat" class="vs-chatpanel" aria-labelledby="chat-title">
+  <nav class="vs-chat-head">
+    <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="256" fill="#161827"></rect><use href="#vs-mark"></use></svg>
+    <div class="max"><b class="vs-title-m" id="chat-title">村のAI</b><div class="vs-support">プロトタイプ・回答は例です</div></div>
+    <button class="circle transparent" type="button" id="chat-reset" aria-label="会話を最初からにする"><i>restart_alt</i></button>
+    <button class="circle transparent" type="button" id="chat-close" aria-label="閉じる"><i>close</i></button>
+  </nav>
+  <div class="vs-chat" id="chat-log" aria-live="polite"></div>
+  <form class="row vs-chat-form" id="chat-form">
+    <div class="field round fill">
+      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="村のAIへのメッセージ" autocomplete="off">
+    </div>
+    <button class="circle" type="submit" aria-label="送信"><i>arrow_upward</i></button>
+  </form>
+</dialog>
+
+<dialog id="dlg-login" class="vs-outside" aria-labelledby="login-title">
+  <h2 class="vs-title-l" id="login-title">Discordでログイン</h2>
+  <p class="vs-body">Discordのアカウントでログインします。パスワードの入力はありません。</p>
+  <p class="vs-support">プロトタイプのため、実際のDiscordにはつながりません。</p>
+  <nav class="right-align vs-mt">
+    <button class="transparent" type="button" data-close="dlg-login">キャンセル</button>
+    <button type="button" id="login-ok"><i>login</i><span>ログイン</span></button>
+  </nav>
+</dialog>
+
+<dialog id="dlg-add" class="bottom vs-outside" aria-labelledby="add-title">
+  <nav>
+    <h2 class="vs-title-l max" id="add-title">入口を追加</h2>
+    <button class="circle transparent" type="button" data-close="dlg-add" aria-label="閉じる"><i>close</i></button>
+  </nav>
+  <ul class="list border" id="add-list"></ul>
+</dialog>
+
+<div class="snackbar" id="snack" role="status"><span class="max" id="snack-text"></span><button class="transparent small" type="button" id="snack-act" hidden>元に戻す</button></div>
+
+<script>
+(function(){
+'use strict';
+const D = document, B = D.body;
+const $ = (s, r) => (r || D).querySelector(s);
+const $$ = (s, r) => Array.from((r || D).querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n).toLocaleString('ja-JP');
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('vs-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v){ try { if (v === null) localStorage.removeItem('vs-' + k); else localStorage.setItem('vs-' + k, JSON.stringify(v)); } catch (e) {} }
+};
+const dot = (c, i, size) => '<span class="vs-dot c-' + c + (size ? ' ' + size : '') + '"><i>' + i + '</i></span>';
+
+/* ---------- データ ---------- */
+const CAT = {
+  request:{ t:'管理者依頼', d:'Elderで依頼する', i:'support_agent', to:'request', c:'red' },
+  scribe:{ t:'スクライブ', d:'所持品・生物の記録', i:'manage_search', to:'scribe', c:'blue' },
+  commands:{ t:'コマンド一覧', d:'チャットで使う', i:'terminal', to:'commands', c:'purple' },
+  ranks:{ t:'ランク比較・購入', d:'特典を比べる', i:'workspace_premium', to:'ranks', c:'yellow' },
+  trouble:{ t:'困った時一覧', d:'よくある困りごと', i:'support', to:'trouble', c:'green' },
+  join:{ t:'参加手順', d:'はじめての方', i:'flag', to:'join', c:'yellow' },
+  rules:{ t:'ルール', d:'1つずつ確認', i:'gavel', to:'rules', c:'red' },
+  intro:{ t:'サーバー紹介', d:'写真で見る村', i:'cottage', to:'intro', c:'blue' },
+  rates:{ t:'サーバー倍率', d:'テイム・繁殖の速さ', i:'speed', to:'rates', c:'green' },
+  api:{ t:'導入API解説', d:'便利な追加機能', i:'extension', to:'api', c:'red' },
+  balance:{ t:'残高', d:'Monetaの残高', i:'account_balance_wallet', to:'mypage', c:'yellow' },
+  decay:{ t:'撤去期限', d:'マップごとの残り日数', i:'schedule', to:'mypage', c:'green' },
+  status:{ t:'依頼状況', d:'送った依頼の進み具合', i:'assignment', to:'mypage', c:'red' },
+  link:{ t:'ARK連携', d:'連携の状態', i:'link', to:'mypage', c:'purple' }
+};
+const GAMES = {
+  asa:{ name:'ARK: Survival Ascended', short:'ARK:SA', tag:'Steam・Xbox・PlayStation クロスプレイ', img:'img/game-asa.jpg' },
+  pal:{ name:'パルワールド', short:'パルワールド', tag:'ほぼ初期設定のワールド', img:'img/game-pal.jpg' }
+};
+const STEP_DEF = {
+  login:{ t:'ログイン', icon:'login' },
+  discord:{ t:'Discordに参加', short:'Discord', icon:'forum' },
+  rules:{ t:'ルールを確認', short:'ルール', icon:'gavel' },
+  link:{ t:'ARKと連携', short:'ARK連携', icon:'link' }
+};
+const FLOW = { asa:['login','discord','rules','link'], pal:['login','discord','rules'] };
+/* 重複を統合し、「お願い」は外した禁止事項だけのルール。asa:1 は ARK:SA だけ。tp / dp はパルワールドでの表記 */
+const RULES = [
+  { id:'harass', t:'MPK・横取りの禁止', i:'back_hand', d:'野生の生物をほかのプレイヤーや拠点へわざと誘導する（MPK）、テイム中の生物を倒す・横取りする、先に狙われている生物やクレート、イベントアイテムを横から取る、などの迷惑行為は禁止です。', ok:'譲り合う' },
+  { id:'name', t:'名前は最初に決める', tp:'不適切な名前の禁止', i:'badge', d:'初期名「ヒト」（Human）は使えません。名前はあとから自分では変えられません。公序良俗に反する名前や、管理者が不適切と判断した名前も使えません。', dp:'公序良俗に反するプレイヤー名・ギルド名や、管理者が不適切と判断した名前は使えません。', ok:'サバイバーの作成画面で、最初に名前を変える' },
+  { id:'build', t:'建築予約・放置の禁止', i:'foundation', asa:1, d:'[建築予約と、いらない建造物の放置についての説明]' },
+  { id:'cheat', t:'チート・バグ悪用の禁止', i:'bug_report', d:'ゲームバランスが崩れる、ほかのプレイヤーが不利益を受ける、難易度が下がる、のどれかにあたるものは禁止です。迷うものは、Discordの質問フォーラムで聞いてください。', ng:'上限を超えたレベルの個体のテイム、OSD（軌道補給物資）を建造物で囲むこと', ok:'交配のオーバーフロー' },
+  { id:'monopoly', t:'資源の独占禁止', i:'lock', d:'誰でも使える資源のまわりを建造物や扉でふさぐことは禁止です。樹液や油田などはロックを外してください。', list:['金属鉱石、黒曜石、水晶などが大量に湧く場所','カストロイデスのダムの近く','樹液・油田・ビーコン・クレート'] },
+  { id:'trade', t:'無償譲渡・不等価取引の禁止', i:'balance', d:'生物やアイテムを対価なしで渡すこと、釣り合わない条件で取引することは禁止です。受け取る人が自分で見つけて育てる楽しみを奪ってしまうためです。[不等価取引の説明]' },
+  { id:'words', t:'暴言・煽りの禁止', i:'sentiment_dissatisfied', d:'煽り・暴言・下ネタ・物乞い・ネタバレは禁止です。[説明]' },
+  { id:'dm', t:'管理者へのDM禁止', i:'mail_lock', d:'ルールに書かれていないもめごとは、当事者どうしで話し合って解決してください。ゲームの質問は、Discordの各ゲームのチャンネルやフォーラムで行います。', ok:'管理者への依頼は、サポートの「管理者依頼」（Elder）から' }
+];
+const FLAME = cls => '<svg class="' + cls + '" aria-hidden="true"><use href="#vs-flame"></use></svg>';
+const rulesFor = g => RULES.filter(r => g === 'asa' || !r.asa);
+const CMD_GROUPS = [
+  { key:'pets', title:'生物の管理', icon:'pets', c:'purple', items:[['/pod','見ている生物を低温ポッドに格納','無料'],['/pods','土台10個の範囲の生物をすべて格納','無料'],['/uncryo','手持ちのポッドの生物（最大40体）を出す','100pt'],['/getstats','見ている生物のステータスを表示','無料'],['/kill','見ている自トライブの生物を倒す','100pt'],['/decaytime','生物・建造物の撤去期限を表示','無料']] },
+  { key:'breed', title:'繁殖', icon:'egg', c:'green', items:[['/mate','交配を開始（範囲は /mateaoe）','無料'],['/claim','土台10個の範囲の子どもを取得','100pt'],['/settings','繁殖の設定を変更（SILVER以上）','無料'],['/hatch','卵を孵化・妊娠を完了（GOLD以上）','250pt'],['/raise','成熟度を100%に（GOLD以上）','500pt'],['/cg','生物の性別を変更（GOLD以上）','500pt']] },
+  { key:'death', title:'死亡時の所持品', icon:'backpack', c:'red', items:[['/deaths','死亡の一覧を表示','無料'],['/deathclaim [ID]','その死亡時の所持品を復元（DIAMOND）','500pt']] },
+  { key:'shop', title:'ショップ・そのほか', icon:'storefront', c:'yellow', items:[['/points','ポイント数を確認','無料'],['/shop','販売アイテムを表示（F1キーでも可）','無料'],['/buy [ID] [個数]','アイテムを購入（個数は省略可）','無料'],['/link [コード]','サイトで発行したコードでARK連携','無料'],['/groups','月額課金の残り時間を表示','無料'],['/gamma 5','明るさを変更（1〜5）','無料']] }
+];
+const RATES = [
+  { title:'テイム・繁殖', icon:'pets', c:'green', rows:[['テイム速度','×3.0'],['テイム時の食料消費','×2.5'],['手渡しテイムの餌付け間隔','×0.2'],['交配間隔','×0.1'],['孵化・成熟','×17.5'],['インプリント','×4.0','約1時間10分ごと']] },
+  { title:'成長・収集', icon:'trending_up', c:'blue', rows:[['取得経験値','×2.0'],['収穫量','×1.5'],['夜の経過','×3.0'],['クレートの品質','×1.0']] },
+  { title:'上限', icon:'vertical_align_top', c:'purple', rows:[['野生生物の最大Lv','150'],['サバイバーの最大Lv','210'],['トライブのテイム数','300'],['サーバー全体のテイム数','15,000']] }
+];
+const SCHEDULE = [['5:00','全サーバーを再起動','数分間つながりません'],['5:30','野生の生物と卵をリセット','テイム中の生物は消えません'],['常時','止まったら自動で起動','5分ごとに確認']];
+const APIS = [
+  { t:'ショップとポイント', p:'ARKShop', i:'storefront', c:'yellow', d:'ログイン中は5分ごとにポイントが貯まります。PCはF1キー、PS・Xboxはサークルメニューから。' },
+  { t:'撤去の管理', p:'Lethal Decay', i:'schedule', c:'blue', d:'1つのマップに入れば、全マップの期限がのびます。土台10個分に建造物が10個以下だと1日で撤去。' },
+  { t:'生物の管理', p:'', i:'pets', c:'purple', d:'ポッドへの格納、ステータス表示、まとめて出すなどをチャットのコマンドで。' },
+  { t:'繁殖', p:'', i:'egg', c:'green', d:'まとめて交配、子どもをまとめて引き取るなど。ランクによっては孵化・成熟をすぐ完了。' },
+  { t:'チャット', p:'', i:'forum', c:'yellow', d:'全体チャットはマップをこえて全員に届き、Discordのクロスチャットにも表示。' },
+  { t:'仮想金庫', p:'Vaultorama', i:'inventory_2', c:'red', d:'アイテムや生物を仮想の金庫に預けられます（1年間保管）。', note:'使えるマップ：LostColony・検証用サーバー' }
+];
+const RANK_COLS = [['未連携','—',''],['連携済','無料','link'],['BRONZE','500円/月','buy'],['SILVER','1,000円/月','buy'],['GOLD','1,500円/月','buy'],['DIAMOND','2,500円/月','buy']];
+const Y = '✓', N = '—';
+const RANK_ROWS = [['撤去までの日数',['7日','30日','30日','45日','45日','60日']],['ポイント（5分ごと）',[N,'5','5','10','10','20']],['ショップ・コマンド',[N,Y,Y,Y,Y,Y]],['所持品・生物の復元依頼（有償）',[N,N,Y,Y,Y,Y]],['チャットの色の変更',[N,N,Y,Y,Y,Y]],['繁殖の設定変更',[N,N,N,Y,Y,Y]],['孵化・成熟・性別変更',[N,N,N,N,Y,Y]],['新しく追加されるマップ',[N,N,N,N,'先行','最速']],['マップデータ・死亡時の所持品の復元',[N,N,N,N,N,Y]]];
+const FAQ_CATS = [['all','すべて'],['conn','接続'],['lost','失った・動けない'],['trouble','トラブル'],['before','参加前']];
+const FAQ = [
+  ['conn','サーバーが見つからない','[対処法]'],
+  ['conn','サーバーにつながらない','毎日5:00の再起動中は、数分間つながりません。[そのほかの対処法]',[['rates','毎日のスケジュール']]],
+  ['conn','「There is already a player…」と表示される','[対処法]'],
+  ['conn','DiscordとARKを連携できない','参加手順の「ARKと連携」で新しいコードを発行し、ゲームのチャットに入力してください。',[['join-asa','ARK:SAの参加手順']]],
+  ['lost','所持品・生物を失った','スクライブで記録を確かめてから、管理者依頼（Elder）で復元を依頼できます（BRONZE以上・有償）。',[['scribe','スクライブ'],['request','管理者依頼']]],
+  ['lost','休んでいて、撤去が心配','1つのマップに入れば、全マップの期限がのびます。',[['ranks','ランクごとの日数']]],
+  ['lost','地形や建物から出られない','管理者依頼（Elder）で脱出を依頼できます。',[['request','管理者依頼']]],
+  ['lost','サバイバー名を変えたい','管理者依頼（Elder）で変更を依頼できます。',[['request','管理者依頼']]],
+  ['trouble','ルール違反・嫌がらせを受けた','[報告のしかた]',[['rules','ルール']]],
+  ['before','ゲームが初めてでも大丈夫？','[回答]'],
+  ['before','毎日ログインが必要？','不要です。連携済なら30日ログインしなくても撤去されません。'],
+  ['before','ボイスチャットは必須？','必須ではありません。'],
+  ['before','配信・動画投稿はできる？','[回答]']
+];
+const REQ_KINDS = [['所持品の復元','backpack'],['生物の復元','pets'],['マップデータの復元','map'],['全撤去後のマップ復元','restore'],['サバイバーの復元','person'],['トライブへの復帰','group_add'],['サバイバー名の変更','badge'],['地形・建物からの脱出','exit_to_app'],['サーバーの起動','power_settings_new'],['そのほかの依頼','more_horiz']];
+const MAPS = [['TheIsland',27],['Ragnarok',27],['LostColony',4]];
+const ROUTES = {
+  home:{ page:'home', nav:'home' },
+  join:{ page:'join', nav:'home', title:'参加手順' },
+  'join-asa':{ page:'steps', nav:'home', title:'ARK:SAの参加手順', game:'asa' },
+  'join-pal':{ page:'steps', nav:'home', title:'パルワールドの参加手順', game:'pal' },
+  about:{ page:'about', nav:'about', title:'サーバーについて' },
+  intro:{ page:'intro', nav:'about', title:'サーバー紹介' },
+  rates:{ page:'rates', nav:'about', title:'サーバー倍率' },
+  commands:{ page:'commands', nav:'about', title:'コマンド一覧' },
+  api:{ page:'api', nav:'about', title:'導入API解説' },
+  rules:{ page:'rules', nav:'rules', title:'ルール' },
+  support:{ page:'support', nav:'support', title:'サポート' },
+  scribe:{ page:'scribe', nav:'support', title:'スクライブ' },
+  request:{ page:'request', nav:'support', title:'管理者依頼' },
+  ranks:{ page:'ranks', nav:'support', title:'ランク比較・購入' },
+  trouble:{ page:'trouble', nav:'support', title:'困った時一覧' },
+  mypage:{ page:'mypage', nav:'mypage', title:'マイページ' }
+};
+
+/* ---------- 状態 ---------- */
+const state = {
+  game: store.get('game', 'asa') === 'pal' ? 'pal' : 'asa',
+  signedIn: !!store.get('auth', false),
+  discord: !!store.get('discord', false),
+  ruleChecks: Object.assign({ asa:[], pal:[] }, store.get('ruleChecks', {})),
+  link: Object.assign({ status:'none', code:'', exp:0 }, store.get('link', {})),
+  tiles: store.get('tiles', ['request','scribe','commands','ranks','trouble']),
+  notify: store.get('notify', true) !== false,
+  requests: [{ t:'所持品の復元', d:'10/06', s:'対応中' }, { t:'サバイバー名の変更', d:'09/28', s:'完了' }],
+  accent: store.get('accent', ''),
+  balance: 1250, editing:false, cmdQ:'', cmdCat:'all', faqQ:'', faqCat:'all', route:'home'
+};
+if (!Array.isArray(state.tiles)) state.tiles = ['request','scribe','commands','ranks','trouble'];
+if (state.link.status === 'issued' && state.link.exp < Date.now()) state.link = { status:'none', code:'', exp:0 };
+let afterLogin = null;
+
+/* ---------- ダイアログ・スナックバー（Beer CSS：dialog.showModal() と .active） ---------- */
+function toggleDialog(id, open){
+  const d = D.getElementById(id); if (!d) return;
+  if (open && !d.open) d.showModal();
+  else if (!open && d.open) d.close();
+}
+$$('dialog.vs-outside').forEach(d => d.addEventListener('click', e => {
+  if (e.target !== d) return;
+  const r = d.getBoundingClientRect();
+  if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close();
+}));
+let snackTimer = 0, snackFn = null;
+function snack(msg, action){
+  const s = $('#snack'), b = $('#snack-act');
+  $('#snack-text').textContent = msg;
+  snackFn = action ? action.fn : null; b.hidden = !action; if (action) b.textContent = action.label;
+  s.classList.add('active'); clearTimeout(snackTimer);
+  snackTimer = setTimeout(() => { s.classList.remove('active'); snackFn = null; }, action ? 6000 : 4000);
+}
+$('#snack').addEventListener('click', () => { clearTimeout(snackTimer); $('#snack').classList.remove('active'); });
+$('#snack-act').addEventListener('click', e => { e.stopPropagation(); const f = snackFn; snackFn = null; clearTimeout(snackTimer); $('#snack').classList.remove('active'); if (f) f(); });
+
+/* ---------- テーマ ---------- */
+const mq = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
+const mode = () => (B.classList.contains('dark') ? 'dark' : 'light');
+function viewerMode(){ const dt = D.documentElement.getAttribute('data-theme'); return dt === 'dark' || dt === 'light' ? dt : (mq && mq.matches ? 'dark' : 'light'); }
+function setMode(m){
+  if (typeof window.ui === 'function') window.ui('mode', m);
+  else { B.classList.remove('light', 'dark'); B.classList.add(m); }
+  const btn = $('#theme-btn'), dark = m === 'dark';
+  btn.innerHTML = '<i>' + (dark ? 'light_mode' : 'dark_mode') + '</i>';
+  btn.setAttribute('aria-label', dark ? 'ライトモードにする' : 'ダークモードにする');
+}
+$('#theme-btn').addEventListener('click', () => { const m = mode() === 'dark' ? 'light' : 'dark'; store.set('mode', m); setMode(m); });
+if (mq && mq.addEventListener) mq.addEventListener('change', () => { if (!store.get('mode', null)) setMode(viewerMode()); });
+new MutationObserver(() => { if (!store.get('mode', null)) setMode(viewerMode()); }).observe(D.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+/* 以前の「サイトの色」（ダイナミックカラー）は廃止。保存済みの選択と上書きされた配色を消す */
+store.set('accent', null); B.removeAttribute('style');
+
+/* ---------- ゲーム切り替え（ルール・倍率のページ内） ---------- */
+function setGame(g, fromRoute){
+  if (!GAMES[g]) return;
+  state.game = g; store.set('game', g);
+  $$('[data-gamechips]').forEach(n => { n.innerHTML = ['asa','pal'].map(k => { const on = k === g; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-game="' + k + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(GAMES[k].short) + '</span></button>'; }).join(''); });
+  renderRules(); renderRates(); renderSteps();
+  if (!fromRoute && (state.route === 'join-asa' || state.route === 'join-pal')) location.hash = 'join-' + g;
+}
+
+/* ---------- ログイン ---------- */
+function openLogin(next){ afterLogin = next || null; toggleDialog('dlg-login', true); }
+function renderAuth(){ $('#login-btn').hidden = state.signedIn; $('#me-btn').hidden = !state.signedIn; }
+function afterAuthChange(){ renderAuth(); renderSteps(); renderJoin(); renderMypage(); renderRanks(); }
+$('#login-ok').addEventListener('click', () => {
+  state.signedIn = true; store.set('auth', true);
+  toggleDialog('dlg-login', false); afterAuthChange();
+  snack('ログインしました');
+  const f = afterLogin; afterLogin = null; if (f) f();
+});
+function signOut(){ state.signedIn = false; store.set('auth', false); afterAuthChange(); snack('ログアウトしました'); }
+
+/* ---------- TOP：目的から探す ---------- */
+function renderTiles(){
+  const keys = state.tiles.filter(k => CAT[k]);
+  const el = $('#tiles');
+  el.classList.toggle('editing', state.editing);
+  el.innerHTML = keys.map(k => {
+    const c = CAT[k];
+    const inner = dot(c.c, c.i, 'large') + '<span class="vs-tile-text"><b class="vs-title-m">' + esc(c.t) + '</b></span>';
+    if (state.editing) return '<div class="vs-tile s6 m4 l2">' + inner + '<button class="circle small error vs-remove" type="button" data-remove="' + k + '" aria-label="' + esc(c.t) + 'を外す"><i>remove</i></button></div>';
+    return '<a class="vs-tile s6 m4 l2 wave" href="#' + c.to + '">' + inner + '<i class="vs-go">arrow_forward</i></a>';
+  }).join('') + '<button class="vs-tile vs-add s6 m4 l2" type="button" data-act="add-tile"><span class="vs-add-ic"><i>add</i></span><span>追加</span></button>';
+  const eb = $('#tiles-edit');
+  eb.setAttribute('aria-pressed', String(state.editing));
+  eb.setAttribute('aria-label', state.editing ? '編集を終える' : '入口を編集');
+  eb.className = state.editing ? 'fill' : 'circle transparent';
+  eb.innerHTML = state.editing ? '<i>check</i><span>完了</span>' : '<i>edit</i>';
+}
+function renderAddList(){
+  const avail = Object.keys(CAT).filter(k => state.tiles.indexOf(k) < 0);
+  $('#add-list').innerHTML = avail.length ? avail.map(k => { const c = CAT[k]; return '<li data-add="' + k + '" tabindex="0" role="button">' + dot(c.c, c.i) + '<div class="max"><b class="vs-title-m">' + esc(c.t) + '</b><div class="vs-support">' + esc(c.d) + '</div></div><i>add</i></li>'; }).join('') : '<li><div class="max vs-muted">すべて追加しています</div></li>';
+}
+$('#tiles-edit').addEventListener('click', () => { state.editing = !state.editing; renderTiles(); });
+
+/* ---------- 参加手順 ---------- */
+function stepDone(g, id){
+  if (id === 'login') return state.signedIn;
+  if (id === 'discord') return state.discord;
+  if (id === 'rules') return rulesFor(g).every(r => state.ruleChecks[g].indexOf(r.id) >= 0);
+  if (id === 'link') return state.link.status === 'linked';
+  return false;
+}
+function renderJoin(){
+  $('#join-choices').innerHTML = ['asa','pal'].map(g => {
+    const G = GAMES[g], ids = FLOW[g], n = ids.filter(id => stepDone(g, id)).length;
+    return '<div class="s12 m6"><a class="vs-game wave" href="#join-' + g + '"><span class="vs-game-img"><img src="' + G.img + '" alt="" loading="lazy"></span>' +
+      '<span class="vs-game-body"><span class="vs-title-l">' + esc(G.name) + '</span><span class="vs-support">' + esc(G.tag) + '</span>' +
+      '<span class="vs-game-foot"><span class="vs-mini" aria-hidden="true">' + ids.map(id => '<span class="' + (stepDone(g, id) ? 'on' : '') + '"></span>').join('') + '</span><b class="vs-tnum vs-support">' + n + ' / ' + ids.length + ' ステップ</b><i class="vs-go">arrow_forward</i></span></span></a></div>';
+  }).join('');
+}
+function ruleRows(g, scope){
+  return rulesFor(g).map(r => {
+    const on = state.ruleChecks[g].indexOf(r.id) >= 0, cid = 'rc-' + scope + '-' + g + '-' + r.id;
+    const t = g === 'pal' && r.tp ? r.tp : r.t, d = g === 'pal' && r.dp ? r.dp : r.d;
+    return '<li class="vs-rrow' + (on ? ' checked' : '') + '" data-rrow="' + r.id + '"><details><summary><span class="vs-ric">' + (on ? FLAME('') : '<i>' + r.i + '</i>') + '</span><span class="vs-rtitle"><b>' + esc(t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
+      '<div class="vs-rbody"><p class="vs-body vs-muted">' + esc(d) + '</p>' +
+      (r.list ? '<ul class="vs-body vs-muted">' + r.list.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : '') +
+      (r.ng ? '<p class="vs-ex ng"><i>block</i><span>' + esc(r.ng) + '</span></p>' : '') +
+      (r.ok ? '<p class="vs-ex ok"><i>check_circle</i><span>' + esc(r.ok) + '</span></p>' : '') + '</div></details>' +
+      '<label class="checkbox vs-rcheck"><input type="checkbox" id="' + cid + '" data-rule="' + r.id + '" data-rgame="' + g + '"' + (on ? ' checked' : '') + ' aria-label="' + esc(t) + 'を確認した"><span></span></label></li>';
+  }).join('');
+}
+function ruleCount(g){ const all = rulesFor(g); return [all.filter(r => state.ruleChecks[g].indexOf(r.id) >= 0).length, all.length]; }
+const flamesHTML = c => Array.from({ length:c[1] }, (_, i) => FLAME(i < c[0] ? 'lit' : '')).join('');
+function updateRuleCounters(){
+  const g = state.game, c = ruleCount(g);
+  $$('[data-rulecount]').forEach(el => { el.textContent = c[0] + ' / ' + c[1]; });
+  $$('[data-ruleflames]').forEach(el => { el.innerHTML = flamesHTML(c); });
+  $$('[data-ruleprog]').forEach(el => { el.setAttribute('aria-valuemax', c[1]); el.setAttribute('aria-valuenow', c[0]); });
+  $('#rules-back').innerHTML = c[0] === c[1] ? '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button vs-mt-s" href="#join-' + g + '"><span>参加手順へ戻る</span><i>arrow_forward</i></a>' : '';
+}
+function linkBody(){
+  const L = state.link;
+  if (L.status === 'linked') return '<p class="vs-ok"><i>check_circle</i>連携しました（サバイバー：むらびと）</p>';
+  const issued = L.status === 'issued', cmd = '/link ' + (L.code || '');
+  const web = issued
+    ? '<div class="field border round suffix"><input type="text" id="link-code" readonly value="' + esc(L.code) + '" aria-label="連携コード"><a href="#" data-copy="' + esc(L.code) + '" aria-label="コードをコピー"><i>content_copy</i></a></div><nav class="vs-mt-s"><span class="vs-support"><i>timer</i> <span data-expiry></span></span><button class="transparent small" type="button" data-act="link-issue"><i>refresh</i><span>再発行</span></button></nav>'
+    : '<button type="button" data-act="link-issue"><i>key</i><span>連携コードを発行</span></button>';
+  const ark = issued
+    ? '<div class="field border round suffix"><input type="text" id="link-cmd" readonly value="' + esc(cmd) + '" aria-label="ARKのチャットに入力するコマンド"><a href="#" data-copy="' + esc(cmd) + '" aria-label="コマンドをコピー"><i>content_copy</i></a></div><p class="vs-wait vs-mt-s">' + FLAME('vs-fmark vs-flick') + 'ゲームでの入力を待っています</p><button class="transparent small vs-mt-s" type="button" data-act="link-demo"><span>デモ：入力したことにする</span></button>'
+    : '<p class="vs-support">コードを発行すると、入力するコマンドがここに出ます。</p>';
+  return '<div class="vs-lf"><p class="vs-label"><i>language</i> 1. このサイトで</p>' + web + '</div>' +
+    '<div class="vs-lf"><p class="vs-label"><i>sports_esports</i> 2. ARKのチャットで</p>' + ark + '</div>' +
+    '<p class="vs-note vs-mt"><i>info</i><span>連携すると、撤去までの日数が7日から30日にのびます。</span></p>';
+}
+function stepBody(g, id){
+  if (id === 'login') return state.signedIn ? '<p class="vs-ok"><i>check_circle</i>ログイン済み</p>' : '<button type="button" data-act="login"><i>login</i><span>Discordでログイン</span></button>';
+  if (id === 'discord') return state.discord ? '<p class="vs-ok"><i>check_circle</i>招待リンクを開きました</p><a class="button transparent small vs-mt-s" href="#" data-act="discord"><span>もう一度開く</span><i>open_in_new</i></a>' : '<a class="button" href="#" data-act="discord"><span>Discordサーバーに参加</span><i>open_in_new</i></a>';
+  if (id === 'rules') {
+    if (stepDone(g, 'rules')) return '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button transparent small vs-mt-s" href="#rules"><span>ルールを見直す</span><i>arrow_forward</i></a>';
+    const c = ruleCount(g);
+    return '<div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" aria-valuemax="' + c[1] + '" aria-valuenow="' + c[0] + '" data-ruleprog><span class="vs-flames" data-ruleflames>' + flamesHTML(c) + '</span><b class="vs-tnum" data-rulecount>' + c[0] + ' / ' + c[1] + '</b></div><p class="vs-support vs-mt-s">開いて読み、右のチェックを付けると火が灯ります。</p><ul class="vs-rlist vs-mt">' + ruleRows(g, 'step') + '</ul>';
+  }
+  if (id === 'link') return linkBody();
+  return '';
+}
+function renderSteps(){
+  const g = state.game, G = GAMES[g], ids = FLOW[g];
+  const cur = ids.findIndex(id => !stepDone(g, id));
+  $('#steps-title').textContent = G.short + 'の参加手順';
+  $('#steps-done').hidden = cur !== -1;
+  $('#stepper').innerHTML = ids.map((id, i) => {
+    const s = STEP_DEF[id], done = stepDone(g, id), cls = done ? 'done' : (i === cur ? 'current' : '');
+    return '<li class="' + cls + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="vs-sdot">' + (done ? '<i>check</i>' : i === cur ? FLAME('vs-flick') : '<i>' + s.icon + '</i>') + '</span><span>' + esc(s.short || s.t) + '</span></li>';
+  }).join('');
+  $('#steps-list').innerHTML = ids.map((id, i) => {
+    const s = STEP_DEF[id], done = stepDone(g, id), isCur = i === cur;
+    const label = 'STEP ' + (i + 1) + (done ? '<i>check</i>完了' : isCur ? '・次はここ' : '');
+    return '<section class="vs-stepsec no-margin' + (done ? ' done' : '') + (isCur ? ' current' : '') + '" id="step-' + id + '" aria-labelledby="step-h-' + id + '"><p class="vs-steplabel">' + label + '</p><h2 class="vs-title-l" id="step-h-' + id + '">' + esc(s.t) + '</h2><div class="vs-mt-s">' + stepBody(g, id) + '</div></section>';
+  }).join('');
+  tickExpiry();
+}
+function issueCode(){
+  if (!state.signedIn) { openLogin(issueCode); return; }
+  const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = '';
+  for (let i = 0; i < 4; i++) c += A[Math.floor(Math.random() * A.length)];
+  state.link = { status:'issued', code:'VS-' + c, exp: Date.now() + 10 * 60 * 1000 };
+  store.set('link', state.link); renderSteps(); renderMypage();
+  snack('連携コードを発行しました');
+}
+function tickExpiry(){
+  const L = state.link;
+  if (L.status !== 'issued') return;
+  const left = Math.max(0, L.exp - Date.now());
+  if (left === 0) { state.link = { status:'none', code:'', exp:0 }; store.set('link', state.link); renderSteps(); snack('コードの有効期限が切れました。もう一度発行してください'); return; }
+  const m = Math.floor(left / 60000), s = Math.floor(left / 1000) % 60;
+  $$('[data-expiry]').forEach(el => { el.textContent = '有効期限 あと' + m + ':' + String(s).padStart(2, '0'); });
+}
+setInterval(tickExpiry, 1000);
+const curIndex = () => FLOW[state.game].findIndex(id => !stepDone(state.game, id));
+function afterStepChange(prevCur){
+  const g = state.game, ids = FLOW[g];
+  renderSteps(); renderJoin(); renderRules();
+  const cur = ids.findIndex(id => !stepDone(g, id));
+  if (state.route.indexOf('join-') === 0 && cur !== prevCur) {
+    const target = cur === -1 ? $('#steps-done') : D.getElementById('step-' + ids[cur]);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+  }
+  if (cur === -1) snack('すべての手順が終わりました。ようこそ！');
+}
+
+/* ---------- ルール ---------- */
+function renderRules(){ $('#rules-list').innerHTML = ruleRows(state.game, 'page'); updateRuleCounters(); }
+
+/* ---------- 倍率・コマンド・API（押せない情報：面なし） ---------- */
+function renderRates(){
+  const el = $('#rates-body');
+  if (state.game === 'pal') { el.innerHTML = '<div class="grid"><div class="s12 l8 vs-block vs-info"><i class="ink-blue">pets</i><h2 class="vs-title-m">ほぼ初期設定のワールド</h2><p class="vs-support">[変更している設定があれば、ここに入ります]</p></div></div>'; return; }
+  el.innerHTML = RATES.map((gr, i) => '<section' + (i ? ' class="vs-section"' : '') + '><div class="vs-sechead"><i class="ink-' + gr.c + '">' + gr.icon + '</i><h2 class="vs-title-l">' + esc(gr.title) + '</h2></div><div class="grid vs-mt-s">' +
+    gr.rows.map(r => '<div class="s6 m4 l2 vs-fig vs-ratefig" style="--vs-c:var(--vs-' + gr.c + ')"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
+    '<div class="grid vs-section"><section class="s12 l8"><div class="vs-sechead"><i class="ink-blue">today</i><h2 class="vs-title-l">毎日のスケジュール</h2></div><ul class="vs-list vs-mt-s">' +
+    SCHEDULE.map(t => '<li><span class="vs-time">' + esc(t[0]) + '</span><span class="max"><b>' + esc(t[1]) + '</b><span class="vs-support" style="display:block">' + esc(t[2]) + '</span></span></li>').join('') + '</ul></section>' +
+    '<section class="s12 l4"><div class="vs-sechead"><i class="ink-red">schedule</i><h2 class="vs-title-l">撤去までの日数</h2></div><p class="vs-big vs-mt-s">7〜60<small>日</small></p><a class="button transparent vs-mt-s" href="#ranks"><span>ランクごとの日数</span><i>arrow_forward</i></a></section></div>';
+}
+function renderCommands(){
+  const cats = [['all','すべて']].concat(CMD_GROUPS.map(g => [g.key, g.title]));
+  $('#cmd-cats').innerHTML = cats.map(c => { const on = state.cmdCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-cmdcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  const q = state.cmdQ.trim().toLowerCase();
+  const groups = CMD_GROUPS.filter(g => state.cmdCat === 'all' || g.key === state.cmdCat)
+    .map(g => Object.assign({}, g, { items: g.items.filter(c => !q || (c[0] + c[1] + g.title).toLowerCase().indexOf(q) >= 0) }))
+    .filter(g => g.items.length);
+  $('#cmd-groups').innerHTML = groups.length ? groups.map(g => '<section class="s12 l6"><div class="vs-sechead"><i class="ink-' + g.c + '">' + g.icon + '</i><h2 class="vs-title-m">' + esc(g.title) + '</h2></div><ul class="vs-list vs-mt-s">' +
+    g.items.map(c => { const copy = c[0].split(' [')[0]; return '<li><span class="max"><code class="vs-cmd">' + esc(c[0]) + '</code><span class="vs-support" style="display:block">' + esc(c[1]) + '</span></span><span class="vs-cost' + (c[2] === '無料' ? ' free' : '') + '">' + esc(c[2]) + '</span><button class="circle transparent small" type="button" data-copy="' + esc(copy) + '" aria-label="' + esc(copy) + ' をコピー"><i>content_copy</i></button></li>'; }).join('') + '</ul></section>').join('')
+    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「AIに相談」から聞くこともできます。</span></p></div>';
+}
+function renderApi(){
+  $('#api-grid').innerHTML = APIS.map(a => '<div class="s12 m6 vs-block vs-info"><i class="ink-' + a.c + '">' + a.i + '</i><h2 class="vs-title-m">' + esc(a.t) + '</h2>' + (a.p ? '<code class="vs-cmd vs-support">' + esc(a.p) + '</code>' : '') + '<p class="vs-support vs-mt-s">' + esc(a.d) + '</p>' + (a.note ? '<p class="vs-note vs-mt-s"><i>map</i><span>' + esc(a.note) + '</span></p>' : '') + '</div>').join('');
+}
+
+/* ---------- ランク・困った時・依頼の種類 ---------- */
+function renderRanks(){
+  const mine = state.signedIn ? 'SILVER' : '';
+  const th = RANK_COLS.map(c => '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '>' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + esc(c[0]) + '<b>' + esc(c[1]) + '</b></th>').join('');
+  const rows = RANK_ROWS.map(r => '<tr><th scope="row">' + esc(r[0]) + '</th>' + r[1].map((v, i) => '<td class="' + (v === Y ? 'yes' : v === N ? 'no' : '') + (RANK_COLS[i][0] === mine ? ' is-mine' : '') + '">' + (v === Y ? '<i aria-label="あり">check_circle</i>' : v === N ? '<span aria-label="なし">—</span>' : '<b>' + esc(v) + '</b>') + '</td>').join('') + '</tr>').join('');
+  const foot = RANK_COLS.map(c => '<td' + (c[0] === mine ? ' class="is-mine"' : '') + '>' + (c[2] === 'link' ? '<a class="button border small" href="#join-asa">連携する</a>' : c[2] === 'buy' ? (c[0] === mine ? '<span class="vs-status c-green">利用中</span>' : '<button class="small" type="button" data-bot="rank:' + c[0] + '">申し込む</button>') : '') + '</td>').join('');
+  $('#ranks-table').innerHTML = '<table class="vs-ranks"><thead><tr><th scope="col">特典</th>' + th + '</tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td></td>' + foot + '</tr></tfoot></table>';
+}
+function linkChip(l){
+  const to = l[0], label = esc(l[1]);
+  if (to.charAt(0) === '@') return '<button type="button" class="chip" data-bot="' + esc(to.slice(1)) + '"><span>' + label + '</span></button>';
+  return '<a class="chip" href="#' + esc(to) + '"><span>' + label + '</span><i>arrow_forward</i></a>';
+}
+function renderFaq(){
+  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  const q = state.faqQ.trim().toLowerCase();
+  const list = FAQ.filter(f => (state.faqCat === 'all' || f[0] === state.faqCat) && (!q || (f[1] + f[2]).toLowerCase().indexOf(q) >= 0));
+  $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-body vs-muted">' + esc(f[2]) + '</p>' + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
+    : '<li class="vs-rrow nocheck"><p class="vs-note" style="padding-block:1rem"><i>search_off</i><span>見つかりませんでした</span></p></li>';
+}
+function renderReqKinds(){ $('#req-kinds').innerHTML = REQ_KINDS.map(k => '<li><i class="ink-red">' + k[1] + '</i><span class="max">' + esc(k[0]) + '</span></li>').join(''); }
+
+/* ---------- マイページ ---------- */
+function renderMypage(){
+  $('#mp-out').hidden = state.signedIn; $('#mp-in').hidden = !state.signedIn;
+  $('#mp-title').textContent = state.signedIn ? 'むらびとさんのマイページ' : 'マイページ';
+  if (!state.signedIn) return;
+  renderNotify();
+  $('#mp-balance').textContent = fmt(state.balance);
+  $('#mp-maps').innerHTML = MAPS.map(m => { const warn = m[1] <= 7; return '<li><b>' + esc(m[0]) + '</b><progress class="' + (warn ? 'error-text' : '') + '" value="' + Math.round(m[1] / 30 * 100) + '" max="100" aria-label="' + esc(m[0]) + 'の撤去期限まで"></progress><span class="' + (warn ? 'warn' : '') + '">あと' + m[1] + '日</span></li>'; }).join('');
+  $('#mp-reqs').innerHTML = state.requests.map(r => {
+    const working = r.s === '対応中';
+    return '<a class="vs-row wave" href="#" data-ext="Elderの依頼の詳細"><i class="' + (working ? 'ink-yellow' : 'ink-green') + '">' + (working ? 'hourglass_top' : 'check_circle') + '</i><span class="max"><b class="vs-title-m">' + esc(r.t) + '</b><span class="vs-support">' + esc(r.d) + 'に依頼</span></span><span class="vs-status ' + (working ? 'c-yellow' : 'c-green') + '">' + esc(r.s) + '</span><i class="vs-go">open_in_new</i></a>';
+  }).join('');
+  const linked = state.link.status === 'linked';
+  $('#mp-link').innerHTML = '<h2 class="vs-title-l vs-fh" id="mp-link-h">' + FLAME('vs-fmark') + 'ARK連携</h2><ul class="vs-list vs-mt-s"><li><span class="max vs-muted">状態</span><span class="vs-status ' + (linked ? 'c-green' : 'c-red') + '">' + (linked ? '連携済' : '未連携') + '</span></li>' +
+    (linked ? '<li><span class="max vs-muted">サバイバー</span><b>むらびと</b></li></ul><a class="button transparent vs-mt-s" href="#join-asa"><i>refresh</i><span>再連携する</span></a>'
+      : '</ul><p class="vs-note vs-mt-s"><i>info</i><span>連携すると、撤去までの日数が7日から30日にのびます。</span></p><a class="button vs-mt-s" href="#join-asa"><i>key</i><span>連携コードを発行</span></a>');
+}
+function renderNotify(){
+  $('#mp-notify').checked = state.notify;
+  $('#mp-notify-ic').textContent = state.notify ? 'notifications_active' : 'notifications_off';
+  $('#mp-notify').closest('.vs-setting').classList.toggle('off', !state.notify);
+  $('#mp-notify-desc').innerHTML = state.notify ? '撤去の<b>7日前</b>と<b>1日前</b>に、DiscordのDMで届きます' : 'オフのあいだは、撤去期限のお知らせは届きません';
+}
+$('#mp-notify').addEventListener('change', e => { state.notify = e.target.checked; store.set('notify', state.notify); renderNotify(); snack(state.notify ? '撤去期限のお知らせをオンにしました' : '撤去期限のお知らせをオフにしました'); });
+
+/* ---------- 村のAI（右下のFABから開くチャット） ---------- */
+const chatDlg = $('#chat');
+const compact = () => window.matchMedia && matchMedia('(max-width:600px)').matches;
+const chat = { log:[], resume:null };
+function updateFab(){
+  const open = chatDlg.open, f = $('#fab');
+  f.setAttribute('aria-expanded', String(open));
+  f.innerHTML = open ? '<i>close</i><span>閉じる</span>' : '<i>forum</i><span>AIに相談</span>';
+}
+function openChat(){
+  if (!chat.log.length) resetChat();
+  if (!chatDlg.open) { if (compact()) chatDlg.showModal(); else chatDlg.show(); }
+  updateFab();
+  setTimeout(() => { const el = $('#chat-log'); el.scrollTop = el.scrollHeight; if (!compact()) $('#chat-input').focus({ preventScroll:true }); }, 0);
+}
+function closeChat(){ if (chatDlg.open) chatDlg.close(); }
+chatDlg.addEventListener('close', updateFab);
+chatDlg.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); closeChat(); $('#fab').focus(); } });
+$('#fab').addEventListener('click', () => (chatDlg.open ? closeChat() : openChat()));
+$('#chat-close').addEventListener('click', closeChat);
+function botSay(text, links){ chat.log.push({ from:'ai', text, links: links || [] }); renderChat(); }
+function meSay(text){ chat.log.push({ from:'me', text }); renderChat(); }
+function renderChat(){
+  const el = $('#chat-log');
+  el.innerHTML = chat.log.map(m => '<div class="vs-msg ' + m.from + '">' + esc(m.text) + (m.links && m.links.length ? '<nav class="wrap vs-msg-acts">' + m.links.map(linkChip).join('') + '</nav>' : '') + '</div>').join('');
+  el.scrollTop = el.scrollHeight;
+}
+function resetChat(){ chat.log = []; botSay('こんにちは、村のAIです。困っていることを入力するか、下から選んでください。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]); }
+const ANSWERS = [
+  { k:['接続','つなが','入れない','見つからない','落ち'], a:'毎日5:00の再起動中は、数分間つながりません。それ以外なら困った時一覧を見てください。', l:[['trouble','困った時一覧']] },
+  { k:['失','ロスト','消え','死ん','なくし','復元'], a:'まずスクライブで記録を確かめてください。復元の依頼は、管理者依頼（Elder）で受け付けています（BRONZE以上・有償）。', l:[['scribe','スクライブ'],['request','管理者依頼']] },
+  { k:['依頼','管理者','名前','スタック','出られ','はまっ'], a:'管理者への依頼は、Village PortalのElderで受け付けています。管理者へのDMは禁止です。', l:[['request','管理者依頼']] },
+  { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'特典は比較表にまとめています。ARKと連携するだけでも無料の特典があります。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
+  { k:['コマンド','pod','/'], a:'コマンド一覧から探せます。コピーボタンでそのまま貼り付けられます。', l:[['commands','コマンド一覧']] },
+  { k:['撤去','期限','休','放置'], a:'1つのマップに入れば、全マップの期限がのびます。連携済なら30日、ランクで最大60日です。', l:[['ranks','ランクごとの日数']] },
+  { k:['連携','コード','link'], a:'参加手順の「ARKと連携」でコードを発行し、ARKのチャットで /link コード と入力してください。', l:[['join-asa','ARK:SAの参加手順']] },
+  { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'ルールは1つずつ確認できるようにまとめています。', l:[['rules','ルール']] },
+  { k:['参加','はじめ','初めて','始め'], a:'参加手順を上から進めれば遊べます。', l:[['join','参加手順']] }
+];
+function answer(text){
+  const t = text.toLowerCase(), hit = ANSWERS.find(x => x.k.some(k => t.indexOf(k) >= 0));
+  if (hit) botSay(hit.a, hit.l);
+  else botSay('うまく答えられませんでした。困った時一覧を見るか、管理者依頼（Elder）を使ってください。', [['trouble','困った時一覧'],['request','管理者依頼']]);
+}
+function startRank(name){
+  if (!state.signedIn) { chat.resume = () => startRank(name); botSay('ランクの申し込みには、Discordでのログインが必要です。', [['@login','Discordでログイン']]); return; }
+  const col = RANK_COLS.find(c => c[0] === name) || RANK_COLS[3];
+  botSay(col[0] + '（' + col[1] + '）を申し込みます。残高：' + fmt(state.balance) + ' Moneta', [['@rank-ok:' + col[0], '申し込む'], ['@cancel','やめる']]);
+}
+function onUserText(text){ const t = text.trim(); if (!t) return; meSay(t); answer(t); }
+function botAction(a){
+  const i = a.indexOf(':'), cmd = i < 0 ? a : a.slice(0, i), arg = i < 0 ? '' : a.slice(i + 1);
+  if (cmd === 'cancel') botSay('やめました。ほかに困っていることはありますか？');
+  else if (cmd === 'rank') startRank(arg);
+  else if (cmd === 'rank-ok') { botSay(arg + 'の申し込みを受け付けました（プロトタイプのため支払いは発生しません）。', [['mypage','マイページ']]); snack(arg + 'を申し込みました（プロトタイプ）'); }
+  else if (cmd === 'login') openLogin(() => { const f = chat.resume; chat.resume = null; if (f) f(); });
+  else if (cmd === 'ask') onUserText(arg);
+}
+$('#chat-form').addEventListener('submit', e => { e.preventDefault(); const inp = $('#chat-input'), v = inp.value; inp.value = ''; onUserText(v); });
+$('#chat-reset').addEventListener('click', resetChat);
+
+/* ---------- 画面の切り替え ---------- */
+function routeFromHash(){ const h = (location.hash || '').replace(/^#/, ''); return ROUTES[h] ? h : 'home'; }
+function show(route, focus){
+  const r = ROUTES[route]; state.route = route;
+  if (r.game && r.game !== state.game) setGame(r.game, true);
+  $$('#main > .page').forEach(p => p.classList.toggle('active', p.id === 'p-' + r.page));
+  $$('[data-nav]').forEach(a => {
+    const on = a.dataset.nav === r.nav;
+    if (!a.classList.contains('button')) a.classList.toggle('active', on);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  if (route === 'home') { state.editing = false; renderTiles(); }
+  D.title = r.title ? r.title + ' | Village Server' : 'Village Server';
+  window.scrollTo(0, 0);
+  if (focus) { const h = $('#p-' + r.page + ' h1'); if (h) h.focus({ preventScroll:true }); }
+}
+window.addEventListener('hashchange', () => {
+  if ((location.hash || '') === '#bot') { openChat(); return; }
+  show(routeFromHash(), true);
+  if (compact()) closeChat();
+});
+
+/* ---------- 操作の受け口 ---------- */
+D.addEventListener('click', e => {
+  const t = e.target.closest('[data-ext],[data-act],[data-close],[data-copy],[data-game],[data-bot],[data-chat],[data-remove],[data-add],[data-cmdcat],[data-faqcat]');
+  if (!t) return;
+  const ds = t.dataset;
+  if (ds.ext !== undefined) { e.preventDefault(); snack(ds.ext + 'は仮のリンクです（プロトタイプ）'); return; }
+  if (ds.close) { toggleDialog(ds.close, false); return; }
+  if (ds.game) { setGame(ds.game); return; }
+  if (ds.copy) {
+    e.preventDefault();
+    const text = ds.copy;
+    try { navigator.clipboard.writeText(text).then(() => snack('「' + text + '」をコピーしました'), () => snack('コピーできませんでした。「' + text + '」を選んでコピーしてください')); }
+    catch (err) { snack('コピーできませんでした。「' + text + '」を選んでコピーしてください'); }
+    return;
+  }
+  if (ds.chat) { openChat(); return; }
+  if (ds.bot) { e.preventDefault(); openChat(); botAction(ds.bot); return; }
+  if (ds.remove) {
+    const key = ds.remove, idx = state.tiles.indexOf(key), tile = t.closest('.vs-tile');
+    if (tile) tile.classList.add('removing');
+    setTimeout(() => {
+      state.tiles = state.tiles.filter(k => k !== key); store.set('tiles', state.tiles); renderTiles();
+      snack(CAT[key].t + 'を外しました', { label:'元に戻す', fn:() => { if (state.tiles.indexOf(key) < 0) state.tiles.splice(Math.min(idx, state.tiles.length), 0, key); store.set('tiles', state.tiles); renderTiles(); } });
+    }, 220);
+    return;
+  }
+  if (ds.add) { state.tiles.push(ds.add); store.set('tiles', state.tiles); toggleDialog('dlg-add', false); renderTiles(); snack(CAT[ds.add].t + 'を追加しました'); return; }
+  if (ds.cmdcat) { state.cmdCat = ds.cmdcat; renderCommands(); return; }
+  if (ds.faqcat) { state.faqCat = ds.faqcat; renderFaq(); return; }
+  const act = ds.act;
+  if (act === 'login') openLogin();
+  else if (act === 'logout') signOut();
+  else if (act === 'add-tile') { renderAddList(); toggleDialog('dlg-add', true); }
+  else if (act === 'discord') {
+    e.preventDefault();
+    const prev = curIndex();
+    snack('Discordの招待リンクは仮です（プロトタイプ）');
+    if (!state.discord) { state.discord = true; store.set('discord', true); afterStepChange(prev); }
+  }
+  else if (act === 'link-issue') issueCode();
+  else if (act === 'link-demo') {
+    const prev = curIndex();
+    state.link = { status:'linked', code:'', exp:0 }; store.set('link', state.link);
+    afterStepChange(prev); renderMypage(); snack('ARKとの連携を確認しました');
+  }
+});
+D.addEventListener('keydown', e => { const li = e.target.closest && e.target.closest('[data-add]'); if (li && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); li.click(); } });
+D.addEventListener('change', e => {
+  const t = e.target;
+  if (!t.dataset || !t.dataset.rule) return;
+  const g = t.dataset.rgame, id = t.dataset.rule, arr = state.ruleChecks[g], rule = RULES.find(r => r.id === id);
+  const prev = curIndex(), wasDone = stepDone(g, 'rules');
+  const at = arr.indexOf(id); if (t.checked && at < 0) arr.push(id); if (!t.checked && at >= 0) arr.splice(at, 1);
+  store.set('ruleChecks', state.ruleChecks);
+  $$('[data-rule="' + id + '"][data-rgame="' + g + '"]').forEach(cb => {
+    cb.checked = t.checked;
+    const row = cb.closest('.vs-rrow'); if (!row) return;
+    row.classList.toggle('checked', t.checked);
+    const ic = row.querySelector('.vs-ric'); if (ic) ic.innerHTML = t.checked ? FLAME('') : '<i>' + rule.i + '</i>';
+    const d = row.querySelector('details'); if (t.checked && d) d.open = false;
+  });
+  updateRuleCounters();
+  if (stepDone(g, 'rules') !== wasDone) { afterStepChange(prev); if (stepDone(g, 'rules')) snack('ルールをすべて確認しました'); }
+});
+D.addEventListener('input', e => {
+  if (e.target.id === 'cmd-q') { state.cmdQ = e.target.value; renderCommands(); }
+  if (e.target.id === 'faq-q') { state.faqQ = e.target.value; renderFaq(); }
+});
+const topbar = $('#topbar');
+addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY > 4), { passive:true });
+
+/* ---------- 起動 ---------- */
+setMode(mode());
+renderAuth(); renderTiles(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
+setGame(state.game, true);
+show(routeFromHash(), false);
+if ((location.hash || '') === '#bot') openChat();
+setTimeout(() => B.classList.add('vs-ready'), 60);
+addEventListener('load', () => { setMode(mode()); B.removeAttribute('style'); });
+})();
+</script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/beercss@5.0.3/dist/cdn/beer.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/material-dynamic-colors@1.1.4/dist/cdn/material-dynamic-colors.min.js"></script>
