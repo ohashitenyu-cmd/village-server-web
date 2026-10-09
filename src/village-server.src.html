@@ -31,9 +31,9 @@
   --surface-container:#f3ede1; --surface-container-high:#ede7da; --surface-container-highest:#e7e1d3;
   --vs-red-ink:#b4123b; --vs-yellow-ink:#765400; --vs-green-ink:#006c47; --vs-blue-ink:#006689; --vs-purple-ink:#7a32c3;
   --vs-green-soft:#d5f3e2;
-  --vs-tile-bg:#ffffff; --vs-hover:rgb(27 28 43 / .06);
-  --vs-e1:0 1px 2px rgb(27 28 43 / .14),0 1px 3px 1px rgb(27 28 43 / .08);
-  --vs-e2:0 1px 2px rgb(27 28 43 / .16),0 3px 8px 2px rgb(27 28 43 / .12);
+  --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(27 28 43 / .06);
+  --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
+  --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) body:not(.light){
@@ -48,9 +48,9 @@
     --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
     --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
     --vs-green-soft:#103a2a;
-    --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
-    --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
-    --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
+    --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(236 231 220 / .07);
+    --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
+    --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
     color-scheme:dark;
   }
 }
@@ -66,9 +66,9 @@
   --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
   --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
   --vs-green-soft:#103a2a;
-  --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
-  --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
-  --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
+  --vs-tile-bg:var(--surface-container-low); --vs-hover:rgb(236 231 220 / .07);
+  --vs-e1:0 1px 2px rgb(0 0 0 / .3),0 1px 3px 1px rgb(0 0 0 / .15);
+  --vs-e2:0 1px 2px rgb(0 0 0 / .3),0 2px 6px 2px rgb(0 0 0 / .15);
   color-scheme:dark;
 }
 :root:has(body.dark){color-scheme:dark}
@@ -134,11 +134,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-tile:hover,.vs-row:hover,.vs-game:hover{box-shadow:var(--vs-e2); background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
 .vs-tile:focus-visible,.vs-row:focus-visible,.vs-game:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
 .vs-go{color:var(--on-surface-variant); flex:none}
-.vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1.25rem}
+.vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1rem}
 .vs-tile>.vs-go{position:absolute; inset:2rem 1.25rem auto auto}
 .vs-tile-text{display:flex; flex-direction:column; gap:.125rem; inline-size:100%; box-sizing:border-box}
 .vs-tile-cap{font-size:.8125rem; line-height:1.5; color:var(--on-surface-variant)}
-.vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1.25rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
+.vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
 .vs-row>.max{display:flex; flex-direction:column; min-inline-size:0}
 .vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
 .vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
@@ -184,11 +184,13 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-gate>.max{margin-block-start:1rem}
 
 /* ---- TOP：写真のメインビジュアル ---- */
-.vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
-.vs-hero-media{position:absolute; inset:0}
-.vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; object-position:50% 40%}
-.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(22 24 39 / .94) 0%,rgb(22 24 39 / .78) 34%,rgb(22 24 39 / .18) 68%,rgb(22 24 39 / 0) 100%),radial-gradient(60% 55% at 12% 100%,rgb(242 188 27 / .22),transparent 70%)}
-.vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:36rem}
+/* 写真は重ねず、テキスト面（夜色）と並べてそのまま見せる */
+.vs-hero{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame)}
+.vs-hero-media{margin:0; order:2; min-block-size:100%}
+.vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; aspect-ratio:16/9; object-fit:cover; object-position:50% 45%}
+.vs-hero-body{position:relative; overflow:hidden; isolation:isolate; display:flex; flex-direction:column; justify-content:center; padding:clamp(1.5rem,1rem + 2.5vw,3rem)}
+@media (max-width:992px){ .vs-hero{grid-template-columns:minmax(0,1fr)} .vs-hero-media{order:0} }
+.vs-hero-body::before{content:""; position:absolute; inset:auto -20% -45% -20%; block-size:90%; z-index:-1; background:radial-gradient(closest-side,rgb(242 188 27 / .24),rgb(238 57 91 / .06) 60%,transparent)}
 .vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
 .vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
 .vs-hero h1{color:var(--vs-flame)}
@@ -197,15 +199,12 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-cta:focus-visible{outline:3px solid var(--vs-flame); outline-offset:3px}
 .vs-ghost{color:var(--vs-flame) !important}
 @media (max-width:600px){
-  .vs-hero{display:block; min-block-size:0}
-  .vs-hero-media{position:relative; aspect-ratio:4/3}
-  .vs-hero-media::after{background:linear-gradient(0deg,var(--vs-night) 0%,rgb(22 24 39 / 0) 45%)}
-  .vs-hero-body{padding:.25rem 1.25rem 1.5rem}
+  .vs-hero-body{padding:1.25rem 1.25rem 1.5rem}
 }
 
 /* ---- 参加手順 ---- */
-.vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
-.vs-game-img{display:block; aspect-ratio:16/7; overflow:hidden; background:var(--vs-night)}
+.vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1rem; overflow:hidden}
+.vs-game-img{display:block; aspect-ratio:10/3; overflow:hidden; background:var(--vs-night)}
 .vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; transition:transform var(--speed3)}
 .vs-game:hover .vs-game-img img{transform:scale(1.03)}
 .vs-game-body{display:flex; flex-direction:column; gap:.25rem; padding:1.25rem}
@@ -218,11 +217,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-stepper>li{flex:1; position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:.5rem; font-size:.75rem; font-weight:500; line-height:1.3; color:var(--on-surface-variant); min-inline-size:0}
 .vs-stepper>li:last-child{flex:0 0 auto}
 .vs-stepper>li:not(:last-child)::after{content:""; position:absolute; inset-block-start:1.25rem; inset-inline:3rem .5rem; block-size:2px; margin-block-start:-1px; background:var(--outline-variant)}
-.vs-stepper>li.done:not(:last-child)::after{background:var(--vs-green)}
+.vs-stepper>li.done:not(:last-child)::after{background:var(--primary)}
 .vs-stepper>li.current{color:var(--on-surface); font-weight:700}
 .vs-sdot{flex:none; inline-size:2.5rem; block-size:2.5rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-highest); color:var(--on-surface-variant)}
 .vs-sdot>i{--_size:1.25rem}
-.done>.vs-sdot{background:var(--vs-green); color:var(--vs-night)}
+.done>.vs-sdot{background:var(--primary); color:var(--on-primary)}
 .current>.vs-sdot{background:var(--primary-container); color:var(--on-primary-container); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
 .vs-stepsec{border-block-start:1px solid var(--outline-variant); padding-block:1.5rem; scroll-margin-top:6rem}
 .vs-steplabel{display:flex; align-items:center; gap:.25rem; font-size:.75rem; font-weight:700; letter-spacing:.06em; color:var(--on-surface-variant)}
@@ -250,7 +249,6 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-ask{font-size:.75rem; font-weight:700; color:var(--vs-blue-ink)}
 .vs-ric{flex:none; inline-size:2.25rem; block-size:2.25rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-high); color:var(--on-surface-variant); transition:background-color var(--speed2)}
 .vs-ric>i{--_size:1.25rem}
-.vs-rrow.checked .vs-ric{background:var(--vs-green); color:var(--vs-night)}
 .vs-rrow.checked .vs-rtitle b{color:var(--on-surface-variant)}
 .vs-rcheck{display:flex; align-items:center; min-block-size:3.75rem; padding-inline:.5rem 0}
 .vs-rbody{padding:0 0 1rem calc(2.25rem + .875rem)}
@@ -260,7 +258,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ex{display:flex; gap:.5rem; align-items:flex-start; font-size:.875rem; line-height:1.6}
 .vs-ex>i{--_size:1.25rem}
 .vs-ex.ng>i{color:var(--vs-red-ink)} .vs-ex.ok>i{color:var(--vs-green-ink)}
-.vs-progressrow{display:flex; align-items:center; gap:1rem}
+.vs-progressrow{display:flex; align-items:center; gap:1rem} .vs-progressrow>progress{flex:1}
 
 /* ---- 火のモチーフ（ロゴの炎のシルエット） ---- */
 .vs-fh{display:flex; align-items:center; gap:.5rem}
@@ -269,12 +267,9 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-flames svg{inline-size:1.125rem; block-size:1.5rem; fill:var(--outline-variant); transition:fill var(--speed3)}
 .vs-flames svg.lit{fill:url(#vs-fire-g)}
 .vs-sdot>svg,.vs-ric>svg{inline-size:.875rem; block-size:1.25rem; fill:currentColor}
-.current>.vs-sdot{background:var(--vs-night); color:var(--vs-flame); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
-.vs-rrow.checked .vs-ric{background:var(--vs-night); color:var(--vs-flame)}
-.vs-wait .vs-fmark{inline-size:.875rem; block-size:1.25rem}
-.vs-sparks{position:absolute; inset:auto auto 0 0; inline-size:min(60%,28rem); block-size:100%; pointer-events:none; overflow:hidden}
+.vs-sparks{position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
 .vs-sparks span{position:absolute; inset-block-end:-.5rem; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:var(--c); box-shadow:0 0 .75rem var(--c); opacity:0}
-.vs-camp{flex:none; inline-size:5rem; block-size:auto}
+.vs-camp{flex:none; inline-size:5rem; block-size:auto} .vs-camp-lg{inline-size:7rem}
 .vs-camp-flame,.vs-camp-v{transform-box:fill-box; transform-origin:50% 100%}
 .vs-camp-glow{transform-box:fill-box; transform-origin:center}
 @media (prefers-reduced-motion:no-preference){
@@ -306,7 +301,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 
 /* ---- そのほか ---- */
 .vs-photo{margin:0}
-.vs-photo img{display:block; inline-size:100%; max-inline-size:100%; aspect-ratio:16/10; object-fit:cover; border-radius:1.5rem; background:var(--surface-container-high)}
+.vs-photo img{display:block; inline-size:100%; max-inline-size:100%; aspect-ratio:16/9; object-fit:cover; border-radius:1rem; background:var(--surface-container-high)}
 .vs-photo figcaption{margin-block-start:.5rem; font-size:.8125rem; color:var(--on-surface-variant)}
 .vs-time{flex:none; inline-size:3.25rem; font-weight:800; font-size:1.125rem; color:var(--vs-blue-ink); font-variant-numeric:tabular-nums}
 .vs-big{font-size:2.5rem; font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums}
@@ -355,6 +350,7 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 
 /* ---- フッター ---- */
 footer.vs-footer{display:block; margin-block-start:5rem; padding:2.5rem 0 1rem; border-block-start:4px solid; border-image:linear-gradient(90deg,var(--vs-red) 0 20%,var(--vs-yellow) 20% 40%,var(--vs-green) 40% 60%,var(--vs-blue) 60% 80%,var(--vs-purple) 80% 100%) 1; min-block-size:0}
+footer.vs-footer nav{align-items:flex-start}
 .vs-footer h2{font-size:.875rem; font-weight:700; margin:0 0 .5rem}
 .vs-footer ul{list-style:none; margin:0; padding:0}
 .vs-footer li a{display:flex; align-items:center; justify-content:flex-start; gap:.25rem; min-block-size:2.25rem; font-size:.875rem; color:var(--on-surface-variant)}
@@ -382,18 +378,13 @@ body:not(.vs-ready) .page.active{animation:none}
       <span class="vs-wordmark">Village Server</span>
     </a>
     <div class="max"></div>
-    <nav class="l vs-links" aria-label="グローバルナビゲーション">
-      <a class="button transparent" href="#about" data-nav="about">サーバーについて</a>
-      <a class="button transparent" href="#rules" data-nav="rules">ルール</a>
-      <a class="button transparent" href="#support" data-nav="support">サポート</a>
-    </nav>
     <button class="circle transparent" type="button" id="theme-btn" aria-label="ダークモードにする"><i>dark_mode</i></button>
     <button type="button" id="login-btn" data-act="login" aria-label="Discordでログイン"><i>login</i><span class="m l">ログイン</span></button>
     <a class="button circle transparent" id="me-btn" href="#mypage" aria-label="マイページ" hidden><i>account_circle</i></a>
   </nav>
 </header>
 
-<nav class="left m" aria-label="メインメニュー">
+<nav class="left m l" aria-label="メインメニュー">
   <a href="#home" data-nav="home"><i>home</i><div>ホーム</div></a>
   <a href="#about" data-nav="about"><i>cottage</i><div>サーバー</div></a>
   <a href="#rules" data-nav="rules"><i>gavel</i><div>ルール</div></a>
@@ -437,15 +428,15 @@ body:not(.vs-ready) .page.active{animation:none}
   <!-- ===================== TOP ===================== -->
   <div class="page active" id="p-home">
     <section class="vs-hero" aria-labelledby="hero-title">
-      <div class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></div>
-      <div class="vs-sparks" aria-hidden="true">
-        <span style="--c:#efbb0c; left:10%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
-        <span style="--c:#ee395b; left:22%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
-        <span style="--c:#40c68b; left:33%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
-        <span style="--c:#009acf; left:6%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
-        <span style="--c:#a257eb; left:42%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
-      </div>
+      <figure class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></figure>
       <div class="vs-hero-body">
+        <div class="vs-sparks" aria-hidden="true">
+          <span style="--c:#efbb0c; left:12%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
+          <span style="--c:#ee395b; left:30%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
+          <span style="--c:#40c68b; left:48%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
+          <span style="--c:#009acf; left:66%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
+          <span style="--c:#a257eb; left:84%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
+        </div>
         <p class="vs-eyebrow"><svg viewBox="0 0 512 512" aria-hidden="true"><use href="#vs-mark"></use></svg>ARK:SA ・ パルワールド</p>
         <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1">焚き火を囲んで、<br>長く遊べる村。</h1>
         <p class="vs-hero-sub">手間が少なく、冒険と育成をじっくり楽しめるサーバーです。</p>
@@ -462,8 +453,8 @@ body:not(.vs-ready) .page.active{animation:none}
     </div>
     <section class="vs-section" aria-labelledby="tiles-title">
       <div class="vs-sechead">
-        <h2 id="tiles-title" class="vs-title-l vs-fh"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>目的から探す</h2>
-        <button class="circle transparent" type="button" id="tiles-edit" aria-pressed="false" aria-label="入口を編集"><i>edit</i></button>
+        <h2 id="tiles-title" class="vs-title-l">お気に入り</h2>
+        <button class="circle transparent" type="button" id="tiles-edit" aria-pressed="false" aria-label="お気に入りを編集"><i>edit</i></button>
       </div>
       <div class="grid vs-tiles vs-mt-s" id="tiles"></div>
     </section>
@@ -526,7 +517,7 @@ body:not(.vs-ready) .page.active{animation:none}
       </div>
     </div>
     <section class="vs-section" aria-labelledby="pts-title">
-      <h2 class="vs-title-l vs-fh" id="pts-title"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>ARK:SAのポイント</h2>
+      <h2 class="vs-title-l" id="pts-title">ARK:SAのポイント</h2>
       <div class="grid vs-mt-s">
         <div class="s12 m6 l3 vs-block vs-info"><i class="ink-red">support_agent</i><h3 class="vs-title-m">困ったら管理者に相談</h3><p class="vs-support">復元や迷惑行為の相談を受け付けます</p></div>
         <div class="s12 m6 l3 vs-block vs-info"><i class="ink-green">speed</i><h3 class="vs-title-m">待ち時間の長い作業だけ速く</h3><p class="vs-support">テイム・孵化は速く、経験値は控えめ</p></div>
@@ -572,14 +563,14 @@ body:not(.vs-ready) .page.active{animation:none}
     <div class="grid vs-mt">
       <div class="s12 l8">
         <div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" data-ruleprog>
-          <span class="vs-flames" data-ruleflames></span>
+          <progress value="0" max="100" aria-hidden="true"></progress>
           <b class="vs-tnum" data-rulecount>0 / 0</b>
         </div>
-        <p class="vs-support vs-mt-s">開いて読み、右のチェックを付けると火が灯ります。</p>
+        <p class="vs-support vs-mt-s">開いて読み、右のチェックを付けてください。</p>
         <ul class="vs-rlist vs-mt" id="rules-list"></ul>
         <div class="vs-mt" id="rules-back"></div>
         <section class="vs-section" aria-labelledby="rules-more">
-          <h2 class="vs-title-l vs-fh" id="rules-more"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>そのほか</h2>
+          <h2 class="vs-title-l" id="rules-more">そのほか</h2>
           <ul class="vs-rlist vs-mt-s">
             <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>report</i></span><span class="vs-rtitle"><b>違反を見つけたら</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-support">[報告のしかた]　違反した場合は悪質と判断して対応します。[対応の流れ]</p></div></details></li>
             <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>history</i></span><span class="vs-rtitle"><b>更新履歴</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">
@@ -619,7 +610,7 @@ body:not(.vs-ready) .page.active{animation:none}
           </div>
         </div>
         <section class="vs-section" aria-labelledby="scribe-how">
-          <h2 class="vs-title-l vs-fh" id="scribe-how"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>Scribeでの探しかた</h2>
+          <h2 class="vs-title-l" id="scribe-how">Scribeでの探しかた</h2>
           <ol class="vs-list vs-mt-s">
             <li><span class="vs-n">1</span><i class="ink-blue">login</i><span class="max">Discordでログイン</span></li>
             <li><span class="vs-n">2</span><i class="ink-blue">tune</i><span class="max">見る範囲を選ぶ（自分の記録／トライブの生物）</span></li>
@@ -628,7 +619,7 @@ body:not(.vs-ready) .page.active{animation:none}
           </ol>
         </section>
         <section class="vs-section" aria-labelledby="scribe-miss">
-          <h2 class="vs-title-l vs-fh" id="scribe-miss"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>記録が見つからないとき</h2>
+          <h2 class="vs-title-l" id="scribe-miss">記録が見つからないとき</h2>
           <div class="grid vs-mt-s">
             <div class="s12 m6"><a class="vs-row wave" href="#request"><span class="vs-dot c-red"><i>support_agent</i></span><span class="max"><b class="vs-title-m">管理者依頼</b><span class="vs-support">Elderで管理者に相談</span></span><i class="vs-go">arrow_forward</i></a></div>
             <div class="s12 m6"><a class="vs-row wave" href="#trouble"><span class="vs-dot c-green"><i>support</i></span><span class="max"><b class="vs-title-m">困った時一覧</b><span class="vs-support">よくある困りごと</span></span><i class="vs-go">arrow_forward</i></a></div>
@@ -652,12 +643,12 @@ body:not(.vs-ready) .page.active{animation:none}
         </div>
         <p class="vs-note c-red vs-mt"><i>block</i><span>管理者へのDMは禁止です。依頼は必ずElderから出してください。</span></p>
         <section class="vs-section" aria-labelledby="req-what">
-          <h2 class="vs-title-l vs-fh" id="req-what"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>Elderで依頼できること</h2>
+          <h2 class="vs-title-l" id="req-what">Elderで依頼できること</h2>
           <ul class="vs-list vs-cols vs-mt-s" id="req-kinds"></ul>
           <p class="vs-note vs-mt-s"><i>paid</i><span>所持品・生物の復元は有償で、BRONZE以上の方が対象です。</span></p>
         </section>
         <section class="vs-section" aria-labelledby="req-before">
-          <h2 class="vs-title-l vs-fh" id="req-before"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>依頼の前後に</h2>
+          <h2 class="vs-title-l" id="req-before">依頼の前後に</h2>
           <div class="grid vs-mt-s">
             <div class="s12 m6"><a class="vs-row wave" href="#scribe"><span class="vs-dot c-blue"><i>manage_search</i></span><span class="max"><b class="vs-title-m">スクライブで記録を探す</b><span class="vs-support">日時やマップを確かめる</span></span><i class="vs-go">arrow_forward</i></a></div>
             <div class="s12 m6"><a class="vs-row wave" href="#mypage"><span class="vs-dot c-yellow"><i>assignment</i></span><span class="max"><b class="vs-title-m">依頼状況を見る</b><span class="vs-support">マイページ</span></span><i class="vs-go">arrow_forward</i></a></div>
@@ -684,7 +675,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <nav class="wrap vs-chiprow vs-mt-s" id="faq-cats" aria-label="分類で絞り込む"></nav>
         <ul class="vs-rlist vs-mt" id="faq-list"></ul>
         <section class="vs-section" aria-labelledby="faq-more">
-          <h2 class="vs-title-l vs-fh" id="faq-more"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>解決しないときは</h2>
+          <h2 class="vs-title-l" id="faq-more">解決しないときは</h2>
           <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-dot c-night"><i>forum</i></span><span class="max"><b class="vs-title-m">村のAIに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
         </section>
       </div>
@@ -697,7 +688,15 @@ body:not(.vs-ready) .page.active{animation:none}
     <div class="grid vs-mt">
       <div class="s12 l8">
         <div class="vs-gate" id="mp-out">
-          <span class="vs-dot large c-night" aria-hidden="true"><i>lock</i></span>
+          <svg class="vs-camp vs-camp-lg" viewBox="30 90 452 360" aria-hidden="true">
+            <ellipse class="vs-camp-glow" cx="256" cy="300" rx="200" ry="170" fill="url(#vs-glow-g)"></ellipse>
+            <path class="vs-camp-flame" d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f2bc1b"></path>
+            <circle class="vs-camp-v" cx="148" cy="230" r="38" fill="#40c68b"></circle>
+            <circle class="vs-camp-v" cx="364" cy="230" r="38" fill="#ee395b"></circle>
+            <circle class="vs-camp-v" cx="86" cy="322" r="43" fill="#a257eb"></circle>
+            <circle class="vs-camp-v" cx="426" cy="322" r="43" fill="#009acf"></circle>
+            <circle class="vs-camp-v" cx="256" cy="382" r="47" fill="#efbb0c"></circle>
+          </svg>
           <div class="max">
             <h2 class="vs-title-l">ログインすると使えます</h2>
             <p class="vs-support">撤去期限・残高・依頼状況・ARK連携を確認できます。</p>
@@ -712,7 +711,7 @@ body:not(.vs-ready) .page.active{animation:none}
           </div>
 
           <section class="vs-section" aria-labelledby="mp-dec">
-            <h2 class="vs-title-l vs-fh" id="mp-dec"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>ARK:SAの撤去期限</h2>
+            <h2 class="vs-title-l" id="mp-dec">ARK:SAの撤去期限</h2>
             <ul class="vs-maps vs-mt-s" id="mp-maps"></ul>
             <div class="vs-setting vs-mt">
               <i class="vs-setting-ic" id="mp-notify-ic">notifications_active</i>
@@ -726,13 +725,13 @@ body:not(.vs-ready) .page.active{animation:none}
           </section>
 
           <section class="vs-section" aria-labelledby="mp-bal">
-            <h2 class="vs-title-l vs-fh" id="mp-bal"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>残高</h2>
+            <h2 class="vs-title-l" id="mp-bal">残高</h2>
             <p class="vs-big vs-mt-s"><span id="mp-balance">1,250</span><small>Moneta</small></p>
             <p class="vs-support">ランクの申し込みに使えます。</p>
           </section>
 
           <section class="vs-section" aria-labelledby="mp-req">
-            <h2 class="vs-title-l vs-fh" id="mp-req"><svg class="vs-fmark" aria-hidden="true"><use href="#vs-flame"></use></svg>依頼状況</h2>
+            <h2 class="vs-title-l" id="mp-req">依頼状況</h2>
             <p class="vs-support">Elderで出した依頼です。1件ずつ押すと、Elderで詳しく見られます。</p>
             <div class="vs-stack vs-mt-s" id="mp-reqs"></div>
             <a class="button transparent vs-mt-s" href="#request"><i>support_agent</i><span>新しく依頼する</span></a>
@@ -793,7 +792,7 @@ body:not(.vs-ready) .page.active{animation:none}
 
 <dialog id="dlg-add" class="bottom vs-outside" aria-labelledby="add-title">
   <nav>
-    <h2 class="vs-title-l max" id="add-title">入口を追加</h2>
+    <h2 class="vs-title-l max" id="add-title">お気に入りに追加</h2>
     <button class="circle transparent" type="button" data-close="dlg-add" aria-label="閉じる"><i>close</i></button>
   </nav>
   <ul class="list border" id="add-list"></ul>
@@ -976,7 +975,7 @@ store.set('accent', null); B.removeAttribute('style');
 function setGame(g, fromRoute){
   if (!GAMES[g]) return;
   state.game = g; store.set('game', g);
-  $$('[data-gamechips]').forEach(n => { n.innerHTML = ['asa','pal'].map(k => { const on = k === g; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-game="' + k + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(GAMES[k].short) + '</span></button>'; }).join(''); });
+  $$('[data-gamechips]').forEach(n => { n.innerHTML = ['asa','pal'].map(k => { const on = k === g; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-game="' + k + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(GAMES[k].short) + '</span></button>'; }).join(''); });
   renderRules(); renderRates(); renderSteps();
   if (!fromRoute && (state.route === 'join-asa' || state.route === 'join-pal')) location.hash = 'join-' + g;
 }
@@ -1006,7 +1005,7 @@ function renderTiles(){
   }).join('') + '<button class="vs-tile vs-add s6 m4 l2" type="button" data-act="add-tile"><span class="vs-add-ic"><i>add</i></span><span>追加</span></button>';
   const eb = $('#tiles-edit');
   eb.setAttribute('aria-pressed', String(state.editing));
-  eb.setAttribute('aria-label', state.editing ? '編集を終える' : '入口を編集');
+  eb.setAttribute('aria-label', state.editing ? '編集を終える' : 'お気に入りを編集');
   eb.className = state.editing ? 'fill' : 'circle transparent';
   eb.innerHTML = state.editing ? '<i>check</i><span>完了</span>' : '<i>edit</i>';
 }
@@ -1036,7 +1035,7 @@ function ruleRows(g, scope){
   return rulesFor(g).map(r => {
     const on = state.ruleChecks[g].indexOf(r.id) >= 0, cid = 'rc-' + scope + '-' + g + '-' + r.id;
     const t = g === 'pal' && r.tp ? r.tp : r.t, d = g === 'pal' && r.dp ? r.dp : r.d;
-    return '<li class="vs-rrow' + (on ? ' checked' : '') + '" data-rrow="' + r.id + '"><details><summary><span class="vs-ric">' + (on ? FLAME('') : '<i>' + r.i + '</i>') + '</span><span class="vs-rtitle"><b>' + esc(t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
+    return '<li class="vs-rrow' + (on ? ' checked' : '') + '" data-rrow="' + r.id + '"><details><summary><span class="vs-ric">' + '<i>' + r.i + '</i>' + '</span><span class="vs-rtitle"><b>' + esc(t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
       '<div class="vs-rbody"><p class="vs-body vs-muted">' + esc(d) + '</p>' +
       (r.list ? '<ul class="vs-body vs-muted">' + r.list.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : '') +
       (r.ng ? '<p class="vs-ex ng"><i>block</i><span>' + esc(r.ng) + '</span></p>' : '') +
@@ -1045,12 +1044,12 @@ function ruleRows(g, scope){
   }).join('');
 }
 function ruleCount(g){ const all = rulesFor(g); return [all.filter(r => state.ruleChecks[g].indexOf(r.id) >= 0).length, all.length]; }
-const flamesHTML = c => Array.from({ length:c[1] }, (_, i) => FLAME(i < c[0] ? 'lit' : '')).join('');
+
 function updateRuleCounters(){
   const g = state.game, c = ruleCount(g);
   $$('[data-rulecount]').forEach(el => { el.textContent = c[0] + ' / ' + c[1]; });
-  $$('[data-ruleflames]').forEach(el => { el.innerHTML = flamesHTML(c); });
-  $$('[data-ruleprog]').forEach(el => { el.setAttribute('aria-valuemax', c[1]); el.setAttribute('aria-valuenow', c[0]); });
+
+  $$('[data-ruleprog]').forEach(el => { el.setAttribute('aria-valuemax', c[1]); el.setAttribute('aria-valuenow', c[0]); const pg = el.querySelector('progress'); if (pg) pg.value = Math.round(c[0] / c[1] * 100); });
   $('#rules-back').innerHTML = c[0] === c[1] ? '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button vs-mt-s" href="#join-' + g + '"><span>参加手順へ戻る</span><i>arrow_forward</i></a>' : '';
 }
 function linkBody(){
@@ -1061,7 +1060,7 @@ function linkBody(){
     ? '<div class="field border round suffix"><input type="text" id="link-code" readonly value="' + esc(L.code) + '" aria-label="連携コード"><a href="#" data-copy="' + esc(L.code) + '" aria-label="コードをコピー"><i>content_copy</i></a></div><nav class="vs-mt-s"><span class="vs-support"><i>timer</i> <span data-expiry></span></span><button class="transparent small" type="button" data-act="link-issue"><i>refresh</i><span>再発行</span></button></nav>'
     : '<button type="button" data-act="link-issue"><i>key</i><span>連携コードを発行</span></button>';
   const ark = issued
-    ? '<div class="field border round suffix"><input type="text" id="link-cmd" readonly value="' + esc(cmd) + '" aria-label="ARKのチャットに入力するコマンド"><a href="#" data-copy="' + esc(cmd) + '" aria-label="コマンドをコピー"><i>content_copy</i></a></div><p class="vs-wait vs-mt-s">' + FLAME('vs-fmark vs-flick') + 'ゲームでの入力を待っています</p><button class="transparent small vs-mt-s" type="button" data-act="link-demo"><span>デモ：入力したことにする</span></button>'
+    ? '<div class="field border round suffix"><input type="text" id="link-cmd" readonly value="' + esc(cmd) + '" aria-label="ARKのチャットに入力するコマンド"><a href="#" data-copy="' + esc(cmd) + '" aria-label="コマンドをコピー"><i>content_copy</i></a></div><p class="vs-wait vs-mt-s"><progress class="circle small indeterminate" value="50" max="100" style="--_value:50" aria-label="待機中"></progress>ゲームでの入力を待っています</p><button class="transparent small vs-mt-s" type="button" data-act="link-demo"><span>デモ：入力したことにする</span></button>'
     : '<p class="vs-support">コードを発行すると、入力するコマンドがここに出ます。</p>';
   return '<div class="vs-lf"><p class="vs-label"><i>language</i> 1. このサイトで</p>' + web + '</div>' +
     '<div class="vs-lf"><p class="vs-label"><i>sports_esports</i> 2. ARKのチャットで</p>' + ark + '</div>' +
@@ -1073,7 +1072,7 @@ function stepBody(g, id){
   if (id === 'rules') {
     if (stepDone(g, 'rules')) return '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button transparent small vs-mt-s" href="#rules"><span>ルールを見直す</span><i>arrow_forward</i></a>';
     const c = ruleCount(g);
-    return '<div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" aria-valuemax="' + c[1] + '" aria-valuenow="' + c[0] + '" data-ruleprog><span class="vs-flames" data-ruleflames>' + flamesHTML(c) + '</span><b class="vs-tnum" data-rulecount>' + c[0] + ' / ' + c[1] + '</b></div><p class="vs-support vs-mt-s">開いて読み、右のチェックを付けると火が灯ります。</p><ul class="vs-rlist vs-mt">' + ruleRows(g, 'step') + '</ul>';
+    return '<div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" aria-valuemax="' + c[1] + '" aria-valuenow="' + c[0] + '" data-ruleprog><progress value="' + Math.round(c[0] / c[1] * 100) + '" max="100" aria-hidden="true"></progress><b class="vs-tnum" data-rulecount>' + c[0] + ' / ' + c[1] + '</b></div><p class="vs-support vs-mt-s">開いて読み、右のチェックを付けてください。</p><ul class="vs-rlist vs-mt">' + ruleRows(g, 'step') + '</ul>';
   }
   if (id === 'link') return linkBody();
   return '';
@@ -1085,7 +1084,7 @@ function renderSteps(){
   $('#steps-done').hidden = cur !== -1;
   $('#stepper').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), cls = done ? 'done' : (i === cur ? 'current' : '');
-    return '<li class="' + cls + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="vs-sdot">' + (done ? '<i>check</i>' : i === cur ? FLAME('vs-flick') : '<i>' + s.icon + '</i>') + '</span><span>' + esc(s.short || s.t) + '</span></li>';
+    return '<li class="' + cls + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="vs-sdot">' + '<i>' + (done ? 'check' : s.icon) + '</i>' + '</span><span>' + esc(s.short || s.t) + '</span></li>';
   }).join('');
   $('#steps-list').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), isCur = i === cur;
@@ -1138,7 +1137,7 @@ function renderRates(){
 }
 function renderCommands(){
   const cats = [['all','すべて']].concat(CMD_GROUPS.map(g => [g.key, g.title]));
-  $('#cmd-cats').innerHTML = cats.map(c => { const on = state.cmdCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-cmdcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#cmd-cats').innerHTML = cats.map(c => { const on = state.cmdCat === c[0]; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-cmdcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.cmdQ.trim().toLowerCase();
   const groups = CMD_GROUPS.filter(g => state.cmdCat === 'all' || g.key === state.cmdCat)
     .map(g => Object.assign({}, g, { items: g.items.filter(c => !q || (c[0] + c[1] + g.title).toLowerCase().indexOf(q) >= 0) }))
@@ -1165,7 +1164,7 @@ function linkChip(l){
   return '<a class="chip" href="#' + esc(to) + '"><span>' + label + '</span><i>arrow_forward</i></a>';
 }
 function renderFaq(){
-  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' secondary-container' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.faqQ.trim().toLowerCase();
   const list = FAQ.filter(f => (state.faqCat === 'all' || f[0] === state.faqCat) && (!q || (f[1] + f[2]).toLowerCase().indexOf(q) >= 0));
   $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-body vs-muted">' + esc(f[2]) + '</p>' + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
@@ -1186,7 +1185,7 @@ function renderMypage(){
     return '<a class="vs-row wave" href="#" data-ext="Elderの依頼の詳細"><i class="' + (working ? 'ink-yellow' : 'ink-green') + '">' + (working ? 'hourglass_top' : 'check_circle') + '</i><span class="max"><b class="vs-title-m">' + esc(r.t) + '</b><span class="vs-support">' + esc(r.d) + 'に依頼</span></span><span class="vs-status ' + (working ? 'c-yellow' : 'c-green') + '">' + esc(r.s) + '</span><i class="vs-go">open_in_new</i></a>';
   }).join('');
   const linked = state.link.status === 'linked';
-  $('#mp-link').innerHTML = '<h2 class="vs-title-l vs-fh" id="mp-link-h">' + FLAME('vs-fmark') + 'ARK連携</h2><ul class="vs-list vs-mt-s"><li><span class="max vs-muted">状態</span><span class="vs-status ' + (linked ? 'c-green' : 'c-red') + '">' + (linked ? '連携済' : '未連携') + '</span></li>' +
+  $('#mp-link').innerHTML = '<h2 class="vs-title-l" id="mp-link-h">' + 'ARK連携</h2><ul class="vs-list vs-mt-s"><li><span class="max vs-muted">状態</span><span class="vs-status ' + (linked ? 'c-green' : 'c-red') + '">' + (linked ? '連携済' : '未連携') + '</span></li>' +
     (linked ? '<li><span class="max vs-muted">サバイバー</span><b>むらびと</b></li></ul><a class="button transparent vs-mt-s" href="#join-asa"><i>refresh</i><span>再連携する</span></a>'
       : '</ul><p class="vs-note vs-mt-s"><i>info</i><span>連携すると、撤去までの日数が7日から30日にのびます。</span></p><a class="button vs-mt-s" href="#join-asa"><i>key</i><span>連携コードを発行</span></a>');
 }
@@ -1303,11 +1302,11 @@ D.addEventListener('click', e => {
     if (tile) tile.classList.add('removing');
     setTimeout(() => {
       state.tiles = state.tiles.filter(k => k !== key); store.set('tiles', state.tiles); renderTiles();
-      snack(CAT[key].t + 'を外しました', { label:'元に戻す', fn:() => { if (state.tiles.indexOf(key) < 0) state.tiles.splice(Math.min(idx, state.tiles.length), 0, key); store.set('tiles', state.tiles); renderTiles(); } });
+      snack(CAT[key].t + 'をお気に入りから外しました', { label:'元に戻す', fn:() => { if (state.tiles.indexOf(key) < 0) state.tiles.splice(Math.min(idx, state.tiles.length), 0, key); store.set('tiles', state.tiles); renderTiles(); } });
     }, 220);
     return;
   }
-  if (ds.add) { state.tiles.push(ds.add); store.set('tiles', state.tiles); toggleDialog('dlg-add', false); renderTiles(); snack(CAT[ds.add].t + 'を追加しました'); return; }
+  if (ds.add) { state.tiles.push(ds.add); store.set('tiles', state.tiles); toggleDialog('dlg-add', false); renderTiles(); snack(CAT[ds.add].t + 'をお気に入りに追加しました'); return; }
   if (ds.cmdcat) { state.cmdCat = ds.cmdcat; renderCommands(); return; }
   if (ds.faqcat) { state.faqCat = ds.faqcat; renderFaq(); return; }
   const act = ds.act;
@@ -1339,7 +1338,7 @@ D.addEventListener('change', e => {
     cb.checked = t.checked;
     const row = cb.closest('.vs-rrow'); if (!row) return;
     row.classList.toggle('checked', t.checked);
-    const ic = row.querySelector('.vs-ric'); if (ic) ic.innerHTML = t.checked ? FLAME('') : '<i>' + rule.i + '</i>';
+    
     const d = row.querySelector('details'); if (t.checked && d) d.open = false;
   });
   updateRuleCounters();
