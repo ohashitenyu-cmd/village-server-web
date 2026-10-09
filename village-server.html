@@ -205,10 +205,12 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 
 /* ---- 参加手順 ---- */
 .vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
-.vs-game-img{display:block; aspect-ratio:10/3; overflow:hidden; background:var(--vs-night)}
-.vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; transition:transform var(--speed3)}
+#join-choices{max-inline-size:52rem}
+.vs-game-img{display:block; aspect-ratio:368/172; max-inline-size:100%; overflow:hidden; border-radius:0; background:var(--vs-night)}
+.vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; border-radius:0; transition:transform var(--speed3)}
 .vs-game:hover .vs-game-img img{transform:scale(1.03)}
-.vs-game-body{display:flex; flex-direction:column; gap:.25rem; padding:1.25rem}
+.vs-game-body{display:flex; flex-direction:column; flex:1; gap:.375rem; padding:1.5rem}
+.vs-game-body>.vs-game-foot{margin-block-start:auto; padding-block-start:1rem}
 .vs-game-foot{display:flex; align-items:center; gap:.75rem; margin-block-start:.75rem}
 .vs-game-foot>.vs-go{margin-inline-start:auto}
 .vs-mini{display:flex; gap:.375rem}
@@ -838,8 +840,8 @@ const CAT = {
   link:{ t:'ARK連携', d:'連携の状態', i:'link', to:'mypage', c:'purple' }
 };
 const GAMES = {
-  asa:{ name:'ARK: Survival Ascended', short:'ARK:SA', tag:'Steam・Xbox・PlayStation クロスプレイ', img:'img/game-asa.jpg' },
-  pal:{ name:'パルワールド', short:'パルワールド', tag:'ほぼ初期設定のワールド', img:'img/game-pal.jpg' }
+  asa:{ name:'ARK: Survival Ascended', short:'ARK:SA', tag:'Steam・Xbox・PlayStation クロスプレイ', img:'img/game-asa-card.jpg' },
+  pal:{ name:'パルワールド', short:'パルワールド', tag:'ほぼ初期設定のワールド', img:'img/game-pal-card.jpg' }
 };
 const STEP_DEF = {
   login:{ t:'ログイン', icon:'login' },
