@@ -264,12 +264,14 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
 .vs-hero-media{position:absolute; inset:0}
 .vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; object-position:50% 40%}
-.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(23 27 46 / .94) 0%,rgb(23 27 46 / .78) 34%,rgb(23 27 46 / .18) 68%,rgb(23 27 46 / 0) 100%)}
-.vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:36rem}
+.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(23 27 46 / .94) 0%,rgb(23 27 46 / .84) 40%,rgb(23 27 46 / .22) 72%,rgb(23 27 46 / 0) 100%)}
+.vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:40rem}
 .vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
 .vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
-.vs-hero h1{color:var(--vs-flame)}
-.vs-hero-sub{color:var(--vs-flame-2); font-size:1rem}
+.vs-hero h1{color:var(--vs-flame); font-size:clamp(2rem,1.45rem + 2.4vw,3rem); word-break:auto-phrase}
+.vs-hero-sub{color:var(--vs-flame-2); font-size:1rem; line-height:1.8; word-break:auto-phrase}
+/* 見出しと説明は、文節の切れ目でだけ折り返す（PCでは「…遊び場が／ここにある。」「…遊び場が、／いつしか…」） */
+.vs-phrase{display:inline-block}
 .vs-cta{font-weight:700; font-size:1rem; padding-inline:1.75rem 1.5rem; box-shadow:0 .5rem 1.75rem rgb(242 181 22 / .3)}
 .vs-cta:focus-visible{outline:3px solid var(--vs-flame); outline-offset:3px}
 .vs-ghost{color:var(--vs-flame) !important}
@@ -614,8 +616,8 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></div>
       <div class="vs-hero-body">
         <p class="vs-eyebrow"><svg viewBox="0 6 100 88" aria-hidden="true" data-mark="plain"></svg>ARK:SA ・ パルワールド</p>
-        <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1">[キャッチコピー（未定）]</h1>
-        <p class="vs-hero-sub">[ひとことの説明（未定）]</p>
+        <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1"><span class="vs-phrase">あなたの</span><span class="vs-phrase">新しい</span><span class="vs-phrase">遊び場が</span><span class="vs-phrase">ここにある。</span></h1>
+        <p class="vs-hero-sub"><span class="vs-phrase">好きなゲームをきっかけに入った遊び場が、</span><span class="vs-phrase">いつしか自分の居場所になっていく。</span></p>
         <nav class="wrap vs-mt">
           <a class="button extra primary-container vs-cta" href="#join"><span>はじめて参加する</span><i>arrow_forward</i></a>
           <a class="button transparent vs-ghost" href="#" data-ext="Discordの招待リンク"><span>Discordをのぞく</span><i>open_in_new</i></a>
