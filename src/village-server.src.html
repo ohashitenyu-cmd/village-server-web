@@ -7,7 +7,7 @@
 <style id="beer-css">/*__BEERCSS__*/</style>
 <style>
 /* Layout: 12列グリッド1本・全ページ左揃え。左右余白は --vs-gutter（16/24/32px）でヘッダーと本文を同じ左端に揃える。
-   見た目のルール：押せるもの＝浮いた面＋矢印（またはシェブロン）＋ホバー。押せない情報＝面を持たず、見出しと区切り線で並べる。
+   見た目のルール：押せるもの＝浮いた面＋矢印（またはシェブロン）＋ホバー。押せない情報＝影のない薄い面。区切り線は使わず、面と余白で分ける。
    色：ロゴの焚き火パレット。黄色の面には必ず濃い文字。選択・ナビは夜空の藍。書体は Noto Sans JP 1ファミリー（M3 の文字階層）。 */
 :root{
   --vs-night:#161827; --vs-flame:#f3eee3; --vs-flame-2:#cfcabe; --vs-ember:#f2bc1b;
@@ -150,7 +150,6 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
 .vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
 .vs-add-ic{inline-size:2.5rem; block-size:2.5rem; border-radius:.875rem; display:grid; place-items:center; background:var(--primary-container); color:var(--on-primary-container)}
-.vs-favs{padding:var(--vs-gutter); border-radius:1.75rem; background-color:var(--surface-container)}
 .vs-tiles.editing .vs-tile:not(.vs-add){box-shadow:inset 0 0 0 2px var(--outline-variant); background-color:var(--surface)}
 .vs-remove{position:absolute !important; inset:-.5rem -.5rem auto auto; z-index:2; box-shadow:var(--vs-e1)}
 @media (prefers-reduced-motion:no-preference){
@@ -161,23 +160,22 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 @keyframes vs-jiggle{from{transform:rotate(-1.3deg)}to{transform:rotate(1.3deg)}}
 @keyframes vs-pop{to{transform:scale(.6); opacity:0}}
 
-/* ---- 押せない情報：面を持たない ---- */
-.vs-figs>.vs-fig:not(:first-child){border-inline-start:1px solid var(--outline-variant); padding-inline-start:1rem}
+/* ---- 面で分ける：区画＝大きい面、押せない情報＝小さい面（どちらも影なし） ---- */
+.vs-panel{padding:var(--vs-gutter); border-radius:1.75rem; background-color:var(--surface-container)}
+.vs-block{padding:1.25rem; border-radius:1.25rem; background-color:var(--surface-container)}
 .vs-fig{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0}
 .vs-fig>i{color:var(--vs-yellow-ink); margin-block-end:.25rem}
 .vs-fig b{font-size:clamp(1.5rem,1.25rem + 1vw,2.25rem); font-weight:800; line-height:1.15; font-variant-numeric:tabular-nums}
 .vs-fig b small{font-size:.875rem; font-weight:500; margin-inline-start:.125rem}
 .vs-fig>span{font-size:.8125rem; line-height:1.45; color:var(--on-surface-variant)}
-.vs-ratefig{border-block-start:3px solid var(--vs-c,var(--outline-variant)); padding-block-start:.75rem}
-.vs-ratefig b{font-size:1.75rem}
-.vs-block{border-block-start:1px solid var(--outline-variant); padding-block-start:1.25rem}
+.vs-ratefig{padding:1rem 1.25rem}
+.vs-ratefig b{font-size:1.75rem; color:var(--vs-ic,var(--on-surface))}
 .vs-info>i{--_size:1.75rem; display:flex; margin-block-end:.5rem}
-.vs-list{list-style:none; margin:0; padding:0}
-.vs-list>li{display:flex; align-items:center; gap:1rem; min-block-size:3.5rem; padding-block:.5rem; border-block-end:1px solid var(--outline-variant); box-sizing:border-box}
-.vs-list>li:last-child{border-block-end:none}
+.vs-list{list-style:none; margin:0; padding:.5rem 1.25rem; border-radius:1.25rem; background-color:var(--surface-container)}
+.vs-list>li{display:flex; align-items:center; gap:1rem; min-block-size:3.5rem; padding-block:.5rem; box-sizing:border-box}
 .vs-list>li>.max{min-inline-size:0}
 .vs-cols{display:grid; grid-template-columns:minmax(0,1fr); column-gap:1.5rem}
-@media (min-width:601px){ .vs-cols{grid-template-columns:repeat(2,minmax(0,1fr))} .vs-cols>li:nth-last-child(2):nth-child(odd){border-block-end:none} }
+@media (min-width:601px){ .vs-cols{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .vs-n{flex:none; inline-size:1.5rem; font-weight:800; color:var(--vs-blue-ink); font-variant-numeric:tabular-nums}
 .vs-status{display:inline-flex; align-items:center; gap:.375rem; font-size:.8125rem; font-weight:700; white-space:nowrap; color:var(--vs-sc,var(--on-surface-variant))}
 .vs-status::before{content:""; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:currentColor}
@@ -255,7 +253,8 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-sdot>i{--_size:1.25rem}
 .done>.vs-sdot{background:var(--vs-green); color:var(--vs-night)}
 .current>.vs-sdot{background:var(--primary-container); color:var(--on-primary-container); box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--primary-container)}
-.vs-stepsec{border-block-start:1px solid var(--outline-variant); padding-block:1.5rem; scroll-margin-top:6rem}
+.vs-stepsec{scroll-margin-top:6rem}
+.vs-stepsec+.vs-stepsec{margin-block-start:.75rem}
 .vs-steplabel{display:flex; align-items:center; gap:.25rem; font-size:.75rem; font-weight:700; letter-spacing:.06em; color:var(--on-surface-variant)}
 .vs-steplabel>i{--_size:1rem}
 .vs-stepsec.current .vs-steplabel{color:var(--vs-yellow-ink)}
@@ -270,11 +269,12 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 @media (prefers-reduced-motion:no-preference){ .vs-spin{animation:vs-rot 1s linear infinite} }
 @keyframes vs-rot{to{transform:rotate(1turn)}}
 
-/* ---- 折りたたみ行（ルール・困った時）：押せる＝シェブロン＋ホバー ---- */
-.vs-rlist{list-style:none; margin:0; padding:0; border-block-start:1px solid var(--outline-variant)}
-.vs-rrow{display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; border-block-end:1px solid var(--outline-variant); scroll-margin-top:6rem}
+/* ---- 折りたたみ行（ルール・困った時）：押せる＝1件ずつ浮いた面＋シェブロン＋ホバー ---- */
+.vs-rlist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.5rem}
+.vs-rrow{display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; border-radius:1.25rem; background-color:var(--vs-tile-bg); box-shadow:var(--vs-e1); scroll-margin-top:6rem}
 .vs-rrow.nocheck{grid-template-columns:minmax(0,1fr)}
-.vs-rrow>details>summary{display:flex; align-items:center; gap:.875rem; min-block-size:3.75rem; padding:.5rem .5rem .5rem 0; border-radius:.75rem; transition:background-color var(--speed2)}
+.vs-rrow>details>summary{display:flex; align-items:center; gap:.875rem; min-block-size:3.75rem; padding:.5rem .5rem .5rem 1rem; border-radius:1.25rem; transition:background-color var(--speed2)}
+.vs-rrow.nocheck>details>summary{padding-inline-end:1rem}
 .vs-rrow>details>summary:hover{background-color:var(--vs-hover)}
 .vs-rrow>details>summary:focus-visible{outline:2px solid var(--primary); outline-offset:-2px}
 .vs-rtitle{flex:1; min-inline-size:0; display:flex; flex-wrap:wrap; align-items:baseline; gap:.125rem .5rem}
@@ -283,9 +283,9 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-ric>i{--_size:1.25rem}
 .vs-rrow.checked .vs-ric{background:var(--vs-green); color:var(--vs-night)}
 .vs-rrow.checked .vs-rtitle b{color:var(--on-surface-variant)}
-.vs-rcheck{display:flex; align-items:center; min-block-size:3.75rem; padding-inline:.5rem 0}
-.vs-rbody{padding:0 0 1rem calc(2.25rem + .875rem)}
-@media (max-width:600px){ .vs-rbody{padding-inline-start:0} }
+.vs-rcheck{display:flex; align-items:center; min-block-size:3.75rem; padding-inline:.5rem 1rem}
+.vs-rbody{padding:0 1rem 1rem calc(1rem + 2.25rem + .875rem)}
+@media (max-width:600px){ .vs-rbody{padding-inline-start:1rem} }
 .vs-chev{transition:transform var(--speed2); color:var(--on-surface-variant)}
 details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ex{display:flex; gap:.5rem; align-items:flex-start; font-size:.875rem; line-height:1.6}
@@ -325,7 +325,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-profile{display:flex; align-items:center; gap:1rem}
 .vs-profile>.max{display:flex; flex-direction:column; min-inline-size:0}
 .vs-profile-ic{--_size:3rem; color:var(--on-surface-variant)}
-.vs-setting{display:flex; align-items:center; gap:1rem; padding-block:1rem; border-block:1px solid var(--outline-variant)}
+.vs-setting{display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; border-radius:1.25rem; background-color:var(--surface-container)}
 .vs-setting>.max{display:flex; flex-direction:column; min-inline-size:0}
 .vs-setting-ic{color:var(--vs-yellow-ink)}
 .vs-setting.off .vs-setting-ic{color:var(--outline)}
@@ -342,9 +342,12 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-chiprow{gap:.5rem}
 .vs-table-wrap{overflow-x:auto}
 .vs-ranks{min-inline-size:52rem; font-size:.875rem}
-.vs-ranks th,.vs-ranks td{padding:.875rem .5rem; text-align:center; border-block-end:1px solid var(--outline-variant)}
-.vs-ranks thead th{border-block-end:2px solid var(--outline); font-weight:500; color:var(--on-surface-variant); vertical-align:bottom}
-.vs-ranks tr>*:first-child{position:sticky; inset-inline-start:0; z-index:1; text-align:start; padding-inline:0 1rem; background:var(--surface); font-weight:500; min-inline-size:12rem}
+.vs-ranks th,.vs-ranks td{padding:.875rem .5rem; text-align:center}
+.vs-ranks thead th{font-weight:500; color:var(--on-surface-variant); vertical-align:bottom}
+.vs-ranks tr>*:first-child{position:sticky; inset-inline-start:0; z-index:1; text-align:start; padding-inline:1rem; background:var(--surface); font-weight:500; min-inline-size:12rem}
+.vs-ranks tbody tr:nth-child(odd)>*{background-color:var(--surface-container)}
+.vs-ranks tbody tr>:first-child{border-start-start-radius:.75rem; border-end-start-radius:.75rem}
+.vs-ranks tbody tr>:last-child{border-start-end-radius:.75rem; border-end-end-radius:.75rem}
 .vs-ranks thead b{display:block; font-size:.9375rem; font-weight:800; color:var(--on-surface)}
 .vs-ranks .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary)}
 .vs-ranks thead .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary), inset 0 2px 0 var(--primary)}
@@ -353,9 +356,8 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ranks .yes{color:var(--vs-green-ink)}
 .vs-ranks .no{color:var(--outline)}
 .vs-ranks tfoot td{border:none}
-.vs-maps{list-style:none; margin:0; padding:0}
-.vs-maps li{display:grid; grid-template-columns:6.5rem minmax(0,1fr) 4.5rem; align-items:center; gap:1rem; padding:.75rem 0; font-size:.875rem; border-block-end:1px solid var(--outline-variant)}
-.vs-maps li:last-child{border-block-end:none}
+.vs-maps{list-style:none; margin:0; padding:.5rem 1.25rem; border-radius:1.25rem; background-color:var(--surface-container)}
+.vs-maps li{display:grid; grid-template-columns:6.5rem minmax(0,1fr) 4.5rem; align-items:center; gap:1rem; padding:.75rem 0; font-size:.875rem}
 .vs-maps li>span{text-align:end; font-variant-numeric:tabular-nums}
 .vs-maps .warn{color:var(--vs-red-ink); font-weight:700}
 .vs-swatch{inline-size:3rem !important; block-size:3rem !important; padding:0 !important; border-radius:50% !important; background:var(--vs-tile-bg) !important; box-shadow:var(--vs-e1)}
@@ -378,7 +380,7 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 .vs-msg.me{align-self:flex-end; background:var(--primary); color:var(--on-primary); border-end-end-radius:.25rem}
 .vs-msg-acts{white-space:normal; gap:.5rem; margin-block-start:.625rem}
 .vs-msg-acts .chip{background:var(--surface-container-lowest)}
-.vs-chat-form{padding:.75rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)); gap:.5rem; border-block-start:1px solid var(--outline-variant)}
+.vs-chat-form{padding:.75rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)); gap:.5rem; background-color:var(--surface-container)}
 .vs-chat-form .field{flex:1; margin:0}
 
 /* ---- フッター ---- */
@@ -491,7 +493,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s4 vs-fig" role="listitem"><i>bolt</i><b>99<small>%</small></b><span>直近12か月の稼働率</span></div>
       <div class="s4 vs-fig" role="listitem"><i>groups</i><b>2,530<small>人</small></b><span>Discord参加中</span></div>
     </div>
-    <section class="vs-section vs-favs" aria-labelledby="tiles-title">
+    <section class="vs-section vs-panel" aria-labelledby="tiles-title">
       <div class="vs-sechead">
         <h2 id="tiles-title" class="vs-title-l">お気に入り</h2>
         <button class="circle transparent" type="button" id="tiles-edit" aria-pressed="false" aria-label="お気に入りを編集"><i>edit</i></button>
@@ -1153,7 +1155,7 @@ function renderSteps(){
   $('#steps-list').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), isCur = i === cur;
     const label = 'STEP ' + (i + 1) + (done ? '<i>check</i>完了' : isCur ? '・次はここ' : '');
-    return '<section class="vs-stepsec no-margin' + (done ? ' done' : '') + (isCur ? ' current' : '') + '" id="step-' + id + '" aria-labelledby="step-h-' + id + '"><p class="vs-steplabel">' + label + '</p><h2 class="vs-title-l" id="step-h-' + id + '">' + esc(s.t) + '</h2><div class="vs-mt-s">' + stepBody(g, id) + '</div></section>';
+    return '<section class="vs-stepsec vs-panel no-margin' + (done ? ' done' : '') + (isCur ? ' current' : '') + '" id="step-' + id + '" aria-labelledby="step-h-' + id + '"><p class="vs-steplabel">' + label + '</p><h2 class="vs-title-l" id="step-h-' + id + '">' + esc(s.t) + '</h2><div class="vs-mt-s">' + stepBody(g, id) + '</div></section>';
   }).join('');
   tickExpiry();
 }
@@ -1189,12 +1191,12 @@ function afterStepChange(prevCur){
 /* ---------- ルール ---------- */
 function renderRules(){ $('#rules-list').innerHTML = ruleRows(state.game, 'page'); updateRuleCounters(); }
 
-/* ---------- 倍率・コマンド・API（押せない情報：面なし） ---------- */
+/* ---------- 倍率・コマンド・API（押せない情報：影のない薄い面） ---------- */
 function renderRates(){
   const el = $('#rates-body');
   if (state.game === 'pal') { el.innerHTML = '<div class="grid"><div class="s12 l8 vs-block vs-info"><i class="ink-blue">pets</i><h2 class="vs-title-m">ほぼ初期設定のワールド</h2><p class="vs-support">[変更している設定があれば、ここに入ります]</p></div></div>'; return; }
   el.innerHTML = RATES.map((gr, i) => '<section' + (i ? ' class="vs-section"' : '') + '><div class="vs-sechead"><i class="ink-' + gr.c + '">' + gr.icon + '</i><h2 class="vs-title-l">' + esc(gr.title) + '</h2></div><div class="grid vs-mt-s">' +
-    gr.rows.map(r => '<div class="s6 m4 l2 vs-fig vs-ratefig" style="--vs-c:var(--vs-' + gr.c + ')"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
+    gr.rows.map(r => '<div class="s6 m4 l2 vs-fig vs-block vs-ratefig" style="--vs-ic:var(--vs-' + gr.c + '-ink)"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
     '<div class="grid vs-section"><section class="s12 l8"><div class="vs-sechead"><i class="ink-blue">today</i><h2 class="vs-title-l">毎日のスケジュール</h2></div><ul class="vs-list vs-mt-s">' +
     SCHEDULE.map(t => '<li><span class="vs-time">' + esc(t[0]) + '</span><span class="max"><b>' + esc(t[1]) + '</b><span class="vs-support" style="display:block">' + esc(t[2]) + '</span></span></li>').join('') + '</ul></section>' +
     '<section class="s12 l4"><div class="vs-sechead"><i class="ink-red">schedule</i><h2 class="vs-title-l">撤去までの日数</h2></div><p class="vs-big vs-mt-s">7〜60<small>日</small></p><a class="button transparent vs-mt-s" href="#ranks"><span>ランクごとの日数</span><i>arrow_forward</i></a></section></div>';
