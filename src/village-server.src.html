@@ -434,11 +434,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-rk-head{display:flex; flex-direction:column; align-items:center; gap:.25rem}
 .vs-rk-head>b{font-size:.875rem; font-weight:800; color:var(--on-surface)}
 .vs-rk-head>small{font-size:.75rem; color:var(--on-surface-variant); font-variant-numeric:tabular-nums}
-.vs-rk-ic{display:block; inline-size:2.5rem; block-size:2.5rem; border-radius:.75rem}
-.vs-rk-ic>svg{display:block; inline-size:100%; block-size:100%}
-/* 比較表の見出しも、ランクは素材のふちの紋章と、素材の色の札 */
-.vs-rk-head[class*="rk-"]>.vs-rk-ic{padding:.1875rem; box-sizing:border-box; background:linear-gradient(315deg,var(--rk-hi),var(--rk-c) 50%,var(--rk-lo))}
-.vs-rk-head[class*="rk-"]>.vs-rk-ic>svg{border-radius:.5625rem}
+/* 比較表の見出しのランク名は、素材の色の札 */
 .vs-rk-head[class*="rk-"]>b{padding:.125rem .5rem; border-radius:.375rem; font-size:.75rem; letter-spacing:.06em; color:var(--rk-ink); background:linear-gradient(112deg,transparent 30%,rgb(255 255 255 / .55) 45%,transparent 60%),linear-gradient(135deg,var(--rk-hi),var(--rk-c) 46%,var(--rk-lo))}
 .vs-mine-label{font-size:.6875rem; font-weight:700; color:var(--vs-green-ink)}
 .vs-ranks tbody tr:nth-child(odd)>*{background-color:var(--surface-container)}
@@ -453,7 +449,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-cmp-bar{display:block; inline-size:1.75rem; block-size:max(.25rem,calc(var(--h) * 2.5rem)); margin:.25rem auto 0; border-radius:.5rem .5rem .25rem .25rem; background-color:var(--vs-green)}
 .vs-ranks tfoot td{padding-block-start:1rem}
 .vs-sr{position:absolute !important; inline-size:1px; block-size:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
-/* ランクの申し込み：サブスクの料金カード。ランクは「広場を囲んで建つ家の数」（ロゴの5軒）で表す */
+/* ランクの申し込み：サブスクの料金カード。ランクは素材の色（銅・銀・金・ダイヤ）で表す */
 .vs-bill{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem}
 .vs-bill-save{display:inline-flex; align-items:center; gap:.25rem; font-size:.8125rem; font-weight:700; color:var(--vs-green-ink)}
 .vs-bill-save>i{--_size:1.125rem}
@@ -464,13 +460,10 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .rk-diamond{--rk-hi:#ffffff; --rk-c:#cbeefa; --rk-lo:#92d0ea; --rk-deep:#3fa9d6; --rk-ink:#0a3244}
 .vs-plans{list-style:none; padding:0}
 .vs-plan{display:flex; flex-direction:column; border-radius:1.5rem; overflow:hidden; background-color:color-mix(in srgb,var(--rk-c,transparent) 16%,var(--surface-container))}
-.vs-plan-band{position:relative; display:flex; align-items:flex-end; justify-content:space-between; gap:.75rem; min-block-size:9rem; padding:1.25rem 1.5rem; box-sizing:border-box; border-radius:0; color:var(--rk-ink); container-type:inline-size;
+.vs-plan-band{position:relative; display:flex; align-items:flex-end; min-block-size:9rem; padding:1.25rem 1.5rem; box-sizing:border-box; border-radius:0; color:var(--rk-ink);
   background:linear-gradient(112deg,transparent 30%,rgb(255 255 255 / .55) 42%,transparent 54%),linear-gradient(135deg,var(--rk-hi),var(--rk-c) 46%,var(--rk-lo))}
 .vs-plan-band>*{margin:0 !important}
-.vs-plan-name{font-size:min(1.5rem,11cqi); font-weight:900; letter-spacing:.06em; line-height:1.2; color:var(--rk-ink)}
-/* 紋章：素材のふちで囲んだ、ロゴのタイル（ランクの数だけ家が建つ）。カードが細いときは小さくして、ランク名に重ねない */
-.vs-plan-medal{order:2; flex:none; inline-size:min(var(--rk-size,5rem),var(--rk-f,30) * 1cqi); block-size:min(var(--rk-size,5rem),var(--rk-f,30) * 1cqi); padding:.25rem; box-sizing:border-box; border-radius:28%; background:linear-gradient(315deg,var(--rk-hi),var(--rk-c) 50%,var(--rk-lo))}
-.vs-plan-medal>svg{display:block; inline-size:100%; block-size:100%; border-radius:24%}
+.vs-plan-name{font-size:1.5rem; font-weight:900; letter-spacing:.06em; line-height:1.2; color:var(--rk-ink)}
 .vs-plan-badge{position:absolute; inset:1rem auto auto 1.5rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem; border-radius:1rem; font-size:.75rem; font-weight:700; background-color:var(--vs-night); color:var(--vs-flame)}
 .vs-plan-badge>i{--_size:1rem}
 .vs-plan-body{display:flex; flex-direction:column; flex:1; gap:1rem; padding:1.5rem}
@@ -494,7 +487,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-myrank-facts small{font-size:.75rem; font-weight:500; color:var(--on-surface-variant)}
 .vs-myrank .vs-plan-foot>.button{margin:0}
 @media (min-width:601px){ .vs-myrank{flex-direction:row} .vs-myrank>.vs-plan-band{flex:none; inline-size:min(18rem,42%)} }
-/* ランクが上がるほど、紋章が大きくなり、座る村人ときらめきが増える。DIAMONDはカットの面と虹色のきらめき */
+/* ランクが上がるほど、きらめきが増える。DIAMONDはカットの面と虹色のきらめき */
 .vs-plan-band{overflow:hidden; isolation:isolate}
 .vs-plan-cut,.vs-plan-glints{position:absolute; inset:0; z-index:-1; inline-size:100%; block-size:100%; border-radius:0; pointer-events:none}
 .vs-plan-glints>span{position:absolute; inline-size:var(--s); block-size:var(--s); border-radius:0; background:var(--c,#fff); clip-path:polygon(50% 0,59% 41%,100% 50%,59% 59%,50% 100%,41% 59%,0 50%,41% 41%); opacity:.85}
@@ -555,9 +548,7 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 .vs-chat-form .field{flex:1; margin:0}
 
 /* ---- フッター ---- */
-/* フッターの上端：ロゴの家が、5色の屋根で並ぶ家並み（絵は JS の skyline） */
-footer.vs-footer{display:block; margin-block-start:5rem; padding:0 0 1rem; min-block-size:0}
-.vs-skyline{display:block; inline-size:100%; block-size:1.3rem; margin-block-end:2rem}
+footer.vs-footer{display:block; margin-block-start:5rem; padding:2.5rem 0 1rem; border-block-start:4px solid; border-image:linear-gradient(90deg,var(--vs-red) 0 20%,var(--vs-yellow) 20% 40%,var(--vs-green) 40% 60%,var(--vs-blue) 60% 80%,var(--vs-purple) 80% 100%) 1; min-block-size:0}
 .vs-footer h2{font-size:.875rem; font-weight:700; margin:0 0 .5rem}
 .vs-footer ul{list-style:none; margin:0; padding:0}
 .vs-footer li a{display:flex; align-items:center; justify-content:flex-start; gap:.25rem; min-block-size:2.25rem; font-size:.875rem; color:var(--on-surface-variant)}
@@ -932,7 +923,7 @@ body:not(.vs-ready) .page.active{animation:none}
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">ランク比較・購入</h1></nav>
     <section class="vs-mt" aria-labelledby="plans-title">
       <h2 class="vs-title-l" id="plans-title">ランクを選ぶ</h2>
-      <p class="vs-support">ランクが上がるほど、広場を囲む家が建ち並んでいきます。</p>
+      <p class="vs-support">ランクが上がるほど、使える特典が増えていきます。</p>
       <div class="vs-bill vs-mt" id="bill" role="group" aria-label="支払いのしかた"></div>
       <ul class="grid vs-plans vs-mt" id="rank-plans"></ul>
     </section>
@@ -1046,7 +1037,6 @@ body:not(.vs-ready) .page.active{animation:none}
 
   <!-- ===================== フッター ===================== -->
   <footer class="vs-footer">
-    <svg class="vs-skyline" id="skyline" aria-hidden="true"></svg>
     <div class="grid">
       <div class="s12 l4">
         <a href="#home" class="row vs-brand" aria-label="Village Server トップへ">
@@ -1554,7 +1544,7 @@ function renderRanks(){
   const mine = state.signedIn ? MY_PLAN.rank : '', bill = state.billing;
   $('#bill').innerHTML = [['month','月払い'],['year','年払い']].map(b => { const on = bill === b[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-bill="' + b[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + b[1] + '</span></button>'; }).join('') +
     '<span class="vs-bill-save"><i>savings</i>年払いは' + (12 - YEAR_MONTHS) + 'か月分おトク</span>';
-  const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<span class="vs-rk-ic">' + villageIcon(i, '', true) + '</span><b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
+  const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
   const rows = RANK_ROWS.map(r => {
     const max = r[0] === '撤去までの日数' ? 60 : r[0].indexOf('ポイント') === 0 ? 20 : 0;
     return '<tr><th scope="row">' + esc(r[0]) + (RANK_SUB[r[0]] ? '<small>' + esc(RANK_SUB[r[0]]) + '</small>' : '') + '</th>' + r[1].map(v => {
@@ -1605,19 +1595,6 @@ function markArt(built){
 }
 /* アプリアイコン：ロゴの地の藍に、ロゴを少し小さく置く（ファビコンと同じ組み方） */
 const markTile = built => '<rect width="100" height="100" rx="22" fill="#171B2E"></rect><g transform="translate(7 7) scale(.86)">' + markArt(built) + '</g>';
-/* ランクのしるし：ランクが上がるほど、広場を囲んで建つ家が増える（未連携0軒〜DIAMOND5軒） */
-const HOUSE_ORDER = [[],['p'],['y','r'],['p','y','r'],['g','b','y','r'],['p','g','b','y','r']];
-const villageIcon = (n, cls, tile) => '<svg' + (cls ? ' class="' + cls + '"' : '') + ' viewBox="0 0 100 100" aria-hidden="true">' + (tile ? markTile(HOUSE_ORDER[n]) : markArt(HOUSE_ORDER[n])) + '</svg>';
-/* フッターの家並み：ロゴの家1軒を、5色の屋根で横に並べる。幅に入るだけ並べ、端で家が切れないようにする（1軒60・高さ34の単位を0.6倍で描く） */
-const HOUSE1 = ['0,24.46 13.67,32.35 13.67,19.73 0,11.83','27.34,24.46 13.67,32.35 13.67,19.73 20.5,7.89 27.34,11.83','0,11.83 13.67,19.73 20.5,7.89 6.84,0'];
-const SKY_ROOFS = ['#EE4360','#F2B516','#3DC48F','#0B9ED9','#A259F0'];
-function drawSkyline(){
-  const el = $('#skyline'), w = el.clientWidth / .6;
-  if (!w) return;
-  const n = Math.max(1, Math.floor((w - 28) / 60) + 1);
-  el.setAttribute('viewBox', '0 0 ' + w.toFixed(1) + ' 34');
-  el.innerHTML = Array.from({ length:n }, (_, i) => '<g transform="translate(' + (i * 60) + ' 1)">' + mkPoly(HOUSE1[0], 'var(--vs-wall-lit)') + mkPoly(HOUSE1[1], 'var(--vs-wall-shade)') + mkPoly(HOUSE1[2], SKY_ROOFS[i % 5]) + '</g>').join('');
-}
 function planPerks(i){
   const out = ['<li class="all"><i>check</i><span>' + esc(RANK_COLS[i - 1][0]) + 'の特典すべて</span></li>'];
   RANK_ROWS.forEach(r => {
@@ -1639,10 +1616,9 @@ function planShine(tier){
 }
 const rankCls = name => RANK_PRICE[name] ? ' rk-' + name.toLowerCase() : '';
 /* ランクの帯：素材の色・きらめき・紋章・ランク名・段階（料金カードとマイページで使う） */
-const planVars = i => '--rk-size:' + (4 + (i - 1) * .5).toFixed(2) + 'rem; --rk-f:' + (24.4 + (i - 1) * 2.4).toFixed(1);
 function planBand(i, badge){
   const tier = i - 1;
-  return '<div class="vs-plan-band">' + planShine(tier) + (badge || '') + '<span class="vs-plan-medal">' + villageIcon(i, '', true) + '</span>' +
+  return '<div class="vs-plan-band">' + planShine(tier) + (badge || '') +
     '<div class="vs-plan-id"><h3 class="vs-plan-name">' + esc(RANK_COLS[i][0]) + '</h3><span class="vs-plan-tier" role="img" aria-label="4段階のうち' + tier + '">' + [1,2,3,4].map(k => '<span' + (k <= tier ? ' class="on"' : '') + '></span>').join('') + '</span></div></div>';
 }
 function planMeter(i){
@@ -1657,7 +1633,7 @@ function renderPlans(mine, bill){
     const badge = isMine ? '<span class="vs-plan-badge mine"><i>check</i>いまのランク</span>' : (c[0] === RANK_PICK && !mine ? '<span class="vs-plan-badge">おすすめ</span>' : '');
     const save = '<small>' + esc(p.alt) + ' <b>' + off + 'か月分おトク</b></small>';
     const cta = isMine ? '<p class="vs-ok"><i>check_circle</i>利用中のランクです</p>' : '<button type="button" data-bot="rank:' + c[0] + ':' + bill + '"><span>' + c[0] + 'を申し込む</span><i>arrow_forward</i></button>';
-    return '<li class="s12 m6 l3 vs-plan' + rankCls(c[0]) + '" style="' + planVars(i) + '">' + planBand(i, badge) +
+    return '<li class="s12 m6 l3 vs-plan' + rankCls(c[0]) + '">' + planBand(i, badge) +
       '<div class="vs-plan-body"><div class="vs-plan-price"><b>' + fmt(p.n) + '</b><span>' + p.unit + '</span>' + save + '</div>' +
       planMeter(i) + '<span class="vs-support">' + esc(RANK_FOR[c[0]]) + '</span><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
   }).join('');
@@ -1668,7 +1644,7 @@ function renderMyRank(){
   const val = name => RANK_ROWS.find(r => r[0] === name)[1][i];
   const fact = (k, v) => '<li><span>' + k + '</span><b>' + v + '</b></li>';
   $('#mp-rank').innerHTML = '<h2 class="vs-title-l" id="mp-rank-h">いまのランク</h2>' +
-    '<div class="vs-plan vs-myrank vs-mt-s' + rankCls(P.rank) + '" style="' + planVars(i) + '">' + planBand(i) +
+    '<div class="vs-plan vs-myrank vs-mt-s' + rankCls(P.rank) + '">' + planBand(i) +
     '<div class="vs-plan-body"><ul class="vs-myrank-facts">' +
       fact(P.bill === 'year' ? '年払い' : '月払い', fmt(p.n) + '<small>' + p.unit + '</small>') + fact('次の更新', Number(dt[1]) + '月' + Number(dt[2]) + '日') +
       fact('撤去まで', esc(val('撤去までの日数'))) + fact('ポイント', esc(val('ポイント（5分ごと）')) + '<small>（5分ごと）</small>') +
@@ -2001,7 +1977,6 @@ addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY 
 /* ---------- 起動 ---------- */
 setMode(mode());
 $$('svg[data-mark]').forEach(el => { el.innerHTML = el.dataset.mark === 'tile' ? markTile() : markArt(); });
-drawSkyline(); if (window.ResizeObserver) new ResizeObserver(drawSkyline).observe($('#skyline'));
 renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
