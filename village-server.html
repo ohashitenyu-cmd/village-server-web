@@ -517,6 +517,9 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-mugi-say{position:absolute; inset:1rem calc(100% - 1rem) auto auto; padding:.375rem .875rem; border-radius:1rem 1rem .25rem 1rem; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); font-size:.875rem; font-weight:700; line-height:1.5; white-space:nowrap; transition:box-shadow var(--speed2)}
 .vs-mugi::before,.vs-mugi::after{content:none !important; display:none !important}
 .vs-mugi[aria-expanded="true"] .vs-mugi-say{display:none}
+/* 隠し要素の飛びつき：身をかがめて、カーソルの方へ跳んで、戻る（--px / --py / --rot は JS で指定） */
+.vs-mugi mura-neko.vs-pounce{transform-origin:50% 100%; animation:vs-pounce .95s cubic-bezier(.3,.7,.35,1)}
+@keyframes vs-pounce{0%{transform:none}22%{transform:translateY(.25rem) scale(1.06,.9)}55%{transform:translate(var(--px),var(--py)) rotate(var(--rot)) scale(.96,1.06)}80%{transform:translate(calc(var(--px) * .25),0) scale(1.05,.94)}100%{transform:none}}
 @media (max-width:600px){
   .vs-mugi{inset-block-end:calc(4.75rem + env(safe-area-inset-bottom,0px))}
   .vs-mugi mura-neko{--neko-size:5.5rem}
@@ -2712,6 +2715,43 @@ if (mugiFab && mugiFab.shadowRoot) {
   fab.addEventListener('pointerleave', () => tilt(false));
   fab.addEventListener('focus', () => tilt(fab.matches(':focus-visible')));
   fab.addEventListener('blur', () => tilt(false));
+}
+/* 隠し要素：ムギの頭の上でカーソルを左右にゆらすと、気になって目を丸くし（2往復）、飛びつく（5往復）。
+   マウスのときだけ・チャットを開いていないときだけ。飛びついたあと5秒は休む */
+if (mugiFab && mugiFab.setMood) {
+  const fab = $('#fab'), say = $('.vs-mugi-say', fab), still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastX = null, dir = 0, run = 0, flips = [], busy = false, rest = 0;
+  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 160 && e.clientX < r.right + 20 && e.clientY > r.top - 170 && e.clientY < r.top + r.height * .25; };
+  const pounce = e => {
+    busy = true; flips = [];
+    const r = mugiFab.getBoundingClientRect();
+    const px = Math.max(-140, Math.min(20, e.clientX - (r.left + r.width / 2))), py = Math.max(-150, Math.min(-40, e.clientY - (r.top + r.height * .35)));
+    mugiFab.style.setProperty('--px', Math.round(px) + 'px'); mugiFab.style.setProperty('--py', Math.round(py) + 'px'); mugiFab.style.setProperty('--rot', (px < 0 ? -12 : 12) + 'deg');
+    mugiFab.setMood('excited', { duration:1200 });
+    const land = () => {
+      mugiFab.classList.remove('vs-pounce');
+      mugiFab.setMood('happy', { duration:2200 });
+      say.textContent = 'にゃっ！'; setTimeout(() => { say.textContent = 'ムギに相談'; }, 1800);
+      busy = false; rest = Date.now() + 5000;
+    };
+    if (still()) { land(); return; }
+    mugiFab.classList.remove('vs-pounce'); void mugiFab.offsetWidth; mugiFab.classList.add('vs-pounce');
+    setTimeout(land, 950);
+  };
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse' || busy || chatDlg.open || Date.now() < rest) return;
+    if (!above(e)) { lastX = null; flips = []; return; }
+    if (lastX === null) { lastX = e.clientX; return; }
+    const dx = e.clientX - lastX;
+    if (Math.abs(dx) < 2) return;
+    const d = dx > 0 ? 1 : -1;
+    if (d === dir) run += Math.abs(dx);
+    else { if (dir && run > 14) flips.push(Date.now()); dir = d; run = Math.abs(dx); }
+    lastX = e.clientX;
+    const now = Date.now(); flips = flips.filter(t => now - t < 1600);
+    if (flips.length >= 5) pounce(e);
+    else if (flips.length >= 2 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
+  }, { passive:true });
 }
 function openChat(){
   if (!chat.log.length) resetChat();
