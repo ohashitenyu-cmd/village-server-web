@@ -227,7 +227,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-perk-ok{flex:none; inline-size:1.5rem; block-size:1.5rem; border-radius:50%; display:grid; place-items:center; background:var(--vs-green); color:var(--vs-night)}
 .vs-perk-ok>i{--_size:1rem}
 
-/* ---- TOP：お知らせ（公式Discordの #お知らせ の新しい3件）。お気に入りと同じ区画の面に、見出しだけの折りたたみ行 ---- */
+/* ---- TOP：お知らせ（公式Discordの #お知らせ の最新1件。何件も並べるとTOPの情報が多すぎるため）。お気に入りと同じ区画の面に、見出しだけの折りたたみ行 ---- */
 .vs-sechead+.vs-support{margin-block-start:.25rem !important}
 .vs-news-t{flex-direction:column; align-items:flex-start !important; gap:.125rem !important}
 .vs-news-meta{display:inline-flex; align-items:center; gap:.5rem; font-size:.75rem; font-weight:700}
@@ -646,7 +646,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="vs-sechead">
         <h2 id="news-title" class="vs-title-l">お知らせ</h2>
       </div>
-      <p class="vs-support">公式Discordの #お知らせ から、新しい3件を表示しています（プロトタイプでは例）。</p>
+      <p class="vs-support">公式Discordの #お知らせ から、最新の1件を表示しています（プロトタイプでは例）。</p>
       <ul class="vs-rlist vs-mt-s" id="news"></ul>
     </section>
     <section class="vs-section vs-panel" aria-labelledby="tiles-title">
@@ -2740,7 +2740,7 @@ function renderMyRank(){
     '</ul>' + planMeter(i) + '<div class="vs-plan-foot"><a class="button border" href="#ranks"><span>ランクを比較・変更する</span><i>arrow_forward</i></a></div></div></div>';
 }
 
-/* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から新しい3件を取り込む想定 ---------- */
+/* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から最新の1件を取り込む想定 ---------- */
 const NEWS = [
   { d:'2026-10-08', c:'maint', t:'全マップのメンテナンスのお知らせ', x:'10月12日 5:00〜7:00 に、アップデートを適用するため全マップを停止します。終わりしだい、ここでお知らせします。' },
   { d:'2026-10-05', c:'event', t:'イベント開催のお知らせ', x:'10月10日〜10月20日のあいだ、テイムと繁殖の倍率が上がります。' },
@@ -2748,7 +2748,7 @@ const NEWS = [
 ];
 const NEWS_CAT = { maint:['メンテナンス','construction','ink-blue'], event:['イベント','celebration','ink-purple'], rule:['ルール','gavel','ink-red'] };
 function renderNews(){
-  $('#news').innerHTML = NEWS.slice(0, 3).map(n => {
+  $('#news').innerHTML = NEWS.slice(0, 1).map(n => {
     const c = NEWS_CAT[n.c], dt = n.d.split('-');
     return '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i class="' + c[2] + '">' + c[1] + '</i></span><span class="vs-rtitle vs-news-t"><span class="vs-news-meta ' + c[2] + '">' + c[0] + '<time datetime="' + n.d + '">' + Number(dt[1]) + '月' + Number(dt[2]) + '日</time></span><b>' + esc(n.t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
       '<div class="vs-rbody"><p class="vs-body vs-muted">' + esc(n.x) + '</p></div></details></li>';
