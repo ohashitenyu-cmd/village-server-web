@@ -24,6 +24,7 @@ $page = $tpl.Replace('/*__BEERCSS__*/', $css).Replace('/*__MURANEKO__*/', $neko)
 # (doctype, charset, viewport and the same small reset), so both look the same.
 $head = '<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
   '<meta name="description" content="ARK:SAとパルワールドのコミュニティ「Village Server」の公式サイト案（プロトタイプ）">' +
+  '<link rel="icon" type="image/svg+xml" href="img/favicon.svg">' +
   '<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]{display:none!important}</style></head><body>'
 [IO.File]::WriteAllText("$root\index.html", $head + $page + '</body></html>', $utf8)
 "index.html: " + (Get-Item "$root\index.html").Length + " bytes"

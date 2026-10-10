@@ -1,17 +1,18 @@
 <title>Village Server</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Roboto+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Outfit:wght@600&family=Roboto+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block">
 <!-- Beer CSS 5.0.3 (MIT, https://www.beercss.com). アーティファクトは外部スタイルシートを読み込めないため、beer.min.css をここに埋め込んでいます。 -->
 <style id="beer-css">/*__BEERCSS__*/</style>
 <style>
 /* Layout: 12列グリッド1本・全ページ左揃え。左右余白は --vs-gutter（16/24/32px）でヘッダーと本文を同じ左端に揃える。
    見た目のルール：押せるもの＝浮いた面＋矢印（またはシェブロン）＋ホバー。押せない情報＝影のない薄い面。区切り線は使わず、面と余白で分ける。
-   色：ロゴの焚き火パレット。黄色の面には必ず濃い文字。選択・ナビは夜空の藍。書体は Noto Sans JP 1ファミリー（M3 の文字階層）。 */
+   色：ロゴ（広場を囲む5軒の家）の色。屋根＝村人の5色、壁＝クリーム、地＝夜空の藍。黄色の面には必ず濃い文字。選択・ナビは夜空の藍。
+   書体は Noto Sans JP 1ファミリー（M3 の文字階層）。ロゴの文字だけ Outfit。 */
 :root{
-  --vs-night:#161827; --vs-flame:#f3eee3; --vs-flame-2:#cfcabe; --vs-ember:#f2bc1b;
-  --vs-red:#ee395b; --vs-yellow:#efbb0c; --vs-green:#40c68b; --vs-blue:#009acf; --vs-purple:#a257eb;
+  --vs-night:#171B2E; --vs-flame:#F4F0E4; --vs-flame-2:#D6CFBF; --vs-ember:#F2B516;  /* night＝ロゴの地、flame＝壁のクリーム、ember＝黄色の屋根 */
+  --vs-red:#EE4360; --vs-yellow:#F2B516; --vs-green:#3DC48F; --vs-blue:#0B9ED9; --vs-purple:#A259F0;
   --font:"Noto Sans JP","Hiragino Sans","Yu Gothic UI",Meiryo,sans-serif;
   --vs-mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --font-icon:"Material Symbols Rounded";
@@ -31,6 +32,7 @@
   --surface-container:#f3ede1; --surface-container-high:#ede7da; --surface-container-highest:#e7e1d3;
   --vs-red-ink:#b4123b; --vs-yellow-ink:#765400; --vs-green-ink:#006c47; --vs-blue-ink:#006689; --vs-purple-ink:#7a32c3;
   --vs-green-soft:#d5f3e2;
+  --vs-wall-lit:#E6E0D3; --vs-wall-shade:#C9C0AE;
   --vs-tile-bg:#ffffff; --vs-hover:rgb(27 28 43 / .06);
   --vs-e1:0 1px 2px rgb(27 28 43 / .14),0 1px 3px 1px rgb(27 28 43 / .08);
   --vs-e2:0 1px 2px rgb(27 28 43 / .16),0 3px 8px 2px rgb(27 28 43 / .12);
@@ -48,6 +50,7 @@
     --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
     --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
     --vs-green-soft:#103a2a;
+    --vs-wall-lit:#F4F0E4; --vs-wall-shade:#D6CFBF;
     --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
     --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
     --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
@@ -66,6 +69,7 @@
   --surface-container:#1c1f2e; --surface-container-high:#262937; --surface-container-highest:#313443;
   --vs-red-ink:#ff8da1; --vs-yellow-ink:#f6cb45; --vs-green-ink:#6bdda8; --vs-blue-ink:#73d1ff; --vs-purple-ink:#d5b0ff;
   --vs-green-soft:#103a2a;
+  --vs-wall-lit:#F4F0E4; --vs-wall-shade:#D6CFBF;
   --vs-tile-bg:#23263a; --vs-hover:rgb(236 231 220 / .07);
   --vs-e1:0 0 0 1px #30334a,0 1px 3px rgb(0 0 0 / .5);
   --vs-e2:0 0 0 1px #3b3e57,0 4px 12px rgb(0 0 0 / .55);
@@ -97,8 +101,8 @@ header.vs-topbar{padding-inline:0; background-color:var(--surface); transition:b
 header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shadow:0 1px 0 var(--outline-variant)}
 .vs-bar{box-sizing:border-box; max-inline-size:75rem; inline-size:100%; margin-inline:auto; padding-inline:var(--vs-gutter); gap:.5rem}
 .vs-brand{gap:.625rem; color:var(--on-surface); justify-content:flex-start; border-radius:.75rem}
-.vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:.75rem; flex:none}
-.vs-wordmark{font-weight:800; font-size:1.25rem; letter-spacing:-.01em}
+.vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:22%; flex:none}
+.vs-wordmark{font-family:"Outfit",var(--font); font-weight:600; font-size:1.375rem; letter-spacing:-.005em; line-height:1}
 .vs-seg>button{padding-inline:.875rem; gap:.25rem}
 .vs-seg>button:not(.active)>i{display:none}
 .vs-seg>button>i{--_size:1.125rem}
@@ -240,7 +244,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-map.boot .vs-map-art>img{filter:saturate(.5) brightness(.75)}
 .vs-map.off .vs-map-art>img{filter:grayscale(1) brightness(.55)}
 .vs-map-chip{position:absolute; inset:.75rem auto auto .75rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--on-surface); font-size:.75rem; box-shadow:var(--vs-e1)}
-.vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame); background-color:rgb(22 24 39 / .35)}
+.vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame); background-color:rgb(23 27 46 / .35)}
 .vs-map-ov>i{--_size:2.5rem}
 .vs-map-body{display:flex; flex-direction:column; flex:1; gap:.5rem; padding:1.25rem 1.5rem}
 .vs-map-body>*{margin:0 !important}
@@ -260,19 +264,19 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
 .vs-hero-media{position:absolute; inset:0}
 .vs-hero-media img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; object-position:50% 40%}
-.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(22 24 39 / .94) 0%,rgb(22 24 39 / .78) 34%,rgb(22 24 39 / .18) 68%,rgb(22 24 39 / 0) 100%),radial-gradient(60% 55% at 12% 100%,rgb(242 188 27 / .22),transparent 70%)}
+.vs-hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgb(23 27 46 / .94) 0%,rgb(23 27 46 / .78) 34%,rgb(23 27 46 / .18) 68%,rgb(23 27 46 / 0) 100%)}
 .vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:36rem}
 .vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
 .vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
 .vs-hero h1{color:var(--vs-flame)}
 .vs-hero-sub{color:var(--vs-flame-2); font-size:1rem}
-.vs-cta{font-weight:700; font-size:1rem; padding-inline:1.75rem 1.5rem; box-shadow:0 .5rem 1.75rem rgb(242 188 27 / .3)}
+.vs-cta{font-weight:700; font-size:1rem; padding-inline:1.75rem 1.5rem; box-shadow:0 .5rem 1.75rem rgb(242 181 22 / .3)}
 .vs-cta:focus-visible{outline:3px solid var(--vs-flame); outline-offset:3px}
 .vs-ghost{color:var(--vs-flame) !important}
 @media (max-width:600px){
   .vs-hero{display:block; min-block-size:0}
   .vs-hero-media{position:relative; aspect-ratio:4/3}
-  .vs-hero-media::after{background:linear-gradient(0deg,var(--vs-night) 0%,rgb(22 24 39 / 0) 45%)}
+  .vs-hero-media::after{background:linear-gradient(0deg,var(--vs-night) 0%,rgb(23 27 46 / 0) 45%)}
   .vs-hero-body{padding:.25rem 1.25rem 1.5rem}
 }
 
@@ -382,29 +386,19 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ex.ng>i{color:var(--vs-red-ink)} .vs-ex.ok>i{color:var(--vs-green-ink)}
 .vs-progressrow{display:flex; align-items:center; gap:1rem} .vs-progressrow>progress{flex:1}
 
-/* ---- 火のモチーフ（ロゴの炎のシルエット） ---- */
-.vs-fh{display:flex; align-items:center; gap:.5rem}
-.vs-fmark{flex:none; inline-size:1rem; block-size:1.375rem; fill:url(#vs-fire-g)}
-.vs-flames{display:flex; flex-wrap:wrap; align-items:flex-end; gap:.25rem .375rem; flex:1}
-.vs-flames svg{inline-size:1.125rem; block-size:1.5rem; fill:var(--outline-variant); transition:fill var(--speed3)}
-.vs-flames svg.lit{fill:url(#vs-fire-g)}
+/* ---- ロゴ：広場を囲む5軒の家（屋根は村人の5色、壁はみんな同じクリーム）。絵は markArt() が描く ----
+   壁の色は --mk-lit / --mk-shade（指定がなければ、夜空の地に置くクリーム）。明るい地に置くときは --vs-wall-* を渡す */
 .vs-sdot>svg,.vs-ric>svg{inline-size:.875rem; block-size:1.25rem; fill:currentColor}
-.vs-sparks{position:absolute; inset:auto auto 0 0; inline-size:min(60%,28rem); block-size:100%; pointer-events:none; overflow:hidden}
-.vs-sparks span{position:absolute; inset-block-end:-.5rem; inline-size:.5rem; block-size:.5rem; border-radius:50%; background:var(--c); box-shadow:0 0 .75rem var(--c); opacity:0}
-.vs-camp{flex:none; inline-size:5rem; block-size:auto} .vs-camp-lg{inline-size:7rem}
-.vs-camp-flame,.vs-camp-v{transform-box:fill-box; transform-origin:50% 100%}
-.vs-camp-glow{transform-box:fill-box; transform-origin:center}
+.vs-village{flex:none; inline-size:5rem; block-size:auto} .vs-village-lg{inline-size:7rem}
+.vs-gate .vs-village{--mk-lit:var(--vs-wall-lit); --mk-shade:var(--vs-wall-shade)}
+.vs-h{transform-box:fill-box; transform-origin:50% 100%}
+/* ロゴの動き「住人が家から出て、跳ねて、家に帰る」を小さく：大きな絵は家が順に1回ずつ跳ねて休む。ヘッダーのロゴはホバーで1回 */
 @media (prefers-reduced-motion:no-preference){
-  .vs-sparks span{animation:vs-spark 7s linear infinite}
-  .vs-flick,.vs-camp-flame{animation:vs-flicker 2.6s ease-in-out infinite; transform-origin:50% 100%}
-  .vs-camp-glow{animation:vs-glow 2.6s ease-in-out infinite}
-  .vs-camp-v{animation:vs-sway 5s ease-in-out infinite}
-  .vs-camp-v:nth-of-type(2){animation-delay:-1s} .vs-camp-v:nth-of-type(3){animation-delay:-2s} .vs-camp-v:nth-of-type(4){animation-delay:-3s} .vs-camp-v:nth-of-type(5){animation-delay:-4s}
+  .vs-village .vs-h{animation:vs-hop 6s ease-in-out infinite; animation-delay:calc(var(--i) * .2s)}
+  .vs-brand:hover .vs-h,.vs-brand:focus-visible .vs-h{animation:vs-hop1 .5s ease-out both; animation-delay:calc(var(--i) * .07s)}
 }
-@keyframes vs-spark{0%{transform:translate(0,0) scale(1); opacity:0}10%{opacity:.95}75%{opacity:.5}100%{transform:translate(var(--dx),-24rem) scale(.4); opacity:0}}
-@keyframes vs-flicker{0%,100%{transform:scale(1,1) skewX(0)}30%{transform:scale(.94,1.06) skewX(-2deg)}65%{transform:scale(1.03,.97) skewX(1.5deg)}}
-@keyframes vs-glow{0%,100%{opacity:.8; transform:scale(1)}50%{opacity:1; transform:scale(1.06)}}
-@keyframes vs-sway{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes vs-hop{0%,7%,100%{transform:none}3.5%{transform:translateY(-8%)}}
+@keyframes vs-hop1{0%,100%{transform:none}45%{transform:translateY(-10%)}}
 
 /* ---- 選択状態：文字の背景に色を敷かない（チェック＋枠線で示す） ---- */
 .chip.vs-on{border-color:var(--primary) !important; box-shadow:inset 0 0 0 1px var(--primary); color:var(--on-surface) !important; font-weight:700}
@@ -459,7 +453,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-cmp-bar{display:block; inline-size:1.75rem; block-size:max(.25rem,calc(var(--h) * 2.5rem)); margin:.25rem auto 0; border-radius:.5rem .5rem .25rem .25rem; background-color:var(--vs-green)}
 .vs-ranks tfoot td{padding-block-start:1rem}
 .vs-sr{position:absolute !important; inline-size:1px; block-size:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
-/* ランクの申し込み：サブスクの料金カード。ランクは「焚き火を囲む村人の数」（ロゴの5人）で表す */
+/* ランクの申し込み：サブスクの料金カード。ランクは「広場を囲んで建つ家の数」（ロゴの5軒）で表す */
 .vs-bill{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem}
 .vs-bill-save{display:inline-flex; align-items:center; gap:.25rem; font-size:.8125rem; font-weight:700; color:var(--vs-green-ink)}
 .vs-bill-save>i{--_size:1.125rem}
@@ -474,7 +468,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
   background:linear-gradient(112deg,transparent 30%,rgb(255 255 255 / .55) 42%,transparent 54%),linear-gradient(135deg,var(--rk-hi),var(--rk-c) 46%,var(--rk-lo))}
 .vs-plan-band>*{margin:0 !important}
 .vs-plan-name{font-size:min(1.5rem,11cqi); font-weight:900; letter-spacing:.06em; line-height:1.2; color:var(--rk-ink)}
-/* 紋章：素材のふちで囲んだ、焚き火のタイル（ロゴと同じ夜空に村人が座る）。カードが細いときは小さくして、ランク名に重ねない */
+/* 紋章：素材のふちで囲んだ、ロゴのタイル（ランクの数だけ家が建つ）。カードが細いときは小さくして、ランク名に重ねない */
 .vs-plan-medal{order:2; flex:none; inline-size:min(var(--rk-size,5rem),var(--rk-f,30) * 1cqi); block-size:min(var(--rk-size,5rem),var(--rk-f,30) * 1cqi); padding:.25rem; box-sizing:border-box; border-radius:28%; background:linear-gradient(315deg,var(--rk-hi),var(--rk-c) 50%,var(--rk-lo))}
 .vs-plan-medal>svg{display:block; inline-size:100%; block-size:100%; border-radius:24%}
 .vs-plan-badge{position:absolute; inset:1rem auto auto 1.5rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem; border-radius:1rem; font-size:.75rem; font-weight:700; background-color:var(--vs-night); color:var(--vs-flame)}
@@ -561,7 +555,9 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 .vs-chat-form .field{flex:1; margin:0}
 
 /* ---- フッター ---- */
-footer.vs-footer{display:block; margin-block-start:5rem; padding:2.5rem 0 1rem; border-block-start:4px solid; border-image:linear-gradient(90deg,var(--vs-red) 0 20%,var(--vs-yellow) 20% 40%,var(--vs-green) 40% 60%,var(--vs-blue) 60% 80%,var(--vs-purple) 80% 100%) 1; min-block-size:0}
+/* フッターの上端：ロゴの家が、5色の屋根で並ぶ家並み（絵は JS の skyline） */
+footer.vs-footer{display:block; margin-block-start:5rem; padding:0 0 1rem; min-block-size:0}
+.vs-skyline{display:block; inline-size:100%; block-size:1.3rem; margin-block-end:2rem}
 .vs-footer h2{font-size:.875rem; font-weight:700; margin:0 0 .5rem}
 .vs-footer ul{list-style:none; margin:0; padding:0}
 .vs-footer li a{display:flex; align-items:center; justify-content:flex-start; gap:.25rem; min-block-size:2.25rem; font-size:.875rem; color:var(--on-surface-variant)}
@@ -585,7 +581,7 @@ body:not(.vs-ready) .page.active{animation:none}
 <header class="fixed vs-topbar" id="topbar">
   <nav class="vs-bar" aria-label="サイト共通メニュー">
     <a href="#home" class="vs-brand" aria-label="Village Server トップへ">
-      <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="120" fill="#161827"></rect><use href="#vs-mark"></use></svg>
+      <svg class="vs-appicon" viewBox="0 0 100 100" aria-hidden="true" data-mark="tile"></svg>
       <span class="vs-wordmark">Village Server</span>
     </a>
     <div class="max"></div>
@@ -617,29 +613,6 @@ body:not(.vs-ready) .page.active{animation:none}
 </nav>
 
 <main class="responsive" id="main">
-  <svg class="vs-sprite" aria-hidden="true" focusable="false">
-    <defs>
-      <radialGradient id="vs-glow-g" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stop-color="#f2bc1b" stop-opacity=".55"></stop>
-        <stop offset=".45" stop-color="#f2bc1b" stop-opacity=".16"></stop>
-        <stop offset="1" stop-color="#f2bc1b" stop-opacity="0"></stop>
-      </radialGradient>
-      <symbol id="vs-mark" viewBox="0 0 512 512">
-        <circle cx="256" cy="300" r="150" fill="url(#vs-glow-g)"></circle>
-        <path d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f3eee3"></path>
-        <circle cx="148" cy="230" r="38" fill="#40c68b"></circle>
-        <circle cx="364" cy="230" r="38" fill="#ee395b"></circle>
-        <circle cx="86" cy="322" r="43" fill="#a257eb"></circle>
-        <circle cx="426" cy="322" r="43" fill="#009acf"></circle>
-        <circle cx="256" cy="382" r="47" fill="#efbb0c"></circle>
-      </symbol>
-      <linearGradient id="vs-fire-g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#f7c948"></stop>
-        <stop offset="1" stop-color="#ee4b3b"></stop>
-      </linearGradient>
-      <symbol id="vs-flame" viewBox="186 110 150 222"><path d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z"></path></symbol>
-    </defs>
-  </svg>
 
   <!-- パンくずリスト（TOP以外のページで表示） -->
   <nav class="vs-crumbs" id="crumbs" aria-label="パンくずリスト" hidden></nav>
@@ -648,15 +621,8 @@ body:not(.vs-ready) .page.active{animation:none}
   <div class="page active" id="p-home">
     <section class="vs-hero" aria-labelledby="hero-title">
       <div class="vs-hero-media"><img src="img/village-stairs.jpg" alt="遺跡の階段に、サバイバーとテイムした生物が大勢並んだ集合写真"></div>
-      <div class="vs-sparks" aria-hidden="true">
-        <span style="--c:#efbb0c; left:10%; --dx:1rem; animation-duration:6.5s; animation-delay:-.5s"></span>
-        <span style="--c:#ee395b; left:22%; --dx:-1.25rem; animation-duration:7.5s; animation-delay:-2.2s"></span>
-        <span style="--c:#40c68b; left:33%; --dx:1.5rem; animation-duration:8s; animation-delay:-4s"></span>
-        <span style="--c:#009acf; left:6%; --dx:.75rem; animation-duration:7s; animation-delay:-5.5s"></span>
-        <span style="--c:#a257eb; left:42%; --dx:-1rem; animation-duration:9s; animation-delay:-3s"></span>
-      </div>
       <div class="vs-hero-body">
-        <p class="vs-eyebrow"><svg viewBox="0 0 512 512" aria-hidden="true"><use href="#vs-mark"></use></svg>ARK:SA ・ パルワールド</p>
+        <p class="vs-eyebrow"><svg viewBox="0 6 100 88" aria-hidden="true" data-mark="plain"></svg>ARK:SA ・ パルワールド</p>
         <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1">[キャッチコピー（未定）]</h1>
         <p class="vs-hero-sub">[ひとことの説明（未定）]</p>
         <nav class="wrap vs-mt">
@@ -699,17 +665,9 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s12">
         <ol class="vs-stepper" id="stepper" aria-label="進み具合"></ol>
         <div class="vs-done vs-mt" id="steps-done" hidden>
-          <svg class="vs-camp" viewBox="30 90 452 360" aria-hidden="true">
-            <ellipse class="vs-camp-glow" cx="256" cy="300" rx="200" ry="170" fill="url(#vs-glow-g)"></ellipse>
-            <path class="vs-camp-flame" d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f3eee3"></path>
-            <circle class="vs-camp-v" cx="148" cy="230" r="38" fill="#40c68b"></circle>
-            <circle class="vs-camp-v" cx="364" cy="230" r="38" fill="#ee395b"></circle>
-            <circle class="vs-camp-v" cx="86" cy="322" r="43" fill="#a257eb"></circle>
-            <circle class="vs-camp-v" cx="426" cy="322" r="43" fill="#009acf"></circle>
-            <circle class="vs-camp-v" cx="256" cy="382" r="47" fill="#efbb0c"></circle>
-          </svg>
+          <svg class="vs-village" viewBox="0 6 100 88" aria-hidden="true" data-mark="plain"></svg>
           <div class="max">
-            <h2 class="vs-title-l">準備完了。焚き火の輪へようこそ！</h2>
+            <h2 class="vs-title-l">準備完了。村へようこそ！</h2>
             <nav class="wrap vs-mt-s">
               <a class="button primary-container" href="#commands"><i>terminal</i><span>コマンド一覧</span></a>
               <a class="button transparent vs-ghost" href="#rates"><i>speed</i><span>サーバー倍率</span></a>
@@ -974,7 +932,7 @@ body:not(.vs-ready) .page.active{animation:none}
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">ランク比較・購入</h1></nav>
     <section class="vs-mt" aria-labelledby="plans-title">
       <h2 class="vs-title-l" id="plans-title">ランクを選ぶ</h2>
-      <p class="vs-support">ランクが上がるほど、焚き火を囲む村人が増えていきます。</p>
+      <p class="vs-support">ランクが上がるほど、広場を囲む家が建ち並んでいきます。</p>
       <div class="vs-bill vs-mt" id="bill" role="group" aria-label="支払いのしかた"></div>
       <ul class="grid vs-plans vs-mt" id="rank-plans"></ul>
     </section>
@@ -1011,15 +969,7 @@ body:not(.vs-ready) .page.active{animation:none}
     <div class="grid vs-mt">
       <div class="s12">
         <div class="vs-gate" id="mp-out">
-          <svg class="vs-camp vs-camp-lg" viewBox="30 90 452 360" aria-hidden="true">
-            <ellipse class="vs-camp-glow" cx="256" cy="300" rx="200" ry="170" fill="url(#vs-glow-g)"></ellipse>
-            <path class="vs-camp-flame" d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z" fill="#f2bc1b"></path>
-            <circle class="vs-camp-v" cx="148" cy="230" r="38" fill="#40c68b"></circle>
-            <circle class="vs-camp-v" cx="364" cy="230" r="38" fill="#ee395b"></circle>
-            <circle class="vs-camp-v" cx="86" cy="322" r="43" fill="#a257eb"></circle>
-            <circle class="vs-camp-v" cx="426" cy="322" r="43" fill="#009acf"></circle>
-            <circle class="vs-camp-v" cx="256" cy="382" r="47" fill="#efbb0c"></circle>
-          </svg>
+          <svg class="vs-village vs-village-lg" viewBox="0 6 100 88" aria-hidden="true" data-mark="plain"></svg>
           <div class="max">
             <h2 class="vs-title-l">ログインすると使えます</h2>
             <ul class="grid vs-perks vs-mt-s">
@@ -1096,10 +1046,11 @@ body:not(.vs-ready) .page.active{animation:none}
 
   <!-- ===================== フッター ===================== -->
   <footer class="vs-footer">
+    <svg class="vs-skyline" id="skyline" aria-hidden="true"></svg>
     <div class="grid">
       <div class="s12 l4">
         <a href="#home" class="row vs-brand" aria-label="Village Server トップへ">
-          <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="120" fill="#161827"></rect><use href="#vs-mark"></use></svg>
+          <svg class="vs-appicon" viewBox="0 0 100 100" aria-hidden="true" data-mark="tile"></svg>
           <span class="vs-wordmark">Village Server</span>
         </a>
         <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
@@ -1275,7 +1226,6 @@ const PAL_MANNERS = [
     { t:'商人の捕獲', i:'storefront', d:'街にいる固定の商人を捕獲すると、ほかのプレイヤーが困ります。捕獲したい場合は、サーバーの再起動の直前にしてください。' }
   ] }
 ];
-const FLAME = cls => '<svg class="' + cls + '" aria-hidden="true"><use href="#vs-flame"></use></svg>';
 const rulesFor = g => g === 'pal' ? PAL_RULES : RULES;
 const mannersFor = g => g === 'pal' ? PAL_MANNERS : MANNERS;
 const CMD_GROUPS = [
@@ -1604,7 +1554,7 @@ function renderRanks(){
   const mine = state.signedIn ? MY_PLAN.rank : '', bill = state.billing;
   $('#bill').innerHTML = [['month','月払い'],['year','年払い']].map(b => { const on = bill === b[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-bill="' + b[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + b[1] + '</span></button>'; }).join('') +
     '<span class="vs-bill-save"><i>savings</i>年払いは' + (12 - YEAR_MONTHS) + 'か月分おトク</span>';
-  const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<span class="vs-rk-ic">' + campIcon(i, '', true) + '</span><b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
+  const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<span class="vs-rk-ic">' + villageIcon(i, '', true) + '</span><b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
   const rows = RANK_ROWS.map(r => {
     const max = r[0] === '撤去までの日数' ? 60 : r[0].indexOf('ポイント') === 0 ? 20 : 0;
     return '<tr><th scope="row">' + esc(r[0]) + (RANK_SUB[r[0]] ? '<small>' + esc(RANK_SUB[r[0]]) + '</small>' : '') + '</th>' + r[1].map(v => {
@@ -1635,14 +1585,38 @@ function rankPrice(name, bill){
   if (!m) return null;
   return bill === 'year' ? { n:m * YEAR_MONTHS, unit:'円/年', alt:'月あたり ' + fmt(Math.round(m * YEAR_MONTHS / 12)) + '円' } : { n:m, unit:'円/月', alt:'年払いなら ' + fmt(m * YEAR_MONTHS) + '円/年' };
 }
-/* ランクのしるし：ロゴの焚き火を囲む5人のうち、ランクが上がるほど多く座る（未連携0人〜DIAMOND5人） */
-const SEATS = [[256,382,47,'#efbb0c'],[86,322,43,'#a257eb'],[426,322,43,'#009acf'],[148,230,38,'#40c68b'],[364,230,38,'#ee395b']];
-const SEAT_ORDER = [[],[0],[1,2],[0,1,2],[1,2,3,4],[0,1,2,3,4]];
-function campIcon(n, cls, tile){
-  const on = SEAT_ORDER[n];
-  return '<svg class="' + cls + '" viewBox="0 0 512 512" aria-hidden="true">' + (tile ? '<rect width="512" height="512" rx="120" fill="#161827"></rect>' : '') +
-    '<circle cx="256" cy="300" r="150" fill="url(#vs-glow-g)" opacity="' + (.4 + n * .12).toFixed(2) + '"></circle><use href="#vs-flame" x="186" y="110" width="150" height="222" fill="#f3eee3"></use>' +
-    SEATS.map((s, i) => '<circle cx="' + s[0] + '" cy="' + s[1] + '" r="' + s[2] + '" fill="' + (on.indexOf(i) >= 0 ? s[3] : 'rgb(243 238 227 / .16)') + '"></circle>').join('') + '</svg>';
+/* ---------- ロゴ：広場を囲む5軒の家 ----------
+   アイソメトリックの家5軒が輪になって広場を囲む。屋根は村人の5色、壁はみんな同じ色（ロゴ案「輪になって集まる5軒」と同じ形）。
+   座標は viewBox 0 0 100 100（ロゴ案と同じ計算で出した値）。奥の家から順に描く。[村人, 屋根の色, 跳ねる順, 正面の壁, 側面の壁, 屋根, 空き地] */
+const MARK_HOUSES = [
+  ['p','#A259F0',4,'36.33,41.63 50,49.52 50,36.9 36.33,29','63.67,41.63 50,49.52 50,36.9 56.83,25.06 63.67,29','36.33,29 50,36.9 56.83,25.06 43.17,17.17','50,33.74 63.67,41.63 50,49.52 36.33,41.63'],
+  ['g','#3DC48F',2,'6,54.35 19.67,62.25 19.67,49.62 6,41.73','33.34,54.35 19.67,62.25 19.67,49.62 26.5,37.78 33.34,41.73','6,41.73 19.67,49.62 26.5,37.78 12.83,29.89','19.67,46.46 33.34,54.35 19.67,62.25 6,54.35'],
+  ['b','#0B9ED9',3,'66.66,54.35 80.33,62.25 80.33,49.62 66.66,41.73','94,54.35 80.33,62.25 80.33,49.62 87.17,37.78 94,41.73','66.66,41.73 80.33,49.62 87.17,37.78 73.5,29.89','80.33,46.46 94,54.35 80.33,62.25 66.66,54.35'],
+  ['y','#F2B516',1,'17.59,74.94 31.25,82.83 31.25,70.21 17.59,62.32','44.92,74.94 31.25,82.83 31.25,70.21 38.09,58.37 44.92,62.32','17.59,62.32 31.25,70.21 38.09,58.37 24.42,50.48','31.25,67.05 44.92,74.94 31.25,82.83 17.59,74.94'],
+  ['r','#EE4360',0,'55.08,74.94 68.75,82.83 68.75,70.21 55.08,62.32','82.41,74.94 68.75,82.83 68.75,70.21 75.58,58.37 82.41,62.32','55.08,62.32 68.75,70.21 75.58,58.37 61.91,50.48','68.75,67.05 82.41,74.94 68.75,82.83 55.08,74.94']
+];
+const MK_LIT = 'var(--mk-lit,#F4F0E4)', MK_SHADE = 'var(--mk-shade,#D6CFBF)';
+const mkPoly = (pts, c) => '<polygon points="' + pts + '" style="fill:' + c + ';stroke:' + c + ';stroke-linejoin:round"></polygon>';
+/* built：家が建っている村人（省略で5軒すべて）。まだの所は空き地（うすい地面）で描く */
+function markArt(built){
+  return MARK_HOUSES.map(h => built && built.indexOf(h[0]) < 0
+    ? '<polygon points="' + h[6] + '" style="fill:' + MK_SHADE + '" opacity=".35"></polygon>'
+    : '<g class="vs-h" style="--i:' + h[2] + '">' + mkPoly(h[3], MK_LIT) + mkPoly(h[4], MK_SHADE) + mkPoly(h[5], h[1]) + '</g>').join('');
+}
+/* アプリアイコン：ロゴの地の藍に、ロゴを少し小さく置く（ファビコンと同じ組み方） */
+const markTile = built => '<rect width="100" height="100" rx="22" fill="#171B2E"></rect><g transform="translate(7 7) scale(.86)">' + markArt(built) + '</g>';
+/* ランクのしるし：ランクが上がるほど、広場を囲んで建つ家が増える（未連携0軒〜DIAMOND5軒） */
+const HOUSE_ORDER = [[],['p'],['y','r'],['p','y','r'],['g','b','y','r'],['p','g','b','y','r']];
+const villageIcon = (n, cls, tile) => '<svg' + (cls ? ' class="' + cls + '"' : '') + ' viewBox="0 0 100 100" aria-hidden="true">' + (tile ? markTile(HOUSE_ORDER[n]) : markArt(HOUSE_ORDER[n])) + '</svg>';
+/* フッターの家並み：ロゴの家1軒を、5色の屋根で横に並べる。幅に入るだけ並べ、端で家が切れないようにする（1軒60・高さ34の単位を0.6倍で描く） */
+const HOUSE1 = ['0,24.46 13.67,32.35 13.67,19.73 0,11.83','27.34,24.46 13.67,32.35 13.67,19.73 20.5,7.89 27.34,11.83','0,11.83 13.67,19.73 20.5,7.89 6.84,0'];
+const SKY_ROOFS = ['#EE4360','#F2B516','#3DC48F','#0B9ED9','#A259F0'];
+function drawSkyline(){
+  const el = $('#skyline'), w = el.clientWidth / .6;
+  if (!w) return;
+  const n = Math.max(1, Math.floor((w - 28) / 60) + 1);
+  el.setAttribute('viewBox', '0 0 ' + w.toFixed(1) + ' 34');
+  el.innerHTML = Array.from({ length:n }, (_, i) => '<g transform="translate(' + (i * 60) + ' 1)">' + mkPoly(HOUSE1[0], 'var(--vs-wall-lit)') + mkPoly(HOUSE1[1], 'var(--vs-wall-shade)') + mkPoly(HOUSE1[2], SKY_ROOFS[i % 5]) + '</g>').join('');
 }
 function planPerks(i){
   const out = ['<li class="all"><i>check</i><span>' + esc(RANK_COLS[i - 1][0]) + 'の特典すべて</span></li>'];
@@ -1668,7 +1642,7 @@ const rankCls = name => RANK_PRICE[name] ? ' rk-' + name.toLowerCase() : '';
 const planVars = i => '--rk-size:' + (4 + (i - 1) * .5).toFixed(2) + 'rem; --rk-f:' + (24.4 + (i - 1) * 2.4).toFixed(1);
 function planBand(i, badge){
   const tier = i - 1;
-  return '<div class="vs-plan-band">' + planShine(tier) + (badge || '') + '<span class="vs-plan-medal">' + campIcon(i, '', true) + '</span>' +
+  return '<div class="vs-plan-band">' + planShine(tier) + (badge || '') + '<span class="vs-plan-medal">' + villageIcon(i, '', true) + '</span>' +
     '<div class="vs-plan-id"><h3 class="vs-plan-name">' + esc(RANK_COLS[i][0]) + '</h3><span class="vs-plan-tier" role="img" aria-label="4段階のうち' + tier + '">' + [1,2,3,4].map(k => '<span' + (k <= tier ? ' class="on"' : '') + '></span>').join('') + '</span></div></div>';
 }
 function planMeter(i){
@@ -2026,6 +2000,8 @@ addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY 
 
 /* ---------- 起動 ---------- */
 setMode(mode());
+$$('svg[data-mark]').forEach(el => { el.innerHTML = el.dataset.mark === 'tile' ? markTile() : markArt(); });
+drawSkyline(); if (window.ResizeObserver) new ResizeObserver(drawSkyline).observe($('#skyline'));
 renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
