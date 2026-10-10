@@ -16,5 +16,14 @@ $css = $css.Replace('url(wavy.svg)', 'url("data:image/svg+xml;base64,' + [Conver
 $neko = [IO.File]::ReadAllText("$root\vendor\mura-neko.js", $utf8).Replace('</script', '<\/script')
 
 $tpl = [IO.File]::ReadAllText("$root\src\village-server.src.html", $utf8)
-[IO.File]::WriteAllText("$root\village-server.html", $tpl.Replace('/*__BEERCSS__*/', $css).Replace('/*__MURANEKO__*/', $neko), $utf8)
+$page = $tpl.Replace('/*__BEERCSS__*/', $css).Replace('/*__MURANEKO__*/', $neko)
+[IO.File]::WriteAllText("$root\village-server.html", $page, $utf8)
 "village-server.html: " + (Get-Item "$root\village-server.html").Length + " bytes"
+
+# index.html for GitHub Pages: the same page wrapped in the document skeleton the artifact host adds
+# (doctype, charset, viewport and the same small reset), so both look the same.
+$head = '<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+  '<meta name="description" content="ARK:SAとパルワールドのコミュニティ「Village Server」の公式サイト案（プロトタイプ）">' +
+  '<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]{display:none!important}</style></head><body>'
+[IO.File]::WriteAllText("$root\index.html", $head + $page + '</body></html>', $utf8)
+"index.html: " + (Get-Item "$root\index.html").Length + " bytes"
