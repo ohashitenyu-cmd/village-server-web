@@ -2716,12 +2716,13 @@ if (mugiFab && mugiFab.shadowRoot) {
   fab.addEventListener('focus', () => tilt(fab.matches(':focus-visible')));
   fab.addEventListener('blur', () => tilt(false));
 }
-/* 隠し要素：ムギの頭の上でカーソルを左右にゆらすと、気になって目を丸くし（2往復）、飛びつく（5往復）。
+/* 隠し要素：ムギの頭のすぐ上でカーソルを大きく左右にゆらし続けると、目を丸くし（4往復）、そわそわして（7往復）、
+   飛びつく（10往復・3秒以上）。1往復は40px以上、往復の間が0.9秒あくと数え直し。
    マウスのときだけ・チャットを開いていないときだけ。飛びついたあと5秒は休む */
 if (mugiFab && mugiFab.setMood) {
   const fab = $('#fab'), say = $('.vs-mugi-say', fab), still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lastX = null, dir = 0, run = 0, flips = [], busy = false, rest = 0;
-  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 160 && e.clientX < r.right + 20 && e.clientY > r.top - 170 && e.clientY < r.top + r.height * .25; };
+  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 80 && e.clientX < r.right + 20 && e.clientY > r.top - 140 && e.clientY < r.top + r.height * .25; };
   const pounce = e => {
     busy = true; flips = [];
     const r = mugiFab.getBoundingClientRect();
@@ -2744,13 +2745,18 @@ if (mugiFab && mugiFab.setMood) {
     if (lastX === null) { lastX = e.clientX; return; }
     const dx = e.clientX - lastX;
     if (Math.abs(dx) < 2) return;
-    const d = dx > 0 ? 1 : -1;
+    const d = dx > 0 ? 1 : -1, now = Date.now();
     if (d === dir) run += Math.abs(dx);
-    else { if (dir && run > 14) flips.push(Date.now()); dir = d; run = Math.abs(dx); }
+    else {
+      if (dir && run >= 40) { if (flips.length && now - flips[flips.length - 1] > 900) flips = []; flips.push(now); }
+      dir = d; run = Math.abs(dx);
+    }
     lastX = e.clientX;
-    const now = Date.now(); flips = flips.filter(t => now - t < 1600);
-    if (flips.length >= 5) pounce(e);
-    else if (flips.length >= 2 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
+    if (flips.length && now - flips[flips.length - 1] > 900) flips = [];
+    const n = flips.length, held = n ? now - flips[0] : 0;
+    if (n >= 10 && held >= 3000) pounce(e);
+    else if (n >= 7 && mugiFab.mood !== 'excited') mugiFab.setMood('excited', { duration:1500 });
+    else if (n >= 4 && n < 7 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
   }, { passive:true });
 }
 function openChat(){
