@@ -111,6 +111,13 @@ main .grid{--_gap:1rem}
 .vs-mt{margin-block-start:1.5rem !important}
 .vs-mt-s{margin-block-start:.75rem !important}
 .vs-sprite{position:absolute; inline-size:0; block-size:0; overflow:hidden}
+nav.vs-crumbs{display:block; margin:0 !important; white-space:normal; font-size:.875rem; line-height:1.4}
+.vs-crumbs>ol{all:unset; display:flex; flex-wrap:wrap; align-items:center; gap:.25rem}
+.vs-crumbs li{display:inline-flex; align-items:center; gap:.25rem; inline-size:auto; flex:none; min-inline-size:0}
+.vs-crumbs li>i{--_size:1.125rem; color:var(--on-surface-variant)}
+.vs-crumbs a{display:inline-block; padding-block:.5rem; color:var(--primary); font-weight:500; text-decoration:underline; text-underline-offset:.2em}
+.vs-crumbs a:hover{text-decoration-thickness:2px}
+.vs-crumbs [aria-current]{color:var(--on-surface-variant)}
 nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-pagehead h1{flex:1; min-inline-size:0}
 .vs-pagehead h1:focus{outline:none}
@@ -432,6 +439,9 @@ body:not(.vs-ready) .page.active{animation:none}
       <symbol id="vs-flame" viewBox="186 110 150 222"><path d="M262 326C300 326 326 300 326 262C326 205 288 168 246 118C240 150 236 172 232 194C222 182 212 170 204 158C198 190 196 222 197 258C198 298 226 326 262 326Z"></path></symbol>
     </defs>
   </svg>
+
+  <!-- パンくずリスト（TOP以外のページで表示） -->
+  <nav class="vs-crumbs" id="crumbs" aria-label="パンくずリスト" hidden></nav>
 
   <!-- ===================== TOP ===================== -->
   <div class="page active" id="p-home">
@@ -907,19 +917,19 @@ const MAPS = [['TheIsland',27],['Ragnarok',27],['LostColony',4]];
 const ROUTES = {
   home:{ page:'home', nav:'home' },
   join:{ page:'join', nav:'home', title:'参加手順' },
-  'join-asa':{ page:'steps', nav:'home', title:'ARK:SAの参加手順', game:'asa' },
-  'join-pal':{ page:'steps', nav:'home', title:'パルワールドの参加手順', game:'pal' },
+  'join-asa':{ page:'steps', nav:'home', title:'ARK:SAの参加手順', game:'asa', parent:'join' },
+  'join-pal':{ page:'steps', nav:'home', title:'パルワールドの参加手順', game:'pal', parent:'join' },
   about:{ page:'about', nav:'about', title:'サーバーについて' },
-  intro:{ page:'intro', nav:'about', title:'サーバー紹介' },
-  rates:{ page:'rates', nav:'about', title:'サーバー倍率' },
-  commands:{ page:'commands', nav:'about', title:'コマンド一覧' },
-  api:{ page:'api', nav:'about', title:'導入API解説' },
+  intro:{ page:'intro', nav:'about', title:'サーバー紹介', parent:'about' },
+  rates:{ page:'rates', nav:'about', title:'サーバー倍率', parent:'about' },
+  commands:{ page:'commands', nav:'about', title:'コマンド一覧', parent:'about' },
+  api:{ page:'api', nav:'about', title:'導入API解説', parent:'about' },
   rules:{ page:'rules', nav:'rules', title:'ルール' },
   support:{ page:'support', nav:'support', title:'サポート' },
-  scribe:{ page:'scribe', nav:'support', title:'スクライブ' },
-  request:{ page:'request', nav:'support', title:'管理者依頼' },
-  ranks:{ page:'ranks', nav:'support', title:'ランク比較・購入' },
-  trouble:{ page:'trouble', nav:'support', title:'困った時一覧' },
+  scribe:{ page:'scribe', nav:'support', title:'スクライブ', parent:'support' },
+  request:{ page:'request', nav:'support', title:'管理者依頼', parent:'support' },
+  ranks:{ page:'ranks', nav:'support', title:'ランク比較・購入', parent:'support' },
+  trouble:{ page:'trouble', nav:'support', title:'困った時一覧', parent:'support' },
   mypage:{ page:'mypage', nav:'mypage', title:'マイページ' }
 };
 
@@ -1266,10 +1276,22 @@ $('#chat-reset').addEventListener('click', resetChat);
 
 /* ---------- 画面の切り替え ---------- */
 function routeFromHash(){ const h = (location.hash || '').replace(/^#/, ''); return ROUTES[h] ? h : 'home'; }
+function renderCrumbs(route){
+  const nav = $('#crumbs');
+  nav.hidden = route === 'home';
+  if (nav.hidden) return;
+  const chain = [];
+  for (let k = route; k; k = k === 'home' ? null : (ROUTES[k].parent || 'home')) chain.unshift(k);
+  nav.innerHTML = '<ol>' + chain.map((k, i) => {
+    const label = esc(k === 'home' ? 'TOP' : ROUTES[k].title);
+    return '<li>' + (i ? '<i aria-hidden="true">chevron_right</i>' : '') + (i === chain.length - 1 ? '<span aria-current="page">' + label + '</span>' : '<a href="#' + k + '">' + label + '</a>') + '</li>';
+  }).join('') + '</ol>';
+}
 function show(route, focus){
   const r = ROUTES[route]; state.route = route;
   if (r.game && r.game !== state.game) setGame(r.game, true);
   $$('#main > .page').forEach(p => p.classList.toggle('active', p.id === 'p-' + r.page));
+  renderCrumbs(route);
   $$('[data-nav]').forEach(a => {
     const on = a.dataset.nav === r.nav;
     if (!a.classList.contains('button')) a.classList.toggle('active', on);
