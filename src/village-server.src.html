@@ -229,11 +229,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-mapcards{list-style:none; padding:0}
 .vs-map{display:flex; flex-direction:column; block-size:100%; border-radius:1.5rem; overflow:hidden; background-color:var(--surface-container)}
 .vs-map-art{position:relative; display:block; block-size:9rem; overflow:hidden; border-radius:0; background:var(--vs-night)}
-.vs-map-art>svg{display:block; inline-size:100%; block-size:100%; border-radius:0; transition:filter var(--speed3)}
-.vs-map.boot .vs-map-art>svg{filter:saturate(.5) brightness(.75)}
-.vs-map.off .vs-map-art>svg{filter:grayscale(1) brightness(.55)}
+.vs-map-art>img{display:block; inline-size:100%; block-size:100%; max-inline-size:none; object-fit:cover; object-position:50% 55%; border-radius:0; transition:filter var(--speed3)}
+.vs-map.boot .vs-map-art>img{filter:saturate(.5) brightness(.75)}
+.vs-map.off .vs-map-art>img{filter:grayscale(1) brightness(.55)}
 .vs-map-chip{position:absolute; inset:.75rem auto auto .75rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--on-surface); font-size:.75rem; box-shadow:var(--vs-e1)}
-.vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame)}
+.vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame); background-color:rgb(22 24 39 / .35)}
 .vs-map-ov>i{--_size:2.5rem}
 .vs-map-body{display:flex; flex-direction:column; flex:1; gap:.5rem; padding:1.25rem 1.5rem}
 .vs-map-body>*{margin:0 !important}
@@ -1679,36 +1679,22 @@ function renderNews(){
 
 /* ---------- マップステータス（例）。本番はサーバーの状態から取り込む想定。s：on＝稼働中／boot＝起動中／off＝停止中 ---------- */
 const MAP_STATUS = [
-  { k:'TheIsland', s:'on', p:41 },
-  { k:'ScorchedEarth', s:'on', p:12 },
-  { k:'TheCenter', s:'on', p:18 },
-  { k:'Aberration', s:'off', note:'メンテナンスのため停止しています' },
-  { k:'Extinction', s:'on', p:9 },
-  { k:'Ragnarok', s:'on', p:33 },
-  { k:'Valguero', s:'boot', note:'起動しています。数分で入れます' },
-  { k:'Astraeus', s:'on', p:7 },
-  { k:'LostColony', s:'on', p:26 }
+  { k:'TheIsland', img:'the-island', s:'on', p:41 },
+  { k:'ScorchedEarth', img:'scorched-earth', s:'on', p:12 },
+  { k:'TheCenter', img:'the-center', s:'on', p:18 },
+  { k:'Aberration', img:'aberration', s:'off', note:'メンテナンスのため停止しています' },
+  { k:'Extinction', img:'extinction', s:'on', p:9 },
+  { k:'Ragnarok', img:'ragnarok', s:'on', p:33 },
+  { k:'Valguero', img:'valguero', s:'boot', note:'起動しています。数分で入れます' },
+  { k:'Astraeos', img:'astraeos', s:'on', p:7 },
+  { k:'LostColony', img:'lost-colony', s:'on', p:26 },
+  { k:'GenesisPart1', img:'genesis-part-1', s:'on', p:15 },
+  { k:'Dragontopia', img:'dragontopia', s:'on', p:6 }
 ];
 const MAP_MAX = 70;
 const MAP_ST = { on:'稼働中', boot:'起動中', off:'停止中' };
-/* マップの絵：夜空から各マップの色へのグラデーションに、そのマップらしい地形を重ねる（368×172 はゲームカードと同じ比率） */
-const MAP_ART = {
-  TheIsland:{ sky:'#25506a', art:'<circle cx="300" cy="38" r="14" fill="#f3eee3" opacity=".9"/><path d="M150 118L196 46H210L258 118Z" fill="#2f4a52"/><ellipse cx="203" cy="47" rx="9" ry="3" fill="#ee395b" opacity=".85"/><path d="M30 130C90 98 150 104 190 112C240 100 300 104 344 130Z" fill="#40c68b"/><path d="M60 130C110 116 170 118 220 126C260 120 300 122 330 130Z" fill="#2e9c6c"/><rect y="126" width="368" height="46" fill="#009acf" opacity=".6"/>' },
-  ScorchedEarth:{ sky:'#8a4b1c', art:'<circle cx="250" cy="78" r="56" fill="#efbb0c" opacity=".22"/><circle cx="250" cy="78" r="36" fill="#efbb0c"/><path d="M0 120C60 96 120 104 180 116C240 100 300 96 368 112V172H0Z" fill="#b8742c"/><path d="M0 140C80 118 150 126 220 142C280 130 330 128 368 136V172H0Z" fill="#e0a24a"/>' },
-  TheCenter:{ sky:'#1d4f73', art:'<path d="M0 140C70 120 130 128 190 136C250 124 310 122 368 134V172H0Z" fill="#20384d"/><path d="M60 50H86L76 64Z" fill="#4a3f63"/><path d="M290 40H312L303 52Z" fill="#4a3f63"/><rect x="196" y="72" width="8" height="74" fill="#8fd8ff" opacity=".75"/><path d="M126 72H242L212 104L190 122L170 104Z" fill="#4a3f63"/><path d="M126 72Q184 50 242 72Z" fill="#40c68b"/>' },
-  Aberration:{ sky:'#2a1a4a', art:'<circle cx="99" cy="112" r="40" fill="#a257eb" opacity=".18"/><circle cx="252" cy="122" r="30" fill="#009acf" opacity=".18"/><path d="M0 0H368V26C330 40 310 30 290 46C270 30 240 44 220 30C200 48 170 34 150 46C130 30 100 42 80 30C60 44 30 34 0 40Z" fill="#0f0c1e"/><path d="M0 142C60 128 120 136 180 140C240 130 300 132 368 140V172H0Z" fill="#0f0c1e"/><rect x="96" y="112" width="6" height="32" fill="#c3b5ff"/><ellipse cx="99" cy="112" rx="22" ry="10" fill="#a257eb"/><rect x="249" y="122" width="5" height="22" fill="#a6e0ff"/><ellipse cx="252" cy="122" rx="16" ry="8" fill="#009acf"/><circle cx="160" cy="96" r="2" fill="#8fd8ff"/><circle cx="200" cy="80" r="1.5" fill="#c3b5ff"/><circle cx="300" cy="94" r="2" fill="#8fd8ff"/>' },
-  Extinction:{ sky:'#7a2235', art:'<circle cx="280" cy="52" r="30" fill="#f3eee3" opacity=".85"/><path d="M0 172V118H24V96H40V124H58V86H80V110H96V72H118V120H136V100H160V126H176V92H198V118H214V108H236V130H252V98H274V122H294V104H316V126H336V112H368V172Z" fill="#1c1426"/><rect x="62" y="96" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="102" y="84" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="182" y="104" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="258" y="110" width="4" height="4" fill="#efbb0c" opacity=".7"/>' },
-  Ragnarok:{ sky:'#2d3f78', art:'<path d="M0 60C80 30 160 70 240 40C290 22 330 34 368 26V48C330 58 290 46 240 64C160 92 80 52 0 82Z" fill="#40c68b" opacity=".35"/><path d="M0 140L60 82L110 126L170 60L232 130L290 76L368 138V172H0Z" fill="#3a4a80"/><path d="M170 60L182 74L175 71L168 76L162 71L158 73Z" fill="#f3eee3"/><path d="M290 76L306 88L298 85L291 90L284 85L278 87Z" fill="#f3eee3"/><path d="M60 82L70 91L65 89L59 93L53 89L48 94Z" fill="#f3eee3"/><path d="M0 150C80 136 160 146 240 140C300 136 340 144 368 142V172H0Z" fill="#1f2a52"/>' },
-  Valguero:{ sky:'#3e6a4a', art:'<circle cx="70" cy="40" r="12" fill="#f3eee3" opacity=".9"/><path d="M0 118C60 92 120 96 180 110C240 90 300 92 368 108V172H0Z" fill="#2e6a4a"/><path d="M0 136C70 116 140 124 200 132C260 118 320 120 368 128V172H0Z" fill="#2e9c6c"/><path d="M150 172C170 150 210 146 200 132C192 122 220 118 236 112" stroke="#8fd8ff" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/><path d="M0 156C80 142 150 150 230 156C290 148 340 150 368 152V172H0Z" fill="#40c68b"/>' },
-  Astraeus:{ sky:'#4a2a6e', art:'<circle cx="310" cy="30" r="6" fill="#f3eee3" opacity=".9"/><circle cx="250" cy="70" r="30" fill="#a257eb"/><ellipse cx="250" cy="70" rx="52" ry="12" fill="none" stroke="#f3eee3" stroke-width="3" opacity=".7"/><path d="M80 120L92 96L104 120L92 136Z" fill="#b49bff"/><path d="M128 132L136 116L144 132L136 142Z" fill="#8fd8ff"/><path d="M0 150C90 136 180 144 260 150C310 146 340 146 368 148V172H0Z" fill="#241640"/>' },
-  LostColony:{ sky:'#6a3a2a', art:'<circle cx="300" cy="34" r="10" fill="#f3eee3" opacity=".85"/><circle cx="328" cy="52" r="5" fill="#f3eee3" opacity=".6"/><path d="M0 172V120H40L52 104H120L132 120H160V172Z" fill="#8a4a32"/><path d="M220 172V112H236L246 96H310L320 112H368V172Z" fill="#7a3e2c"/><rect x="176" y="100" width="4" height="50" fill="#f3eee3" opacity=".8"/><circle cx="178" cy="98" r="4" fill="#ee395b"/><path d="M150 150A28 28 0 0 1 206 150Z" fill="#f3eee3" opacity=".85"/><path d="M200 150A16 16 0 0 1 232 150Z" fill="#f3eee3" opacity=".7"/><rect y="150" width="368" height="22" fill="#4a2a22"/>' }
-};
-const MAP_STARS = [[28,22],[64,12],[118,26],[156,10],[214,20],[262,12],[340,18]];
-function mapArt(k){
-  const A = MAP_ART[k] || { sky:'#2a2d44', art:'' }, id = 'vs-sky-' + k;
-  return '<svg viewBox="0 0 368 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161827"/><stop offset="1" stop-color="' + A.sky + '"/></linearGradient></defs><rect width="368" height="172" fill="url(#' + id + ')"/>' +
-    MAP_STARS.map(s => '<circle cx="' + s[0] + '" cy="' + s[1] + '" r="1.2" fill="#f3eee3" opacity=".6"/>').join('') + A.art + '</svg>';
-}
+/* マップの絵：ARK:SA 公式のマップの風景（img/maps/ID.jpg。1920×1080 を 800×450 に縮小） */
+const mapArt = m => '<img src="img/maps/' + m.img + '.jpg" alt="" loading="lazy">';
 function renderMaps(){
   const cnt = { on:0, boot:0, off:0 };
   MAP_STATUS.forEach(m => { cnt[m.s]++; });
@@ -1720,7 +1706,7 @@ function renderMaps(){
     const info = m.s === 'on'
       ? '<span class="vs-map-line"><span>プレイ中</span><span><b>' + m.p + '</b> / ' + MAP_MAX + '人</span></span><span class="vs-map-bar" style="--w:' + Math.round(m.p / MAP_MAX * 100) + '%" aria-hidden="true"></span>'
       : '<span class="vs-support">' + esc(m.note) + '</span>';
-    return '<li class="s6 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m.k) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
+    return '<li class="s6 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
   }).join('');
   $('#about-maps').textContent = MAP_STATUS.length + 'マップ中 ' + cnt.on + 'マップが稼働中' + (cnt.boot ? '・' + cnt.boot + 'マップが起動中' : '') + (cnt.off ? '・' + cnt.off + 'マップが停止中' : '');
 }
