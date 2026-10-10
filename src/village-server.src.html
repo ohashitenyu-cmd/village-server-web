@@ -1660,7 +1660,7 @@ const markTile = built => '<rect width="100" height="100" rx="22" fill="#171B2E"
 /* ロゴの動き（ロゴ案と同じ1つの物語）：「人が集まり、家と文字が建ち、村になる」。
    完成したロゴから、寄りで映した何もない広場に切り替わる。人が四方から集まって跳ね、それぞれの場所で壁を立て、屋根に跳び乗って自分の色の屋根になる。
    家が建つにつれて引いて、完成したロゴに戻る。横の「Village Server」も家と同時に1文字ずつ5色で立ち上がり、最後にいつもの色にそろう。
-   ヘッダーとフッターのロゴで、ホバー・キーボードで選んだときに1回流す。フッターは見えたときにも1回。動きを減らす設定では流さない */
+   ヘッダーのロゴは、ページを開いたときに1回だけ（ボタンなので、そのあとは止めておく）。フッターのロゴは、ホバー・キーボードで選んだときと、見えたときに1回。動きを減らす設定では流さない */
 const logoFilm = (() => {
   const HUE = { r:'#EE4360', y:'#F2B516', g:'#3DC48F', b:'#0B9ED9', p:'#A259F0' }, ORDER = ['r','y','g','b','p'];
   const IC = .8660254, IS = .5, H = .8, RF = .5, LIT = '#F4F0E4', SHADE = '#D6CFBF', BUILD_END = 5.9, FINAL = 99;
@@ -2139,11 +2139,15 @@ addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY 
 /* ---------- 起動 ---------- */
 setMode(mode());
 $$('svg[data-mark]').forEach(el => { el.innerHTML = el.dataset.mark === 'tile' ? markTile() : markArt(); });
-$$('.vs-brand').forEach(a => {
-  a.addEventListener('pointerenter', () => playLogo(a));
-  a.addEventListener('focus', () => { if (a.matches(':focus-visible')) playLogo(a); });
-});
-if (window.IntersectionObserver) { const fb = $('footer .vs-brand'); new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) playLogo(fb); }), { threshold:1 }).observe($('.vs-appicon', fb)); }
+/* ヘッダーのロゴはトップへ戻るボタンなので、ページを開いたときに1回だけ流し、完成したロゴで止める（ホバーでは動かさない）。
+   フッターのロゴは、ホバー・キーボードで選んだときと、画面に入ったときに流す */
+{ const hb = $('header .vs-brand'); setTimeout(() => playLogo(hb), 400); }
+{
+  const fb = $('footer .vs-brand');
+  fb.addEventListener('pointerenter', () => playLogo(fb));
+  fb.addEventListener('focus', () => { if (fb.matches(':focus-visible')) playLogo(fb); });
+  if (window.IntersectionObserver) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) playLogo(fb); }), { threshold:1 }).observe($('.vs-appicon', fb));
+}
 renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
