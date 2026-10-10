@@ -515,7 +515,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-mugi mura-neko{display:block; --neko-size:7rem}
 .vs-mugi:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
 .vs-mugi-say{position:absolute; inset:1rem calc(100% - 1rem) auto auto; padding:.375rem .875rem; border-radius:1rem 1rem .25rem 1rem; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); font-size:.875rem; font-weight:700; line-height:1.5; white-space:nowrap; transition:box-shadow var(--speed2)}
-.vs-mugi:hover .vs-mugi-say{box-shadow:var(--vs-e2)}
+.vs-mugi::before,.vs-mugi::after{content:none !important; display:none !important}
 .vs-mugi[aria-expanded="true"] .vs-mugi-say{display:none}
 @media (max-width:600px){
   .vs-mugi{inset-block-end:calc(4.75rem + env(safe-area-inset-bottom,0px))}
@@ -1771,9 +1771,18 @@ function updateFab(){
   f.setAttribute('aria-expanded', String(open));
   f.setAttribute('aria-label', open ? 'ムギとの話を閉じる' : 'ムギに相談');
 }
-/* 右下のムギ：近づくと首をかしげる（何度も続けては動かない） */
-let mugiHover = 0;
-$('#fab').addEventListener('pointerenter', () => { const now = Date.now(); if (mugiFab && mugiFab.play && now - mugiHover > 3000 && !mugiFab.speaking) { mugiHover = now; mugiFab.play('tilt'); } });
+/* 右下のムギ：カーソルを乗せている間（キーボードで選んでいる間も）は首をかしげたまま。
+   mura-neko の「tilt」の姿勢を、ムギの中（shadow root）に足したスタイルで保つ */
+if (mugiFab && mugiFab.shadowRoot) {
+  const st = D.createElement('style');
+  st.textContent = '.hold-tilt .head{transform:translateX(3px) rotate(14deg)} .hold-tilt .ear-l{transform:rotate(-10deg)}';
+  mugiFab.shadowRoot.append(st);
+  const cat = mugiFab.shadowRoot.querySelector('.cat'), fab = $('#fab'), tilt = on => cat.classList.toggle('hold-tilt', on);
+  fab.addEventListener('pointerenter', () => tilt(true));
+  fab.addEventListener('pointerleave', () => tilt(false));
+  fab.addEventListener('focus', () => tilt(fab.matches(':focus-visible')));
+  fab.addEventListener('blur', () => tilt(false));
+}
 function openChat(){
   if (!chat.log.length) resetChat();
   if (!chatDlg.open) { if (compact()) chatDlg.showModal(); else chatDlg.show(); }
