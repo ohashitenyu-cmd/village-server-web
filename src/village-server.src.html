@@ -308,13 +308,13 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 @media (prefers-reduced-motion:no-preference){ .vs-spin{animation:vs-rot 1s linear infinite} }
 @keyframes vs-rot{to{transform:rotate(1turn)}}
 
-/* ---- ルール：禁止事項は1件ずつのカード。夜空に禁止マーク（○に斜線）の絵、押すとくわしい説明と「確認した」 ---- */
+/* ---- ルール：禁止事項は1件ずつのカード。夜空に、これまでのルールのイラスト（白い線画をクリーム色にし、元の地色を灯りにしたもの）。押すとくわしい説明と「確認した」 ---- */
 .vs-rulecards{list-style:none; padding:0}
 .vs-rule{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
-.vs-rule-art{position:relative; display:grid; place-items:center; block-size:7.5rem; border-radius:0; background:radial-gradient(50% 75% at 50% 55%,color-mix(in srgb,var(--rc) 50%,transparent),transparent 75%),var(--vs-night)}
-.vs-sign{position:relative; display:grid; place-items:center; inline-size:5rem; block-size:5rem; border-radius:0}
-.vs-sign>i{--_size:2.75rem; color:var(--vs-flame)}
-.vs-sign>svg{position:absolute; inset:0; inline-size:100%; block-size:100%}
+.vs-rule-art{position:relative; display:flex; align-items:center; justify-content:center; block-size:9rem; overflow:hidden; border-radius:0; background:radial-gradient(55% 80% at 50% 60%,color-mix(in srgb,var(--rc) 55%,transparent),transparent 78%),var(--vs-night)}
+.vs-rule-img{display:block; block-size:76%; inline-size:auto; max-inline-size:78%; object-fit:contain; margin-block-start:1rem; border-radius:0}
+.vs-rule-ban{position:absolute; inset:.75rem auto auto .75rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem .25rem .5rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-red-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
+.vs-rule-ban>i{--_size:1rem}
 .vs-rule-chip{position:absolute; inset:.75rem .75rem auto auto; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-green-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
 .vs-rule-chip>i{--_size:1rem}
 .vs-rule-body{display:flex; flex-direction:column; flex:1; gap:.375rem; padding:1.25rem 1.5rem}
@@ -324,14 +324,15 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-rule-foot>span>i{--_size:1.125rem}
 .vs-rule.done .vs-rule-foot>span{color:var(--vs-green-ink)}
 @media (max-width:600px){
-  .vs-rulecards .vs-rule-art{block-size:5.5rem}
-  .vs-rulecards .vs-sign{inline-size:3.75rem; block-size:3.75rem} .vs-rulecards .vs-sign>i{--_size:2rem}
+  .vs-rulecards .vs-rule-art{block-size:6.5rem}
+  .vs-rulecards .vs-rule-img{block-size:66%; margin-block-start:.5rem}
   .vs-rulecards .vs-rule-chip{inset:.5rem .5rem auto auto; padding:.125rem .5rem}
+  .vs-rulecards .vs-rule-ban{display:none}
   .vs-rule-body{padding:1rem}
   .vs-rulecards .vs-rule-body>.vs-support{display:none}
 }
 dialog.vs-ruledlg{padding:0; inline-size:min(34rem,calc(100vw - 2rem)); max-inline-size:none; max-block-size:calc(100dvh - 2rem); overflow:auto; border-radius:1.75rem}
-.vs-ruledlg .vs-rule-art{block-size:9rem}
+.vs-ruledlg .vs-rule-art{block-size:12rem}
 .vs-ruledlg-body{display:flex; flex-direction:column; gap:.75rem; padding:1.5rem}
 .vs-ruledlg-body>*{margin:0 !important}
 .vs-exlist{list-style:none; padding:0; display:flex; flex-direction:column; gap:.5rem}
@@ -1104,7 +1105,8 @@ const STEP_DEF = {
 };
 const FLOW = { asa:['login','discord','rules','link'], pal:['login','discord','rules'] };
 /* 禁止事項（公式Wikiのサーバールールより。有精卵のポイ捨ては削除）。c＝絵の色、asa:1＝ARK:SAだけ、pal＝パルワールドでの表記（ない項目はARKと同じ） */
-const RULE_C = { green:'#40c68b', red:'#ee395b', orange:'#f2853a', yellow:'#efbb0c', brown:'#c48a5a', cream:'#f3eee3', blue:'#009acf', pink:'#ff5c9a', purple:'#a257eb' };
+/* 灯りの色は、これまでのイラストの地色に合わせる */
+const RULE_C = { green:'#3fbf5a', red:'#ee2a35', orange:'#f2692a', yellow:'#f7aa2f', brown:'#b9773f', cream:'#9aa0b8', blue:'#2f9e5a', pink:'#ec3a82', purple:'#9b4fd6' };
 const RULES = [
   { id:'name', c:'green', i:'badge', t:'初期名・不適切な名前', s:'「ヒト」「Human」のままの名前や、公序良俗に反する名前は使えません。',
     d:['サバイバーの作成画面では、名前に「ヒト（Human）」が最初から入っています。作成するときに、最初に名前を変えてください。名前はあとから自分では変えられません。','すでに該当する名前で作ってしまった場合は、サバイバーを作り直すか、名前の変更を依頼してください。'],
@@ -1342,13 +1344,13 @@ function renderJoin(){
 /* ルールの表記：パルワールドでは pal の項目で上書きする */
 const ruleView = (g, r) => g === 'pal' && r.pal ? Object.assign({}, r, r.pal) : r;
 const ruleOn = (g, id) => state.ruleChecks[g].indexOf(id) >= 0;
-/* 禁止マーク（○に斜線）を、ルールの絵（アイコン）に重ねる */
-const ruleSign = r => '<span class="vs-sign" aria-hidden="true"><i>' + r.i + '</i><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#ee395b" stroke-width="7"></circle><path d="M19 19L81 81" stroke="#ee395b" stroke-width="7" stroke-linecap="round"></path></svg></span>';
+/* ルールのイラスト（img/rules/rule-ID.png）と、左上の「禁止」 */
+const ruleArt = r => '<span class="vs-rule-ban"><i>block</i>禁止</span><img class="vs-rule-img" src="img/rules/rule-' + r.id + '.png" alt="">';
 function ruleCards(g, cols){
   return rulesFor(g).map(r0 => {
     const r = ruleView(g, r0), on = ruleOn(g, r.id);
     return '<li class="' + cols + '"><a class="vs-rule wave' + (on ? ' done' : '') + '" href="#" role="button" data-ruleopen="' + r.id + '" data-rgame="' + g + '" aria-label="' + esc(r.t) + 'の禁止（' + (on ? '確認済み' : '未確認') + '）">' +
-      '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleSign(r) + (on ? '<span class="vs-rule-chip"><i>check</i>確認済み</span>' : '') + '</span>' +
+      '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(r) + (on ? '<span class="vs-rule-chip"><i>check</i>確認済み</span>' : '') + '</span>' +
       '<span class="vs-rule-body"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
       '<span class="vs-rule-foot"><span><i>' + (on ? 'check_circle' : 'radio_button_unchecked') + '</i>' + (on ? '確認済み' : '未確認') + '</span><i class="vs-go">arrow_forward</i></span></span></a></li>';
   }).join('');
@@ -1356,7 +1358,7 @@ function ruleCards(g, cols){
 function openRule(g, id){
   const r0 = RULES.find(x => x.id === id); if (!r0) return;
   const r = ruleView(g, r0), on = ruleOn(g, id), list = (a, cls, ic) => a && a.length ? '<ul class="vs-exlist ' + cls + '">' + a.map(x => '<li><i>' + ic + '</i><span>' + esc(x) + '</span></li>').join('') + '</ul>' : '';
-  $('#rule-dlg').innerHTML = '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleSign(r) + '</span>' +
+  $('#rule-dlg').innerHTML = '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(r) + '</span>' +
     '<div class="vs-ruledlg-body"><span class="vs-label">禁止事項</span><h2 class="vs-title-l" id="rule-title">' + esc(r.t) + 'の禁止</h2><p class="vs-body">' + esc(r.s) + '</p>' +
     (r.d || []).map(p => '<p class="vs-body vs-muted">' + esc(p) + '</p>').join('') +
     (r.ng && r.ng.length ? '<b class="vs-title-m">禁止の例</b>' + list(r.ng, 'ng', 'block') : '') +
