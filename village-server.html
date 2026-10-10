@@ -147,9 +147,9 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-tile-cap{font-size:.8125rem; line-height:1.5; color:var(--on-surface-variant)}
 .vs-row{display:flex; align-items:center; justify-content:flex-start; gap:1rem; inline-size:100%; padding:1rem 1.25rem; border-radius:1.25rem; block-size:auto !important; font:inherit; letter-spacing:inherit}
 .vs-row>.max{display:flex; flex-direction:column; min-inline-size:0}
-.vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
+.vs-tile.vs-add{block-size:auto; align-items:center; justify-content:center; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant)}
 .vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
-.vs-add-ic{inline-size:2.5rem; block-size:2.5rem; border-radius:.875rem; display:grid; place-items:center; background:var(--primary-container); color:var(--on-primary-container)}
+.vs-tile.vs-add>i{--_size:2.5rem; color:var(--on-surface-variant)}
 .vs-tiles.editing .vs-tile:not(.vs-add){box-shadow:inset 0 0 0 2px var(--outline-variant); background-color:var(--surface)}
 .vs-remove{position:absolute !important; inset:-.5rem -.5rem auto auto; z-index:2; box-shadow:var(--vs-e1)}
 @media (prefers-reduced-motion:no-preference){
@@ -2337,7 +2337,7 @@ function renderTiles(){
     const inner = dot(c.c, c.i, 'large') + '<span class="vs-tile-text"><b class="vs-title-m">' + esc(c.t) + '</b></span>';
     if (state.editing) return '<div class="vs-tile s6 m4 l2">' + inner + '<button class="circle small error vs-remove" type="button" data-remove="' + k + '" aria-label="' + esc(c.t) + 'を外す"><i>remove</i></button></div>';
     return '<a class="vs-tile s6 m4 l2 wave" href="#' + c.to + '">' + inner + '<i class="vs-go">arrow_forward</i></a>';
-  }).join('') + '<button class="vs-tile vs-add s6 m4 l2" type="button" data-act="add-tile"><span class="vs-add-ic"><i>add</i></span><span>追加</span></button>';
+  }).join('') + '<button class="vs-tile vs-add s6 m4 l2" type="button" data-act="add-tile" aria-label="お気に入りに追加"><i aria-hidden="true">add</i></button>';
   const eb = $('#tiles-edit');
   eb.setAttribute('aria-pressed', String(state.editing));
   eb.setAttribute('aria-label', state.editing ? '編集を終える' : 'お気に入りを編集');
