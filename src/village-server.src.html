@@ -228,19 +228,26 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-mapsum-time{margin-inline-start:auto; display:inline-flex; align-items:center; gap:.25rem; font-size:.8125rem; color:var(--on-surface-variant)}
 .vs-mapcards{list-style:none; padding:0}
 .vs-map{display:flex; flex-direction:column; block-size:100%; border-radius:1.5rem; overflow:hidden; background-color:var(--surface-container)}
-.vs-map-art{position:relative; display:block; aspect-ratio:368/172; max-inline-size:100%; overflow:hidden; border-radius:0; background:var(--vs-night)}
+.vs-map-art{position:relative; display:block; block-size:9rem; overflow:hidden; border-radius:0; background:var(--vs-night)}
 .vs-map-art>svg{display:block; inline-size:100%; block-size:100%; border-radius:0; transition:filter var(--speed3)}
 .vs-map.boot .vs-map-art>svg{filter:saturate(.5) brightness(.75)}
 .vs-map.off .vs-map-art>svg{filter:grayscale(1) brightness(.55)}
 .vs-map-chip{position:absolute; inset:.75rem auto auto .75rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--on-surface); font-size:.75rem; box-shadow:var(--vs-e1)}
 .vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame)}
 .vs-map-ov>i{--_size:2.5rem}
-.vs-map-body{display:flex; flex-direction:column; flex:1; gap:.5rem; padding:1.25rem 1.5rem 1.5rem}
+.vs-map-body{display:flex; flex-direction:column; flex:1; gap:.5rem; padding:1.25rem 1.5rem}
 .vs-map-body>*{margin:0 !important}
-.vs-map-name{font-size:1.125rem; font-weight:800; line-height:1.3}
+.vs-map-name{font-size:1rem; font-weight:700; line-height:1.5; overflow-wrap:anywhere}
 .vs-map-line{display:flex; align-items:baseline; justify-content:space-between; gap:.75rem; font-size:.875rem; color:var(--on-surface-variant)}
 .vs-map-line b{color:var(--on-surface); font-variant-numeric:tabular-nums}
 .vs-map-bar{block-size:.375rem; border-radius:.25rem; background:linear-gradient(var(--vs-green),var(--vs-green)) 0 0/var(--w) 100% no-repeat,var(--surface-container-highest)}
+@media (max-width:600px){
+  .vs-map-art{block-size:6.5rem}
+  .vs-map-chip{inset:.5rem auto auto .5rem; padding:.125rem .5rem}
+  .vs-map-ov>i{--_size:2rem}
+  .vs-map-body{padding:1rem}
+  .vs-map-line{flex-direction:column; align-items:flex-start; gap:0}
+}
 
 /* ---- TOP：写真のメインビジュアル ---- */
 .vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
@@ -1590,7 +1597,7 @@ const MAP_ART = {
 const MAP_STARS = [[28,22],[64,12],[118,26],[156,10],[214,20],[262,12],[340,18]];
 function mapArt(k){
   const A = MAP_ART[k] || { sky:'#2a2d44', art:'' }, id = 'vs-sky-' + k;
-  return '<svg viewBox="0 0 368 172" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161827"/><stop offset="1" stop-color="' + A.sky + '"/></linearGradient></defs><rect width="368" height="172" fill="url(#' + id + ')"/>' +
+  return '<svg viewBox="0 0 368 172" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161827"/><stop offset="1" stop-color="' + A.sky + '"/></linearGradient></defs><rect width="368" height="172" fill="url(#' + id + ')"/>' +
     MAP_STARS.map(s => '<circle cx="' + s[0] + '" cy="' + s[1] + '" r="1.2" fill="#f3eee3" opacity=".6"/>').join('') + A.art + '</svg>';
 }
 function renderMaps(){
@@ -1604,7 +1611,7 @@ function renderMaps(){
     const info = m.s === 'on'
       ? '<span class="vs-map-line"><span>プレイ中</span><span><b>' + m.p + '</b> / ' + MAP_MAX + '人</span></span><span class="vs-map-bar" style="--w:' + Math.round(m.p / MAP_MAX * 100) + '%" aria-hidden="true"></span>'
       : '<span class="vs-support">' + esc(m.note) + '</span>';
-    return '<li class="s12 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m.k) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
+    return '<li class="s6 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m.k) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
   }).join('');
   $('#about-maps').textContent = MAP_STATUS.length + 'マップ中 ' + cnt.on + 'マップが稼働中' + (cnt.boot ? '・' + cnt.boot + 'マップが起動中' : '') + (cnt.off ? '・' + cnt.off + 'マップが停止中' : '');
 }
