@@ -506,13 +506,23 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-swatch.c-base>span{background:conic-gradient(var(--vs-red) 0 20%,var(--vs-yellow) 0 40%,var(--vs-green) 0 60%,var(--vs-blue) 0 80%,var(--vs-purple) 0)}
 .vs-swatch.c-red{--vs-c:var(--vs-red)} .vs-swatch.c-yellow{--vs-c:var(--vs-yellow)} .vs-swatch.c-green{--vs-c:var(--vs-green)} .vs-swatch.c-blue{--vs-c:var(--vs-blue)} .vs-swatch.c-purple{--vs-c:var(--vs-purple)}
 
-/* ---- タマに相談（FAB とチャットパネル）。アイコンは村のネコ「タマ」（mura-neko、頭まわりだけ）を夜空の丸に ---- */
+/* ---- ムギに相談（右下のムギとチャットパネル）。見出しなどの丸いアイコンは、ムギの頭まわり（mura-neko crop="bust"）を夜空の丸に ---- */
 .vs-neko{display:grid; place-items:center; flex:none; inline-size:2.5rem; block-size:2.5rem; overflow:hidden; border-radius:50%; background-color:var(--vs-night)}
 .vs-neko-l{inline-size:3rem; block-size:3rem}
 .vs-neko mura-neko{--neko-size:100%}
-.vs-fab{position:fixed !important; z-index:60; inset:auto var(--vs-gutter) calc(1.5rem + env(safe-area-inset-bottom,0px)) auto; block-size:3.5rem !important; border-radius:1rem !important; padding-inline:.5rem 1.25rem !important; gap:.625rem; box-shadow:var(--elevate2); font-weight:700}
-@media (max-width:600px){ .vs-fab{inset-block-end:calc(5.5rem + env(safe-area-inset-bottom,0px))} }
-dialog.vs-chatpanel{position:fixed; inset:auto var(--vs-gutter) calc(6rem + env(safe-area-inset-bottom,0px)) auto; transform:none !important; margin:0; padding:0; inline-size:min(25rem,calc(100vw - 2 * var(--vs-gutter))); min-inline-size:0; max-inline-size:none; block-size:min(38rem,calc(100dvh - 9rem)); max-block-size:none; border-radius:1.75rem; background:var(--surface-container-low); box-shadow:var(--elevate3); overflow:hidden; flex-direction:column; z-index:70}
+/* 右下：ムギ本人がそこに座っている（ボタンの面は持たない）。押すとチャットが開く。吹き出しの「ムギに相談」が入口のことば */
+.vs-mugi{position:fixed !important; z-index:60; inset:auto calc(var(--vs-gutter) - .5rem) calc(.25rem + env(safe-area-inset-bottom,0px)) auto; display:block !important; inline-size:auto !important; block-size:auto !important; min-inline-size:0 !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:2rem !important; background:none !important; box-shadow:none !important; color:var(--on-surface) !important; cursor:pointer; overflow:visible !important}
+.vs-mugi mura-neko{display:block; --neko-size:7rem}
+.vs-mugi:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+.vs-mugi-say{position:absolute; inset:1rem calc(100% - 1rem) auto auto; padding:.375rem .875rem; border-radius:1rem 1rem .25rem 1rem; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); font-size:.875rem; font-weight:700; line-height:1.5; white-space:nowrap; transition:box-shadow var(--speed2)}
+.vs-mugi:hover .vs-mugi-say{box-shadow:var(--vs-e2)}
+.vs-mugi[aria-expanded="true"] .vs-mugi-say{display:none}
+@media (max-width:600px){
+  .vs-mugi{inset-block-end:calc(4.75rem + env(safe-area-inset-bottom,0px))}
+  .vs-mugi mura-neko{--neko-size:5.5rem}
+  .vs-mugi-say{inset-block-start:.5rem}
+}
+dialog.vs-chatpanel{position:fixed; inset:auto var(--vs-gutter) calc(8.25rem + env(safe-area-inset-bottom,0px)) auto; transform:none !important; margin:0; padding:0; inline-size:min(25rem,calc(100vw - 2 * var(--vs-gutter))); min-inline-size:0; max-inline-size:none; block-size:min(38rem,calc(100dvh - 11.25rem)); max-block-size:none; border-radius:1.75rem; background:var(--surface-container-low); box-shadow:var(--elevate3); overflow:hidden; flex-direction:column; z-index:70}
 dialog.vs-chatpanel[open]{display:flex}
 @media (max-width:600px){ dialog.vs-chatpanel{inset:0; inline-size:100%; block-size:100%; border-radius:0} }
 body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden}
@@ -952,7 +962,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <p class="vs-support">チェックの付いた特典が、そのランクで使えます。棒が長いほど、日数やポイントが多くなります。</p>
       <p class="vs-note s vs-mt-s"><i>swipe</i><span>横にスクロールすると、ほかのランクも見られます。</span></p>
       <div class="vs-table-wrap vs-mt-s" id="ranks-table"></div>
-      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みはタマ（右下の「タマに相談」）が受け付けます。</p>
+      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みはムギ（右下の「ムギに相談」）が受け付けます。</p>
     </section>
   </div>
 
@@ -968,7 +978,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <ul class="vs-rlist vs-mt" id="faq-list"></ul>
         <section class="vs-section" aria-labelledby="faq-more">
           <h2 class="vs-title-l" id="faq-more">解決しないときは</h2>
-          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-neko"><mura-neko crop="bust" aria-hidden="true"></mura-neko></span><span class="max"><b class="vs-title-m">タマに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
+          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-neko"><mura-neko crop="bust" aria-hidden="true"></mura-neko></span><span class="max"><b class="vs-title-m">ムギに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
         </section>
       </div>
     </div>
@@ -1080,19 +1090,19 @@ body:not(.vs-ready) .page.active{animation:none}
   </footer>
 </main>
 
-<button class="primary-container vs-fab" type="button" id="fab" aria-controls="chat" aria-expanded="false"><span class="vs-neko"><mura-neko id="tama-fab" crop="bust" aria-hidden="true"></mura-neko></span><span class="vs-fab-label">タマに相談</span></button>
+<button class="vs-mugi" type="button" id="fab" aria-controls="chat" aria-expanded="false" aria-label="ムギに相談"><span class="vs-mugi-say" aria-hidden="true">ムギに相談</span><mura-neko id="mugi-fab" follow aria-hidden="true"></mura-neko></button>
 
 <dialog id="chat" class="vs-chatpanel" aria-labelledby="chat-title">
   <nav class="vs-chat-head">
-    <span class="vs-neko vs-neko-l"><mura-neko id="tama" crop="bust" aria-hidden="true"></mura-neko></span>
-    <div class="max"><b class="vs-title-m" id="chat-title">タマ</b><div class="vs-support vs-chat-status" id="chat-status">プロトタイプ・回答は例です</div></div>
+    <span class="vs-neko vs-neko-l"><mura-neko id="mugi" crop="bust" aria-hidden="true"></mura-neko></span>
+    <div class="max"><b class="vs-title-m" id="chat-title">ムギ</b><div class="vs-support vs-chat-status" id="chat-status">プロトタイプ・回答は例です</div></div>
     <button class="circle transparent" type="button" id="chat-reset" aria-label="会話を最初からにする"><i>restart_alt</i></button>
     <button class="circle transparent" type="button" id="chat-close" aria-label="閉じる"><i>close</i></button>
   </nav>
   <div class="vs-chat" id="chat-log" aria-live="polite"></div>
   <form class="row vs-chat-form" id="chat-form">
     <div class="field round fill">
-      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="タマへのメッセージ" autocomplete="off">
+      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="ムギへのメッセージ" autocomplete="off">
     </div>
     <button class="circle" type="submit" aria-label="送信"><i>arrow_upward</i></button>
   </form>
@@ -1120,7 +1130,7 @@ body:not(.vs-ready) .page.active{animation:none}
 
 <div class="snackbar" id="snack" role="status"><span class="max" id="snack-text"></span><button class="transparent small" type="button" id="snack-act" hidden>元に戻す</button></div>
 
-<!-- タマ（チャットのアバター）: mura-neko.js を build.ps1 で埋め込む -->
+<!-- ムギ（チャットのアバター）: mura-neko.js を build.ps1 で埋め込む -->
 <script>/*__MURANEKO__*/</script>
 <script>
 (function(){
@@ -1565,7 +1575,7 @@ function renderCommands(){
     .filter(g => g.items.length);
   $('#cmd-groups').innerHTML = groups.length ? groups.map(g => '<section class="s12 l6"><div class="vs-sechead"><i class="ink-' + g.c + '">' + g.icon + '</i><h2 class="vs-title-m">' + esc(g.title) + '</h2></div><ul class="vs-list vs-mt-s">' +
     g.items.map(c => { const copy = c[0].split(' [')[0]; return '<li><span class="max"><code class="vs-cmd">' + esc(c[0]) + '</code><span class="vs-support" style="display:block">' + esc(c[1]) + '</span></span><span class="vs-cost' + (c[2] === '無料' ? ' free' : '') + '">' + esc(c[2]) + '</span><button class="circle transparent small" type="button" data-copy="' + esc(copy) + '" aria-label="' + esc(copy) + ' をコピー"><i>content_copy</i></button></li>'; }).join('') + '</ul></section>').join('')
-    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「タマに相談」から聞くこともできます。</span></p></div>';
+    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「ムギに相談」から聞くこともできます。</span></p></div>';
 }
 function renderApi(){
   $('#api-grid').innerHTML = APIS.map(a => '<div class="s12 m6 vs-block vs-info"><i class="ink-' + a.c + '">' + a.i + '</i><h2 class="vs-title-m">' + esc(a.t) + '</h2>' + (a.p ? '<code class="vs-cmd vs-support">' + esc(a.p) + '</code>' : '') + '<p class="vs-support vs-mt-s">' + esc(a.d) + '</p>' + (a.note ? '<p class="vs-note vs-mt-s"><i>map</i><span>' + esc(a.note) + '</span></p>' : '') + '</div>').join('');
@@ -1750,17 +1760,20 @@ function renderNotify(){
 }
 $('#mp-notify').addEventListener('change', e => { state.notify = e.target.checked; store.set('notify', state.notify); renderNotify(); snack(state.notify ? '撤去期限のお知らせをオンにしました' : '撤去期限のお知らせをオフにしました'); });
 
-/* ---------- タマ（右下の「タマに相談」から開くチャット）。返事はタマが口を動かして1文字ずつ話す ---------- */
+/* ---------- ムギ（右下の「ムギに相談」から開くチャット）。返事はムギが口を動かして1文字ずつ話す ---------- */
 const chatDlg = $('#chat');
 const compact = () => window.matchMedia && matchMedia('(max-width:600px)').matches;
 const chat = { log:[], resume:null };
-const tama = $('#tama'), tamaFab = $('#tama-fab');
-const canSpeak = !!(tama && tama.speak);
+const mugi = $('#mugi'), mugiFab = $('#mugi-fab');
+const canSpeak = !!(mugi && mugi.speak);
 function updateFab(){
   const open = chatDlg.open, f = $('#fab');
   f.setAttribute('aria-expanded', String(open));
-  $('.vs-fab-label', f).textContent = open ? '閉じる' : 'タマに相談';
+  f.setAttribute('aria-label', open ? 'ムギとの話を閉じる' : 'ムギに相談');
 }
+/* 右下のムギ：近づくと首をかしげる（何度も続けては動かない） */
+let mugiHover = 0;
+$('#fab').addEventListener('pointerenter', () => { const now = Date.now(); if (mugiFab && mugiFab.play && now - mugiHover > 3000 && !mugiFab.speaking) { mugiHover = now; mugiFab.play('tilt'); } });
 function openChat(){
   if (!chat.log.length) resetChat();
   if (!chatDlg.open) { if (compact()) chatDlg.showModal(); else chatDlg.show(); }
@@ -1777,9 +1790,9 @@ function botSay(text, links){
   if (!canSpeak) { chat.log.push({ from:'ai', text:String(text).replace(/\[[a-z]+\]/g, ''), links: links || [] }); renderChat(); return Promise.resolve(); }
   const m = { from:'ai', text:'', links:[], typing:true };
   let added = false;
-  return tama.speak(text, {
-    onChar: c => { if (!added) { chat.log.push(m); added = true; } m.text += c; renderChat(); },
-    onTag: t => { if (window.MuraNeko.moods.indexOf(t) >= 0 && tamaFab) tamaFab.setMood(t, { duration:4000 }); }
+  if (mugiFab && mugiFab.speak) mugiFab.speak(text);  // 右下のムギも同じ文を口を動かして話す
+  return mugi.speak(text, {
+    onChar: c => { if (!added) { chat.log.push(m); added = true; } m.text += c; renderChat(); }
   }).then(() => {
     if (!added) chat.log.push(m);
     m.text = window.MuraNeko.stripTags(text); m.links = links || []; m.typing = false; renderChat();
@@ -1793,15 +1806,15 @@ function renderChat(){
 }
 if (canSpeak) {
   const status = $('#chat-status');
-  tama.addEventListener('speechstart', () => { status.textContent = 'しゃべり中…'; });
-  tama.addEventListener('speechend', () => { status.textContent = 'プロトタイプ・回答は例です'; });
+  mugi.addEventListener('speechstart', () => { status.textContent = 'しゃべり中…'; });
+  mugi.addEventListener('speechend', () => { status.textContent = 'プロトタイプ・回答は例です'; });
 }
 function resetChat(){
-  if (canSpeak) tama.stop();
+  if (canSpeak) { mugi.stop(); if (mugiFab) mugiFab.stop(); }
   chat.log = []; renderChat();
-  botSay('[happy]こんにちは、村のネコのタマだよ。[neutral]困っていることを入力するか、下から選んでにゃ。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]);
+  botSay('[happy]こんにちは、村のネコのムギだよ。[neutral]困っていることを入力するか、下から選んでにゃ。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]);
 }
-/* タマの返事（例）。半目でのんびり、ぼそっと短く。ときどき語尾に「にゃ」 */
+/* ムギの返事（例）。半目でのんびり、ぼそっと短く。ときどき語尾に「にゃ」 */
 const ANSWERS = [
   { k:['こんにち','こんばん','おはよ','はじめまして','hello'], a:'[happy][nod]こんにちは。今日も焚き火はあったかいにゃ。' },
   { k:['ありがと'], a:'[happy][bow]どういたしまして。また焚き火に寄ってってね。' },

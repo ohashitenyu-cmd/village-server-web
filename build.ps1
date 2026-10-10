@@ -11,7 +11,7 @@ $css = [regex]::Replace($css, '@font-face\{[^}]*\}', '')
 $wavy = [IO.File]::ReadAllBytes("$root\vendor\wavy.svg")
 $css = $css.Replace('url(wavy.svg)', 'url("data:image/svg+xml;base64,' + [Convert]::ToBase64String($wavy) + '")')
 
-# Tama, the chat avatar (mura-neko.js, a dependency-free Web Component). Inlined so the page stays one file;
+# Mugi, the chat avatar (mura-neko.js, a dependency-free Web Component). Inlined so the page stays one file;
 # "</script" inside the file is escaped so it cannot close the inline script tag.
 $neko = [IO.File]::ReadAllText("$root\vendor\mura-neko.js", $utf8).Replace('</script', '<\/script')
 
