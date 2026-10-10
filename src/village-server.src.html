@@ -103,6 +103,7 @@ header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shad
 .vs-brand{gap:.625rem; color:var(--on-surface); justify-content:flex-start; border-radius:.75rem}
 .vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:22%; flex:none; clip-path:inset(0 round 22%)}
 .vs-wordmark{font-family:"Outfit",var(--font); font-weight:600; font-size:1.375rem; letter-spacing:-.005em; line-height:1}
+.vs-wl{display:inline-block; transform-origin:50% 82%}  /* ロゴの動きで、1文字ずつ下から立ち上がる */
 .vs-seg>button{padding-inline:.875rem; gap:.25rem}
 .vs-seg>button:not(.active)>i{display:none}
 .vs-seg>button>i{--_size:1.125rem}
@@ -1577,14 +1578,14 @@ function rankPrice(name, bill){
   return bill === 'year' ? { n:m * YEAR_MONTHS, unit:'円/年', alt:'月あたり ' + fmt(Math.round(m * YEAR_MONTHS / 12)) + '円' } : { n:m, unit:'円/月', alt:'年払いなら ' + fmt(m * YEAR_MONTHS) + '円/年' };
 }
 /* ---------- ロゴ：広場を囲む5軒の家 ----------
-   アイソメトリックの家5軒が輪になって広場を囲む。屋根は村人の5色、壁はみんな同じ色（ロゴ案「輪になって集まる5軒」と同じ形）。
+   アイソメトリックの家5軒が、地面の上の正五角形に並んで広場を囲む。屋根は村人の5色、壁はみんな同じ色（ロゴ案「輪になって集まる5軒」と同じ形）。
    座標は viewBox 0 0 100 100（ロゴ案と同じ計算で出した値）。奥の家から順に描く。[村人, 屋根の色, 跳ねる順, 正面の壁, 側面の壁, 屋根, 空き地] */
 const MARK_HOUSES = [
-  ['p','#A259F0',4,'36.33,41.63 50,49.52 50,36.9 36.33,29','63.67,41.63 50,49.52 50,36.9 56.83,25.06 63.67,29','36.33,29 50,36.9 56.83,25.06 43.17,17.17','50,33.74 63.67,41.63 50,49.52 36.33,41.63'],
-  ['g','#3DC48F',2,'6,54.35 19.67,62.25 19.67,49.62 6,41.73','33.34,54.35 19.67,62.25 19.67,49.62 26.5,37.78 33.34,41.73','6,41.73 19.67,49.62 26.5,37.78 12.83,29.89','19.67,46.46 33.34,54.35 19.67,62.25 6,54.35'],
-  ['b','#0B9ED9',3,'66.66,54.35 80.33,62.25 80.33,49.62 66.66,41.73','94,54.35 80.33,62.25 80.33,49.62 87.17,37.78 94,41.73','66.66,41.73 80.33,49.62 87.17,37.78 73.5,29.89','80.33,46.46 94,54.35 80.33,62.25 66.66,54.35'],
-  ['y','#F2B516',1,'17.59,74.94 31.25,82.83 31.25,70.21 17.59,62.32','44.92,74.94 31.25,82.83 31.25,70.21 38.09,58.37 44.92,62.32','17.59,62.32 31.25,70.21 38.09,58.37 24.42,50.48','31.25,67.05 44.92,74.94 31.25,82.83 17.59,74.94'],
-  ['r','#EE4360',0,'55.08,74.94 68.75,82.83 68.75,70.21 55.08,62.32','82.41,74.94 68.75,82.83 68.75,70.21 75.58,58.37 82.41,62.32','55.08,62.32 68.75,70.21 75.58,58.37 61.91,50.48','68.75,67.05 82.41,74.94 68.75,82.83 55.08,74.94']
+  ['p','#A259F0',4,'35.42,42.69 50,51.1 50,37.63 35.42,29.22','64.58,42.69 50,51.1 50,37.63 57.29,25.01 64.58,29.22','35.42,29.22 50,37.63 57.29,25.01 42.71,16.59','50,34.27 64.58,42.69 50,51.1 35.42,42.69'],
+  ['g','#3DC48F',2,'6,55.03 20.58,63.45 20.58,49.98 6,41.56','35.16,55.03 20.58,63.45 20.58,49.98 27.87,37.35 35.16,41.56','6,41.56 20.58,49.98 27.87,37.35 13.29,28.93','20.58,46.61 35.16,55.03 20.58,63.45 6,55.03'],
+  ['b','#0B9ED9',3,'64.84,55.03 79.42,63.45 79.42,49.98 64.84,41.56','94,55.03 79.42,63.45 79.42,49.98 86.71,37.35 94,41.56','64.84,41.56 79.42,49.98 86.71,37.35 72.13,28.93','79.42,46.61 94,55.03 79.42,63.45 64.84,55.03'],
+  ['y','#F2B516',1,'17.24,74.99 31.82,83.41 31.82,69.94 17.24,61.52','46.4,74.99 31.82,83.41 31.82,69.94 39.11,57.31 46.4,61.52','17.24,61.52 31.82,69.94 39.11,57.31 24.53,48.9','31.82,66.57 46.4,74.99 31.82,83.41 17.24,74.99'],
+  ['r','#EE4360',0,'53.6,74.99 68.18,83.41 68.18,69.94 53.6,61.52','82.76,74.99 68.18,83.41 68.18,69.94 75.47,57.31 82.76,61.52','53.6,61.52 68.18,69.94 75.47,57.31 60.89,48.9','68.18,66.57 82.76,74.99 68.18,83.41 53.6,74.99']
 ];
 const MK_LIT = 'var(--mk-lit,#F4F0E4)', MK_SHADE = 'var(--mk-shade,#D6CFBF)';
 const mkPoly = (pts, c) => '<polygon points="' + pts + '" style="fill:' + c + ';stroke:' + c + ';stroke-linejoin:round"></polygon>';
@@ -1596,72 +1597,105 @@ function markArt(built){
 }
 /* アプリアイコン：ロゴの地の藍に、ロゴを少し小さく置く（ファビコンと同じ組み方） */
 const markTile = built => '<rect width="100" height="100" rx="22" fill="#171B2E"></rect><g transform="translate(7 7) scale(.86)">' + markArt(built) + '</g>';
-/* ロゴの動き（ロゴ案のアイコンと同じ）：完成したロゴから、住人が広場側の戸口から出て（その家の屋根から色が抜ける）、
-   村の前に並んで2回跳ね、家に帰る（屋根に自分の色が戻る）。人が集まる間は寄って映す。
-   ヘッダーとフッターのロゴで、ホバー・フォーカスしたときに1回流す。フッターは見えたときにも1回。動きを減らす設定では流さない */
-const logoFrame = (() => {
-  const HUE = { r:'#EE4360', y:'#F2B516', g:'#3DC48F', b:'#0B9ED9', p:'#A259F0' }, RING = ['p','b','r','y','g'], ORDER = ['r','y','g','b','p'];
-  const IC = .8660254, IS = .5, H = .8, RF = .5, LIT = '#F4F0E4', SHADE = '#D6CFBF', EMPTY = '#5C6174';
+/* ロゴの動き（ロゴ案と同じ1つの物語）：「人が集まり、家と文字が建ち、村になる」。
+   完成したロゴから、寄りで映した何もない広場に切り替わる。人が四方から集まって跳ね、それぞれの場所で壁を立て、屋根に跳び乗って自分の色の屋根になる。
+   家が建つにつれて引いて、完成したロゴに戻る。横の「Village Server」も家と同時に1文字ずつ5色で立ち上がり、最後にいつもの色にそろう。
+   ヘッダーとフッターのロゴで、ホバー・キーボードで選んだときに1回流す。フッターは見えたときにも1回。動きを減らす設定では流さない */
+const logoFilm = (() => {
+  const HUE = { r:'#EE4360', y:'#F2B516', g:'#3DC48F', b:'#0B9ED9', p:'#A259F0' }, ORDER = ['r','y','g','b','p'];
+  const IC = .8660254, IS = .5, H = .8, RF = .5, LIT = '#F4F0E4', SHADE = '#D6CFBF', BUILD_END = 5.9, FINAL = 99;
   const cl = v => v < 0 ? 0 : v > 1 ? 1 : v, lerp = (a, b, t) => a + (b - a) * t, f2 = n => n.toFixed(2);
   const oc = t => 1 - Math.pow(1 - t, 3), io = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const ob = t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
   const mix = (a, b, t) => { const A = parseInt(a.slice(1), 16), B = parseInt(b.slice(1), 16), ch = s => Math.round(lerp(A >> s & 255, B >> s & 255, t)); return '#' + ((1 << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0)).toString(16).slice(1); };
   const P0 = (x, y, z) => [(x - y) * IC, (x + y) * IS - z];
-  const PL = {};
-  RING.forEach((k, i) => { const ph = i * 72 * Math.PI / 180, du = Math.sin(ph), dv = -Math.cos(ph), dx = (dv + du) / Math.SQRT2, dy = (dv - du) / Math.SQRT2, cx = 1.65 * dx, cy = 1.65 * dy; PL[k] = { x0:cx - .5, y0:cy - .5, cx, cy, door:[cx + .82, cy] }; });
-  const faces = pl => { const { x0, y0 } = pl, r = H + RF; return [[[[x0,y0+1,0],[x0+1,y0+1,0],[x0+1,y0+1,H],[x0,y0+1,H]],'lit'],[[[x0+1,y0,0],[x0+1,y0+1,0],[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0+1,y0,H]],'shade'],[[[x0,y0+1,H],[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0,y0+.5,r]],'roof']]; };
-  /* 静止したロゴと同じ大きさと位置（88の枠に収める） */
-  const all = []; for (const k in PL) faces(PL[k]).forEach(([f]) => f.forEach(p => all.push(P0(...p))));
+  /* 家の並び：地面の上で正五角形に置いた5軒（ロゴ案と同じ） */
+  const CENTERS = { p:[-1.0607,-1.0607], b:[.681,-1.3365], r:[1.4815,.2347], y:[.2347,1.4815], g:[-1.3365,.681] }, PL = {};
+  for (const k in CENTERS) { const [cx, cy] = CENTERS[k], L = Math.hypot(cx, cy); PL[k] = { x0:cx - .5, y0:cy - .5, dx:cx / L, dy:cy / L, door:[cx + .82, cy], top:[cx, cy + .1], pc:[cx, cy + .1, H + .3] }; }
+  const whole = ({ x0, y0 }) => { const r = H + RF; return [[[[x0,y0+1,0],[x0+1,y0+1,0],[x0+1,y0+1,H],[x0,y0+1,H]],'lit'],[[[x0+1,y0,0],[x0+1,y0+1,0],[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0+1,y0,H]],'shade'],[[[x0,y0+1,H],[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0,y0+.5,r]],'roof']]; };
+  const lower = ({ x0, y0 }, h) => [[[[x0,y0+1,0],[x0+1,y0+1,0],[x0+1,y0+1,h],[x0,y0+1,h]],'lit'],[[[x0+1,y0,0],[x0+1,y0+1,0],[x0+1,y0+1,h],[x0+1,y0,h]],'shade']];
+  const upper = ({ x0, y0 }) => { const r = H + RF; return [[[[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0+1,y0,H]],'shade'],[[[x0,y0+1,H],[x0+1,y0+1,H],[x0+1,y0+.5,r],[x0,y0+.5,r]],'roof']]; };
+  const all = []; for (const k in PL) whole(PL[k]).forEach(([f]) => f.forEach(p => all.push(P0(...p))));
   const xs = all.map(p => p[0]), ys = all.map(p => p[1]), x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
   const S = 88 / Math.max(x1 - x0, y1 - y0), OX = 50 - (x0 + x1) / 2 * S, OY = 50 - (y0 + y1) / 2 * S;
   const scr = p => { const q = P0(...p); return [q[0] * S + OX, q[1] * S + OY]; };
-  const poly = (pts, c) => '<polygon points="' + pts.map(p => scr(p).map(f2).join(',')).join(' ') + '" fill="' + c + '" stroke="' + c + '" stroke-linejoin="round"></polygon>';
-  const house = (k, zs, col) => faces(PL[k]).map(([pts, role]) => poly(zs === 1 ? pts : pts.map(p => [p[0], p[1], p[2] * zs]), role === 'lit' ? LIT : role === 'shade' ? SHADE : mix(EMPTY, HUE[k], col))).join('');
-  const person = (k, w) => { const [X, Y] = scr([w[0], w[1], w[2]]), u = S / 22 * 1.6 * w[4], c = HUE[k];
-    return '<g opacity="' + w[3].toFixed(3) + '"><rect x="' + f2(X - 2.1 * u) + '" y="' + f2(Y - 7.6 * u) + '" width="' + f2(4.2 * u) + '" height="' + f2(7.6 * u) + '" rx="' + f2(2.1 * u) + '" fill="' + c + '"></rect><circle cx="' + f2(X) + '" cy="' + f2(Y - 10.2 * u) + '" r="' + f2(2.3 * u) + '" fill="' + c + '"></circle></g>'; };
-  /* 集まる場所：村の前に、手前を向いた浅い弧で並ぶ（家に隠れないように） */
-  const GV = 2.25, uv = (u, v) => [(v + u) / Math.SQRT2, (v - u) / Math.SQRT2], MEET = {};
-  [...ORDER].sort((a, b) => (PL[a].cx - PL[a].cy) - (PL[b].cx - PL[b].cy)).forEach((k, si) => { MEET[k] = uv((si - 2) * .42, GV - .12 * (2 - Math.abs(si - 2))); });
-  const GS = scr([...uv(0, GV), 0]);
-  function gather(t){
+  const pts2 = pts => pts.map(p => scr(p).map(f2).join(',')).join(' ');
+  const poly = (pts, c, op) => op > .001 ? '<polygon points="' + pts2(pts) + '" fill="' + c + '" stroke="' + c + '" stroke-linejoin="round"' + (op < .999 ? ' opacity="' + op.toFixed(3) + '"' : '') + '></polygon>' : '';
+  /* 家：空き地（fp）→ 壁が立つ（wp）→ 屋根が跳ねて乗る（rp） */
+  function house(k, wp, rp, fp){
+    const pl = PL[k], col = role => role === 'roof' ? HUE[k] : role === 'lit' ? LIT : SHADE;
+    let o = fp > 0 && wp < 1 ? '<polygon points="' + pts2([[pl.x0,pl.y0,0],[pl.x0+1,pl.y0,0],[pl.x0+1,pl.y0+1,0],[pl.x0,pl.y0+1,0]]) + '" fill="' + SHADE + '" opacity="' + (.55 * fp * (1 - wp)).toFixed(3) + '"></polygon>' : '';
+    if (wp >= 1 && rp >= 1) return whole(pl).map(([pts, role]) => poly(pts, col(role), 1)).join('');
+    if (wp > 0) o += lower(pl, H * wp).map(([pts, role]) => poly(pts, col(role), 1)).join('');
+    if (rp > 0) { const s = Math.max(.02, ob(rp)), c = pl.pc, tf = p => [c[0] + (p[0] - c[0]) * s, c[1] + (p[1] - c[1]) * s, c[2] + (p[2] - c[2]) * s]; o += upper(pl).map(([pts, role]) => poly(pts.map(tf), col(role), cl(rp * 4))).join(''); }
+    return o;
+  }
+  const figure = (X, Y, u, a, c) => '<g opacity="' + a.toFixed(3) + '"><rect x="' + f2(X - 2.1 * u) + '" y="' + f2(Y - 7.6 * u) + '" width="' + f2(4.2 * u) + '" height="' + f2(7.6 * u) + '" rx="' + f2(2.1 * u) + '" fill="' + c + '"></rect><circle cx="' + f2(X) + '" cy="' + f2(Y - 10.2 * u) + '" r="' + f2(2.3 * u) + '" fill="' + c + '"></circle></g>';
+  /* 人：四方から広場に集まり、みんなで跳ね、自分の場所へ歩き、屋根に跳び乗る */
+  function walk(idx, t, s, m, d, top){
+    const a0 = .1 + .2 * idx, w0 = 2.65 + .1 * idx, js = 3.5 + .3 * idx + .55;
+    if (t < a0) return null;
+    if (t < a0 + 1.3) { const p = oc((t - a0) / 1.3); return [lerp(s[0], m[0], p), lerp(s[1], m[1], p), .1 * Math.abs(Math.sin(p * Math.PI * 5)), cl((t - a0) / .3), 1]; }
+    if (t < w0) return [m[0], m[1], t > 2.25 && t < 2.6 ? .3 * Math.sin(Math.PI * (t - 2.25) / .35) : 0, 1, 1];
+    if (t < w0 + .6) { const p = io((t - w0) / .6); return [lerp(m[0], d[0], p), lerp(m[1], d[1], p), .1 * Math.abs(Math.sin(p * Math.PI * 3)), 1, 1]; }
+    if (t < js) return [d[0], d[1], 0, 1, 1];
+    const j = (t - js) / .35; if (j >= 1) return null; const e = oc(j);
+    return [lerp(d[0], top[0], e), lerp(d[1], top[1], e), (H + RF) * e + .35 * Math.sin(Math.PI * j), 1 - cl((j - .6) / .4), 1 - .3 * j];
+  }
+  function story(t){
     const items = [];
     ORDER.forEach((k, idx) => {
-      const pl = PL[k], d = pl.door, m = MEET[k];
-      const ex = 1 + .12 * idx, wk = ex + .3, mt = wk + .9, back = 3.4 + .1 * idx, en = back + .9;
-      const out = cl((t - ex) / .3), rc = cl((t - (en + .1)) / .4);
-      const col = t < ex ? 1 : t < en + .1 ? 1 - io(out) : oc(rc);
-      items.push([pl.x0 + pl.y0 + 1, house(k, rc > 0 && rc < 1 ? 1 + .1 * Math.sin(Math.PI * rc) : 1, col)]);
-      let w = null;
-      if (t >= ex && t < en + .25) {
-        if (t < wk) { const e = oc(out); w = [d[0], d[1], 0, e, .6 + .4 * e]; }
-        else if (t < mt) { const p = io((t - wk) / .9); w = [lerp(d[0], m[0], p), lerp(d[1], m[1], p), .1 * Math.abs(Math.sin(p * Math.PI * 4)), 1, 1]; }
-        else if (t < back) { w = [m[0], m[1], t > 2.7 && t < 3.3 ? .3 * Math.abs(Math.sin(Math.PI * (t - 2.7) / .3)) : 0, 1, 1]; }
-        else if (t < en) { const p = io((t - back) / .9); w = [lerp(m[0], d[0], p), lerp(m[1], d[1], p), .1 * Math.abs(Math.sin(p * Math.PI * 4)), 1, 1]; }
-        else { const e = cl((t - en) / .25); w = [d[0], d[1], 0, 1 - e, 1 - .3 * e]; }
+      const pl = PL[k], tb = 3.5 + .3 * idx;
+      items.push([pl.x0 + pl.y0 + 1, house(k, oc(cl((t - tb - .1) / .5)), cl((t - tb - .75) / .4), cl((t - tb) / .2))]);
+      if (t < BUILD_END) {
+        const w = walk(idx, t, [pl.dx * 2.6, pl.dy * 2.6], [pl.dx * .6, pl.dy * .6], pl.door, pl.top);
+        if (w) { const [X, Y] = scr([w[0], w[1], w[2]]); items.push([w[0] + w[1], figure(X, Y, S / 22 * 1.5 * w[4], w[3], HUE[k])]); }
       }
-      if (w) items.push([w[0] + w[1], person(k, w)]);
     });
-    const op = cl((t - 1.3) / .6) * (1 - cl((t - 3.6) / .6));
-    const ground = op > 0 ? '<ellipse cx="' + f2(GS[0]) + '" cy="' + f2(GS[1]) + '" rx="' + f2(1.25 * S * 1.2247) + '" ry="' + f2(.6 * S * .7071) + '" fill="#FFFFFF" opacity="' + (.08 * op).toFixed(3) + '"></ellipse>' : '';
+    const op = cl(t / .6) * (1 - cl((t - 3) / .6));
+    const ground = op > 0 ? '<ellipse cx="' + f2(OX) + '" cy="' + f2(OY) + '" rx="' + f2(1.1 * S * 1.2247) + '" ry="' + f2(1.1 * S * .7071) + '" fill="#FFFFFF" opacity="' + (.08 * op).toFixed(3) + '"></ellipse>' : '';
     return ground + items.sort((a, b) => a[0] - b[0]).map(i => i[1]).join('');
   }
-  return t => {
-    const art = gather(t);
-    if (t < 1.3 || t >= 4.4) return art;
-    const a = io(cl((t - 1.3) / 1.1)), b = io(cl((t - 3.4) / 1));
-    const z = lerp(lerp(1, 2.1, a), 1, b), cx = lerp(lerp(50, GS[0], a), 50, b), cy = lerp(lerp(50, GS[1] - 10, a), 50, b);
-    return '<g transform="translate(50 50) scale(' + z.toFixed(4) + ') translate(' + f2(-cx) + ' ' + f2(-cy) + ')">' + art + '</g>';
-  };
+  /* アイコン：1フレーム目は完成したロゴ。CUT 秒で寄りの何もない広場に切り替わり、家が建つにつれて引く */
+  const CUT = .5, Z0 = 2.3, ZM = 1.18, CAM = [OX, OY - 8];
+  function icon(t){
+    if (t < CUT) return story(FINAL);
+    const s = t - CUT + .35, art = story(s);
+    if (s >= 5.8) return art;
+    const m = io(cl((s - 2.6) / .8)), n = io(cl((s - 4.7) / 1.1));
+    return '<g transform="translate(50 50) scale(' + lerp(lerp(Z0, ZM, m), 1, n).toFixed(4) + ') translate(' + f2(-lerp(CAM[0], 50, m)) + ' ' + f2(-lerp(CAM[1], 50, m)) + ')">' + art + '</g>';
+  }
+  /* 文字（j 番目、空白は数えない）：家と同時に5色で下から立ち上がり、最後にいつもの色へ。null の間はまだ見えない */
+  function letter(j, s){
+    const g = cl((s - (3.6 + .16 * j)) / .38);
+    if (g <= 0) return null;
+    return { sy:g >= 1 ? 1 : Math.max(.001, ob(g)), hue:HUE[ORDER[j % 5]], k:io(cl((s - (6.1 + .05 * j)) / .35)) };
+  }
+  return { icon, letter, mix, CUT };
 })();
-const LOGO_T0 = .95, LOGO_T1 = 5.4;
-function playLogo(svg){
-  if (!svg || svg._raf || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-  const g = svg.querySelector('g'), t0 = performance.now();
+/* 1回分の再生：アイコンの時間 t は CUT の少し前から始め、物語の時間 s（= t - CUT + .35）で文字がそろうまで流す */
+const LOGO_START = .4, LOGO_END = 7.05;
+const rgbHex = c => '#' + (c.match(/\d+/g) || [0, 0, 0]).slice(0, 3).map(v => (+v).toString(16).padStart(2, '0')).join('');
+function playLogo(a){
+  if (!a || a._raf || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  /* 文字は流す間だけ1文字ずつに分け、終わったら元の文字に戻す（ふだんの字詰めを保つ） */
+  const g = $('.vs-appicon g', a), wm = $('.vs-wordmark', a), text = wm.textContent, base = rgbHex(getComputedStyle(wm).color), t0 = performance.now();
+  wm.innerHTML = [...text].map(ch => ch === ' ' ? ' ' : '<span class="vs-wl">' + ch + '</span>').join('');
+  const ls = $$('.vs-wl', wm);
   const step = now => {
-    const t = LOGO_T0 + (now - t0) / 1000;
-    if (t >= LOGO_T1) { g.innerHTML = markArt(); svg._raf = 0; return; }
-    g.innerHTML = logoFrame(t); svg._raf = requestAnimationFrame(step);
+    const t = LOGO_START + (now - t0) / 1000, s = t - logoFilm.CUT + .35;
+    if (s >= LOGO_END) { g.innerHTML = markArt(); wm.textContent = text; a._raf = 0; return; }
+    g.innerHTML = logoFilm.icon(t);
+    ls.forEach((l, j) => {
+      const v = logoFilm.letter(j, s);
+      if (!v) { l.style.opacity = '0'; return; }
+      l.style.opacity = '1';
+      l.style.transform = v.sy === 1 ? '' : 'scaleY(' + v.sy.toFixed(3) + ')';
+      l.style.color = v.k >= 1 ? '' : logoFilm.mix(v.hue, base, v.k);
+    });
+    a._raf = requestAnimationFrame(step);
   };
-  svg._raf = requestAnimationFrame(step);
+  a._raf = requestAnimationFrame(step);
 }
 function planPerks(i){
   const out = ['<li class="all"><i>check</i><span>' + esc(RANK_COLS[i - 1][0]) + 'の特典すべて</span></li>'];
@@ -2046,11 +2080,10 @@ addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY 
 setMode(mode());
 $$('svg[data-mark]').forEach(el => { el.innerHTML = el.dataset.mark === 'tile' ? markTile() : markArt(); });
 $$('.vs-brand').forEach(a => {
-  const svg = $('.vs-appicon', a);
-  a.addEventListener('pointerenter', () => playLogo(svg));
-  a.addEventListener('focus', () => { if (a.matches(':focus-visible')) playLogo(svg); });
+  a.addEventListener('pointerenter', () => playLogo(a));
+  a.addEventListener('focus', () => { if (a.matches(':focus-visible')) playLogo(a); });
 });
-if (window.IntersectionObserver) { const fsvg = $('footer .vs-appicon'); new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) playLogo(fsvg); }), { threshold:1 }).observe(fsvg); }
+if (window.IntersectionObserver) { const fb = $('footer .vs-brand'); new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) playLogo(fb); }), { threshold:1 }).observe($('.vs-appicon', fb)); }
 renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
