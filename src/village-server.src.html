@@ -1,7 +1,7 @@
 <title>Village Server</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Roboto+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Roboto+Mono:wght@500&family=Cinzel:wght@600..800&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block">
 <!-- Beer CSS 5.0.3 (MIT, https://www.beercss.com). アーティファクトは外部スタイルシートを読み込めないため、beer.min.css をここに埋め込んでいます。 -->
 <style id="beer-css">/*__BEERCSS__*/</style>
@@ -353,6 +353,36 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ranks thead .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary), inset 0 2px 0 var(--primary)}
 .vs-ranks tfoot .is-mine{box-shadow:inset 2px 0 0 var(--primary), inset -2px 0 0 var(--primary), inset 0 -2px 0 var(--primary)}
 .vs-mine-label{display:block; font-size:.6875rem; font-weight:700; color:var(--primary)}
+/* ランクの申し込み：サブスクの料金カード。ランクごとに金属の色・紋章・文字の組み方を変える（色は --rk-* で受け取る） */
+.vs-plans{list-style:none; padding:0}
+.vs-plan{display:flex; flex-direction:column; border-radius:1.5rem; overflow:hidden; background-color:var(--surface-container)}
+.vs-plan-band{position:relative; isolation:isolate; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; gap:.375rem; min-block-size:10.5rem; padding:1.25rem; box-sizing:border-box; color:#f3eee3;
+  background:radial-gradient(110% 90% at 100% 0%,color-mix(in srgb,var(--rk-m1) 42%,transparent),transparent 62%),linear-gradient(160deg,var(--rk-bg),var(--rk-bg2))}
+.vs-plan-band>*{margin:0 !important}
+.vs-plan-band::before{content:""; position:absolute; inset:-60% -30%; z-index:-1; background:linear-gradient(115deg,transparent 42%,rgb(255 255 255 / .09) 50%,transparent 58%)}
+.r-diamond .vs-plan-band{background:radial-gradient(90% 80% at 100% 0%,color-mix(in srgb,var(--rk-m1) 45%,transparent),transparent 62%),radial-gradient(70% 70% at 60% 110%,color-mix(in srgb,var(--rk-m2) 40%,transparent),transparent 70%),linear-gradient(160deg,var(--rk-bg),var(--rk-bg2))}
+@media (prefers-reduced-motion:no-preference){ .r-diamond .vs-plan-band::before{animation:vs-sheen 6s ease-in-out infinite} }
+@keyframes vs-sheen{0%,55%{transform:translateX(-45%)} 100%{transform:translateX(45%)}}
+.vs-plan-emblem{position:absolute; inset:1rem 1rem auto auto; inline-size:4.75rem; block-size:4.75rem; filter:drop-shadow(0 .5rem 1rem rgb(0 0 0 / .45))}
+.vs-plan-tier{font-family:"Cinzel","Trajan Pro",Georgia,serif; font-size:.6875rem; font-weight:700; letter-spacing:.3em; color:color-mix(in srgb,var(--rk-m0) 70%,transparent)}
+.vs-plan-name{font-family:"Cinzel","Trajan Pro",Georgia,serif; font-size:1.875rem; font-weight:600; letter-spacing:.1em; line-height:1.05; background:linear-gradient(180deg,var(--rk-m0) 15%,var(--rk-m1) 62%,var(--rk-m2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.r-silver .vs-plan-name{letter-spacing:.13em}
+.r-gold .vs-plan-name{font-weight:700; letter-spacing:.15em}
+.r-diamond .vs-plan-name{font-weight:800; letter-spacing:.2em; background-image:linear-gradient(100deg,var(--rk-m0),var(--rk-m1) 38%,var(--rk-m2) 68%,var(--rk-m0))}
+.vs-plan-tag{font-size:.8125rem; font-weight:500; letter-spacing:.04em; color:rgb(243 238 227 / .8)}
+.vs-plan-badge{position:absolute; inset:1rem auto auto 1.25rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .625rem; border-radius:1rem; font-size:.6875rem; font-weight:800; letter-spacing:.06em; background-color:var(--rk-hi); color:var(--vs-night)}
+.vs-plan-badge>i{--_size:.875rem}
+.vs-plan-body{display:flex; flex-direction:column; flex:1; gap:1rem; padding:1.25rem}
+.vs-plan-body>*{margin:0 !important}
+.vs-plan-price{display:flex; align-items:baseline; gap:.25rem}
+.vs-plan-price b{font-size:2.25rem; font-weight:900; line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.vs-plan-price span{font-size:.875rem; color:var(--on-surface-variant)}
+.vs-plan-perks{list-style:none; padding:0; display:flex; flex-direction:column; gap:.5rem; font-size:.875rem; line-height:1.5}
+.vs-plan-perks li{display:flex; align-items:flex-start; gap:.5rem}
+.vs-plan-perks li>i{--_size:1.125rem; flex:none; margin-block-start:.125rem; color:var(--vs-green-ink)}
+.vs-plan-perks li.all{font-weight:700}
+.vs-plan-foot{margin-block-start:auto !important; padding-block-start:.5rem}
+.vs-plan-cta{box-sizing:border-box; inline-size:100%; margin:0; font-weight:700; background-color:var(--rk-hi); color:var(--vs-night)}
 .vs-ranks .yes{color:var(--vs-green-ink)}
 .vs-ranks .no{color:var(--outline)}
 .vs-ranks tfoot td{border:none}
@@ -702,8 +732,16 @@ body:not(.vs-ready) .page.active{animation:none}
 
   <div class="page" id="p-ranks">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">ランク比較・購入</h1></nav>
-    <div class="vs-table-wrap vs-mt" id="ranks-table"></div>
-    <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みは村のAIが受け付けます。</p>
+    <section class="vs-mt" aria-labelledby="plans-title">
+      <h2 class="vs-title-l" id="plans-title">ランクを選ぶ</h2>
+      <p class="vs-support">毎月のランクで、拠点はもっと長く、遊び方はもっと自由に。</p>
+      <ul class="grid vs-plans vs-mt" id="rank-plans"></ul>
+    </section>
+    <section class="vs-section" aria-labelledby="ranks-cmp">
+      <h2 class="vs-title-l" id="ranks-cmp">特典をくらべる</h2>
+      <div class="vs-table-wrap vs-mt-s" id="ranks-table"></div>
+      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みは村のAIが受け付けます。</p>
+    </section>
   </div>
 
   <div class="page" id="p-trouble">
@@ -1223,6 +1261,52 @@ function renderRanks(){
   const rows = RANK_ROWS.map(r => '<tr><th scope="row">' + esc(r[0]) + '</th>' + r[1].map((v, i) => '<td class="' + (v === Y ? 'yes' : v === N ? 'no' : '') + (RANK_COLS[i][0] === mine ? ' is-mine' : '') + '">' + (v === Y ? '<i aria-label="あり">check_circle</i>' : v === N ? '<span aria-label="なし">—</span>' : '<b>' + esc(v) + '</b>') + '</td>').join('') + '</tr>').join('');
   const foot = RANK_COLS.map(c => '<td' + (c[0] === mine ? ' class="is-mine"' : '') + '>' + (c[2] === 'link' ? '<a class="button border small" href="#join-asa">連携する</a>' : c[2] === 'buy' ? (c[0] === mine ? '<span class="vs-status c-green">利用中</span>' : '<button class="small" type="button" data-bot="rank:' + c[0] + '">申し込む</button>') : '') + '</td>').join('');
   $('#ranks-table').innerHTML = '<table class="vs-ranks"><thead><tr><th scope="col">特典</th>' + th + '</tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td></td>' + foot + '</tr></tfoot></table>';
+  renderPlans(mine);
+}
+/* 料金カード：m＝金属の明・中・暗、hi＝ボタンとバッジ、bg/bg2＝帯の地色 */
+const RANK_LOOK = {
+  BRONZE:{ tier:'I', tag:'もしもの時に、復元を頼める', m:['#f8d2ab','#c9834c','#7a4421'], hi:'#dc9a64', bg:'#2b1a10', bg2:'#4f2e19' },
+  SILVER:{ tier:'II', tag:'長く休んでも、拠点が残る', m:['#ffffff','#c3ccd6','#7f8b98'], hi:'#cfd8e1', bg:'#1a1f25', bg2:'#36414c', pick:true },
+  GOLD:{ tier:'III', tag:'育成と新マップを先取り', m:['#fff1bf','#f0bf45','#a8740a'], hi:'#f2c14e', bg:'#1f1606', bg2:'#4a360b' },
+  DIAMOND:{ tier:'IV', tag:'すべての特典を、いちばん長く', m:['#f2fcff','#8fd8ff','#b49bff'], hi:'#a6e0ff', bg:'#0b1430', bg2:'#22306a' }
+};
+function rankEmblem(key){
+  const L = RANK_LOOK[key], id = 'vs-rk-' + key.toLowerCase(), f = 'url(#' + id + ')';
+  const grad = '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + L.m[0] + '"/><stop offset=".55" stop-color="' + L.m[1] + '"/><stop offset="1" stop-color="' + L.m[2] + '"/></linearGradient></defs>';
+  const spark = (x, y, r) => '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + f + '"/>';
+  const star = (x, y, s) => '<path d="M' + x + ' ' + (y - s) + 'Q' + x + ' ' + y + ' ' + (x + s) + ' ' + y + 'Q' + x + ' ' + y + ' ' + x + ' ' + (y + s) + 'Q' + x + ' ' + y + ' ' + (x - s) + ' ' + y + 'Q' + x + ' ' + y + ' ' + x + ' ' + (y - s) + 'Z" fill="' + L.m[0] + '"/>';
+  let body = '', flame = '<use href="#vs-flame" x="34" y="27" width="28" height="41" fill="' + f + '"/>';
+  if (key === 'BRONZE') body = '<circle cx="48" cy="48" r="40" fill="' + f + '"/><circle cx="48" cy="48" r="33" fill="#160d07"/>';
+  else if (key === 'SILVER') body = '<circle cx="48" cy="48" r="42" fill="' + f + '"/><circle cx="48" cy="48" r="37" fill="#10151a"/><circle cx="48" cy="48" r="32.5" fill="none" stroke="' + f + '" stroke-width="1.25"/>' + spark(31, 38, 2) + spark(66, 33, 2.5);
+  else if (key === 'GOLD') {
+    const p = []; for (let i = 0; i < 32; i++) { const r = i % 2 ? 39 : 45, a = Math.PI * i / 16 - Math.PI / 2; p.push((48 + r * Math.cos(a)).toFixed(1) + ' ' + (48 + r * Math.sin(a)).toFixed(1)); }
+    body = '<path d="M' + p.join('L') + 'Z" fill="' + f + '"/><circle cx="48" cy="48" r="33" fill="#191205"/>' + spark(30, 40, 2) + spark(67, 31, 2.5) + spark(64, 58, 1.75);
+  } else {
+    body = '<path d="M24 12H72L90 36L48 90L6 36Z" fill="' + f + '"/><path d="M28 18H68L82 37L48 81L14 37Z" fill="#0a1128"/>' + star(80, 10, 6) + star(12, 64, 4);
+    flame = '<use href="#vs-flame" x="35" y="24" width="26" height="38" fill="' + f + '"/>';
+  }
+  return '<svg class="vs-plan-emblem" viewBox="0 0 96 96" aria-hidden="true">' + grad + body + flame + '</svg>';
+}
+function planPerks(i){
+  const out = ['<li class="all"><i>check</i><span>' + esc(RANK_COLS[i - 1][0]) + 'の特典すべて</span></li>'];
+  RANK_ROWS.forEach(r => {
+    const v = r[1][i], pv = r[1][i - 1];
+    if (r[0] === '撤去までの日数') out.push('<li><i>check</i><span>撤去まで <b>' + esc(v) + '</b></span></li>');
+    else if (r[0].indexOf('ポイント') === 0) out.push('<li><i>check</i><span>ポイント <b>' + esc(v) + '</b>（5分ごと）</span></li>');
+    else if (v !== N && v !== pv) out.push('<li><i>check</i><span>' + esc(r[0]) + (v === Y ? '' : '：<b>' + esc(v) + '</b>') + '</span></li>');
+  });
+  return out.join('');
+}
+function renderPlans(mine){
+  $('#rank-plans').innerHTML = RANK_COLS.map((c, i) => {
+    if (c[2] !== 'buy') return '';
+    const L = RANK_LOOK[c[0]], price = c[1].split('円'), isMine = c[0] === mine;
+    const badge = isMine ? '<span class="vs-plan-badge"><i>check</i>いまのランク</span>' : (L.pick && !mine ? '<span class="vs-plan-badge">おすすめ</span>' : '');
+    const cta = isMine ? '<p class="vs-ok"><i>check_circle</i>利用中のランクです</p>' : '<button class="vs-plan-cta" type="button" data-bot="rank:' + c[0] + '"><span>' + c[0] + 'を申し込む</span><i>arrow_forward</i></button>';
+    return '<li class="s12 m6 l3 vs-plan r-' + c[0].toLowerCase() + '" style="--rk-m0:' + L.m[0] + '; --rk-m1:' + L.m[1] + '; --rk-m2:' + L.m[2] + '; --rk-hi:' + L.hi + '; --rk-bg:' + L.bg + '; --rk-bg2:' + L.bg2 + '">' +
+      '<div class="vs-plan-band">' + badge + rankEmblem(c[0]) + '<span class="vs-plan-tier">VILLAGE RANK ' + L.tier + '</span><h3 class="vs-plan-name">' + esc(c[0]) + '</h3><span class="vs-plan-tag">' + esc(L.tag) + '</span></div>' +
+      '<div class="vs-plan-body"><div class="vs-plan-price"><b>' + esc(price[0]) + '</b><span>円' + esc(price[1]) + '</span></div><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
+  }).join('');
 }
 function linkChip(l){
   const to = l[0], label = esc(l[1]);
