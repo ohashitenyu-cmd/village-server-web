@@ -317,13 +317,6 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-rule-ban{position:absolute; inset:.75rem auto auto .75rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem .25rem .5rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-red-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
 .vs-rule-ban>i{--_size:1rem}
 .vs-rule-ic{--_size:3.5rem; margin-block-start:1rem; color:var(--vs-flame)}
-/* 参加手順の一覧：押さずに読める行（絵・見出し・ひとこと） */
-.vs-rulelist{list-style:none; padding:0; display:flex; flex-direction:column; gap:.5rem}
-.vs-rulelist>li{display:flex; align-items:center; gap:1rem; padding:.75rem 1rem .75rem .75rem; border-radius:1.25rem; background-color:var(--vs-tile-bg)}
-.vs-rulelist>li>.max{display:flex; flex-direction:column; min-inline-size:0}
-.vs-rulelist-art{flex:none; display:flex; align-items:center; justify-content:center; inline-size:4.5rem; block-size:4.5rem; overflow:hidden; border-radius:1rem; background:radial-gradient(70% 70% at 50% 60%,color-mix(in srgb,var(--rc) 55%,transparent),transparent 80%),var(--vs-night)}
-.vs-rulelist-art>img{display:block; inline-size:84%; block-size:84%; object-fit:contain; border-radius:0}
-.vs-rulelist-art>i{--_size:2rem; color:var(--vs-flame)}
 .vs-rule-body{display:flex; flex-direction:column; flex:1; gap:.375rem; padding:1.25rem 1.5rem}
 .vs-rule-body>*{margin:0 !important}
 .vs-rule-foot{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-block-start:auto !important; padding-block-start:.5rem; font-size:.8125rem; font-weight:700; color:var(--on-surface-variant)}
@@ -333,8 +326,6 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
   .vs-rulecards .vs-rule-img{block-size:66%; margin-block-start:.5rem}
   .vs-rulecards .vs-rule-ban{display:none}
   .vs-rulecards .vs-rule-ic{--_size:2.5rem; margin-block-start:.5rem}
-  .vs-rulelist-art{inline-size:3.5rem; block-size:3.5rem; border-radius:.875rem}
-  .vs-rulelist>li{padding:.625rem .75rem .625rem .625rem; gap:.75rem}
   .vs-rule-body{padding:1rem}
   .vs-rulecards .vs-rule-body>.vs-support{display:none}
 }
@@ -494,6 +485,14 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-plan-perks li.all{font-weight:700}
 .vs-plan-foot{margin-block-start:auto !important; padding-block-start:.5rem}
 .vs-plan-foot>button{box-sizing:border-box; inline-size:100%; margin:0}
+/* マイページの「いまのランク」：料金カードと同じ帯（素材の色・紋章）。広い画面では帯を左、契約の中身を右に */
+.vs-myrank-facts{list-style:none; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem}
+.vs-myrank-facts li{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0}
+.vs-myrank-facts span{font-size:.8125rem; color:var(--on-surface-variant)}
+.vs-myrank-facts b{font-size:1.125rem; font-weight:800; font-variant-numeric:tabular-nums}
+.vs-myrank-facts small{font-size:.75rem; font-weight:500; color:var(--on-surface-variant)}
+.vs-myrank .vs-plan-foot>.button{margin:0}
+@media (min-width:601px){ .vs-myrank{flex-direction:row} .vs-myrank>.vs-plan-band{flex:none; inline-size:min(18rem,42%)} }
 /* ランクが上がるほど、紋章が大きくなり、座る村人ときらめきが増える。DIAMONDはカットの面と虹色のきらめき */
 .vs-plan-band{overflow:hidden; isolation:isolate}
 .vs-plan-cut,.vs-plan-glints{position:absolute; inset:0; z-index:-1; inline-size:100%; block-size:100%; border-radius:0; pointer-events:none}
@@ -1052,6 +1051,8 @@ body:not(.vs-ready) .page.active{animation:none}
             <div class="max"><b class="vs-title-m">@murabito_sample</b><span class="vs-support">Discordでログイン中 ・ ランク SILVER</span></div>
             <button class="border" type="button" data-act="logout"><i>logout</i><span>ログアウト</span></button>
           </div>
+
+          <section class="vs-section" id="mp-rank" aria-labelledby="mp-rank-h"></section>
 
           <section class="vs-section" aria-labelledby="mp-dec">
             <h2 class="vs-title-l" id="mp-dec">ARK:SAの撤去期限</h2>
@@ -2388,10 +2389,6 @@ function ruleCards(g, cols){
     '<span class="vs-rule-body"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
     '<span class="vs-rule-foot"><span>くわしく見る</span><i class="vs-go">arrow_forward</i></span></span></a></li>').join('');
 }
-/* 参加手順：押さずに読める一覧（絵・見出し・ひとこと） */
-function ruleList(g){
-  return '<ul class="vs-rulelist">' + rulesFor(g).map(r => '<li><span class="vs-rulelist-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(g, r) + '</span><span class="max"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span></span></li>').join('') + '</ul>';
-}
 function openRule(g, id){
   const r = rulesFor(g).find(x => x.id === id); if (!r) return;
   const list = (a, cls, ic) => a && a.length ? '<ul class="vs-exlist ' + cls + '">' + a.map(x => '<li><i>' + ic + '</i><span>' + esc(x) + '</span></li>').join('') + '</ul>' : '';
@@ -2441,8 +2438,7 @@ function stepBody(g, id){
   if (id === 'discord') return state.discord ? '<p class="vs-ok"><i>check_circle</i>招待リンクを開きました</p><a class="button transparent small vs-mt-s" href="#" data-act="discord"><span>もう一度開く</span><i>open_in_new</i></a>' : '<a class="button" href="#" data-act="discord"><span>Discordサーバーに参加</span><i>open_in_new</i></a>';
   if (id === 'rules') {
     if (stepDone(g, 'rules')) return '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button transparent small vs-mt-s" href="#rules"><span>ルールを見直す</span><i>arrow_forward</i></a>';
-    return '<p class="vs-support">次の' + rulesFor(g).length + 'つの禁止事項を読んで、確認してください。</p><div class="vs-mt-s">' + ruleList(g) + '</div>' +
-      '<p class="vs-support vs-mt-s">くわしい説明と例は、<a class="vs-link" href="#rules">ルールのページ</a>で読めます。</p>' +
+    return '<p class="vs-support">次の' + rulesFor(g).length + 'つの禁止事項を読んで、確認してください。カードを押すと、くわしい説明と例を読めます。</p><ul class="grid vs-rulecards vs-mt-s">' + ruleCards(g, 's6 m6 l4') + '</ul>' +
       '<button class="vs-mt" type="button" data-rulesall="1" data-rgame="' + g + '"><i>check</i><span>すべて読んで確認した</span></button>';
   }
   if (id === 'link') return linkBody();
@@ -2528,7 +2524,7 @@ function renderApi(){
 
 /* ---------- ランク・困った時・依頼の種類 ---------- */
 function renderRanks(){
-  const mine = state.signedIn ? 'SILVER' : '', bill = state.billing;
+  const mine = state.signedIn ? MY_PLAN.rank : '', bill = state.billing;
   $('#bill').innerHTML = [['month','月払い'],['year','年払い']].map(b => { const on = bill === b[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-bill="' + b[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + b[1] + '</span></button>'; }).join('') +
     '<span class="vs-bill-save"><i>savings</i>年払いは' + (12 - YEAR_MONTHS) + 'か月分おトク</span>';
   const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<span class="vs-rk-ic">' + campIcon(i, '', true) + '</span><b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
@@ -2548,6 +2544,8 @@ function renderRanks(){
 const RANK_PRICE = { BRONZE:500, SILVER:1000, GOLD:1500, DIAMOND:2500 };
 const YEAR_MONTHS = 10;
 const RANK_PICK = 'SILVER';
+/* いま申し込んでいるランク（例）。本番はVillage Portalの契約から取り込む想定 */
+const MY_PLAN = { rank:'SILVER', bill:'month', next:'2026-11-01' };
 const RANK_FOR = {
   BRONZE:'ロストしたときに、所持品や生物の復元を頼めるようにしておきたい方に',
   SILVER:'しばらくログインできない日があっても撤去されにくくしたい方に',
@@ -2589,6 +2587,17 @@ function planShine(tier){
   return cut + '<span class="vs-plan-glints" aria-hidden="true">' + glints + '</span>';
 }
 const rankCls = name => RANK_PRICE[name] ? ' rk-' + name.toLowerCase() : '';
+/* ランクの帯：素材の色・きらめき・紋章・ランク名・段階（料金カードとマイページで使う） */
+const planVars = i => '--rk-size:' + (4 + (i - 1) * .5).toFixed(2) + 'rem; --rk-f:' + (24.4 + (i - 1) * 2.4).toFixed(1);
+function planBand(i, badge){
+  const tier = i - 1;
+  return '<div class="vs-plan-band">' + planShine(tier) + (badge || '') + '<span class="vs-plan-medal">' + campIcon(i, '', true) + '</span>' +
+    '<div class="vs-plan-id"><h3 class="vs-plan-name">' + esc(RANK_COLS[i][0]) + '</h3><span class="vs-plan-tier" role="img" aria-label="4段階のうち' + tier + '">' + [1,2,3,4].map(k => '<span' + (k <= tier ? ' class="on"' : '') + '></span>').join('') + '</span></div></div>';
+}
+function planMeter(i){
+  const has = RANK_ROWS.filter(r => r[1][i] !== N).length;
+  return '<div class="vs-plan-meter"><span>使える特典<b>' + has + ' / ' + RANK_ROWS.length + '</b></span><span class="vs-plan-bar" style="--w:' + Math.round(has / RANK_ROWS.length * 100) + '%" aria-hidden="true"></span></div>';
+}
 function renderPlans(mine, bill){
   const off = 12 - YEAR_MONTHS;
   $('#rank-plans').innerHTML = RANK_COLS.map((c, i) => {
@@ -2597,12 +2606,22 @@ function renderPlans(mine, bill){
     const badge = isMine ? '<span class="vs-plan-badge mine"><i>check</i>いまのランク</span>' : (c[0] === RANK_PICK && !mine ? '<span class="vs-plan-badge">おすすめ</span>' : '');
     const save = '<small>' + esc(p.alt) + ' <b>' + off + 'か月分おトク</b></small>';
     const cta = isMine ? '<p class="vs-ok"><i>check_circle</i>利用中のランクです</p>' : '<button type="button" data-bot="rank:' + c[0] + ':' + bill + '"><span>' + c[0] + 'を申し込む</span><i>arrow_forward</i></button>';
-    const tier = i - 1, has = RANK_ROWS.filter(r => r[1][i] !== N).length;
-    return '<li class="s12 m6 l3 vs-plan' + rankCls(c[0]) + '" style="--rk-size:' + (4 + tier * .5).toFixed(2) + 'rem; --rk-f:' + (24.4 + tier * 2.4).toFixed(1) + '"><div class="vs-plan-band">' + planShine(tier) + badge + '<span class="vs-plan-medal">' + campIcon(i, '', true) + '</span>' +
-      '<div class="vs-plan-id"><h3 class="vs-plan-name">' + esc(c[0]) + '</h3><span class="vs-plan-tier" role="img" aria-label="4段階のうち' + tier + '">' + [1,2,3,4].map(k => '<span' + (k <= tier ? ' class="on"' : '') + '></span>').join('') + '</span></div></div>' +
+    return '<li class="s12 m6 l3 vs-plan' + rankCls(c[0]) + '" style="' + planVars(i) + '">' + planBand(i, badge) +
       '<div class="vs-plan-body"><div class="vs-plan-price"><b>' + fmt(p.n) + '</b><span>' + p.unit + '</span>' + save + '</div>' +
-      '<div class="vs-plan-meter"><span>使える特典<b>' + has + ' / ' + RANK_ROWS.length + '</b></span><span class="vs-plan-bar" style="--w:' + Math.round(has / RANK_ROWS.length * 100) + '%" aria-hidden="true"></span></div><span class="vs-support">' + esc(RANK_FOR[c[0]]) + '</span><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
+      planMeter(i) + '<span class="vs-support">' + esc(RANK_FOR[c[0]]) + '</span><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
   }).join('');
+}
+/* マイページ：いま申し込んでいるランク。料金カードと同じ帯の横に、支払い・次の更新・おもな特典 */
+function renderMyRank(){
+  const P = MY_PLAN, i = RANK_COLS.findIndex(c => c[0] === P.rank), p = rankPrice(P.rank, P.bill), dt = P.next.split('-');
+  const val = name => RANK_ROWS.find(r => r[0] === name)[1][i];
+  const fact = (k, v) => '<li><span>' + k + '</span><b>' + v + '</b></li>';
+  $('#mp-rank').innerHTML = '<h2 class="vs-title-l" id="mp-rank-h">いまのランク</h2>' +
+    '<div class="vs-plan vs-myrank vs-mt-s' + rankCls(P.rank) + '" style="' + planVars(i) + '">' + planBand(i) +
+    '<div class="vs-plan-body"><ul class="vs-myrank-facts">' +
+      fact(P.bill === 'year' ? '年払い' : '月払い', fmt(p.n) + '<small>' + p.unit + '</small>') + fact('次の更新', Number(dt[1]) + '月' + Number(dt[2]) + '日') +
+      fact('撤去まで', esc(val('撤去までの日数'))) + fact('ポイント', esc(val('ポイント（5分ごと）')) + '<small>（5分ごと）</small>') +
+    '</ul>' + planMeter(i) + '<div class="vs-plan-foot"><a class="button border" href="#ranks"><span>ランクを比較・変更する</span><i>arrow_forward</i></a></div></div></div>';
 }
 
 /* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から新しい3件を取り込む想定 ---------- */
@@ -2672,7 +2691,7 @@ function renderMypage(){
   $('#mp-out').hidden = state.signedIn; $('#mp-in').hidden = !state.signedIn;
   $('#mp-title').textContent = state.signedIn ? 'むらびとさんのマイページ' : 'マイページ';
   if (!state.signedIn) return;
-  renderNotify();
+  renderNotify(); renderMyRank();
   $('#mp-balance').textContent = fmt(state.balance);
   $('#mp-maps').innerHTML = MAPS.map(m => { const warn = m[1] <= 7; return '<li><b>' + esc(m[0]) + '</b><progress class="' + (warn ? 'error-text' : '') + '" value="' + Math.round(m[1] / 30 * 100) + '" max="100" aria-label="' + esc(m[0]) + 'の撤去期限まで"></progress><span class="' + (warn ? 'warn' : '') + '">あと' + m[1] + '日</span></li>'; }).join('');
   $('#mp-reqs').innerHTML = state.requests.map(r => {
@@ -2715,13 +2734,13 @@ if (mugiFab && mugiFab.shadowRoot) {
   fab.addEventListener('focus', () => tilt(fab.matches(':focus-visible')));
   fab.addEventListener('blur', () => tilt(false));
 }
-/* 隠し要素：ムギの頭のすぐ上でカーソルを大きく左右にゆらし続けると、目を丸くし（4往復）、そわそわして（7往復）、
-   飛びつく（10往復・3秒以上）。1往復は40px以上、往復の間が0.9秒あくと数え直し。
+/* 隠し要素：ムギの頭の上でカーソルを左右にゆらし続けると、目を丸くし（向きを3回かえる）、そわそわして（5回）、
+   飛びつく（7回・2秒ほど）。1回のゆれは25px以上、ゆれの間が1.2秒あくと数え直し。
    マウスのときだけ・チャットを開いていないときだけ。飛びついたあと5秒は休む */
 if (mugiFab && mugiFab.setMood) {
   const fab = $('#fab'), say = $('.vs-mugi-say', fab), still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lastX = null, dir = 0, run = 0, flips = [], busy = false, rest = 0;
-  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 80 && e.clientX < r.right + 20 && e.clientY > r.top - 140 && e.clientY < r.top + r.height * .25; };
+  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 120 && e.clientX < r.right + 30 && e.clientY > r.top - 170 && e.clientY < r.top + r.height * .35; };
   const pounce = e => {
     busy = true; flips = [];
     const r = mugiFab.getBoundingClientRect();
@@ -2747,15 +2766,15 @@ if (mugiFab && mugiFab.setMood) {
     const d = dx > 0 ? 1 : -1, now = Date.now();
     if (d === dir) run += Math.abs(dx);
     else {
-      if (dir && run >= 40) { if (flips.length && now - flips[flips.length - 1] > 900) flips = []; flips.push(now); }
+      if (dir && run >= 25) { if (flips.length && now - flips[flips.length - 1] > 1200) flips = []; flips.push(now); }
       dir = d; run = Math.abs(dx);
     }
     lastX = e.clientX;
-    if (flips.length && now - flips[flips.length - 1] > 900) flips = [];
+    if (flips.length && now - flips[flips.length - 1] > 1200) flips = [];
     const n = flips.length, held = n ? now - flips[0] : 0;
-    if (n >= 10 && held >= 3000) pounce(e);
-    else if (n >= 7 && mugiFab.mood !== 'excited') mugiFab.setMood('excited', { duration:1500 });
-    else if (n >= 4 && n < 7 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
+    if (n >= 7 && held >= 1800) pounce(e);
+    else if (n >= 5 && mugiFab.mood !== 'excited') mugiFab.setMood('excited', { duration:1500 });
+    else if (n >= 3 && n < 5 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
   }, { passive:true });
 }
 function openChat(){
