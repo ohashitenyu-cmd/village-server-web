@@ -707,7 +707,7 @@ body:not(.vs-ready) .page.active{animation:none}
   <div class="page" id="p-about">
     <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1">サーバーについて</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12"><a class="vs-row wave" href="#maps"><span class="vs-dot large c-green"><i>monitor_heart</i></span><span class="max"><b class="vs-title-m">マップステータス</b><span class="vs-support" id="about-maps"></span></span><i class="vs-go">arrow_forward</i></a></div>
+      <a class="vs-tile s6 l3 wave" href="#maps"><span class="vs-dot large c-yellow"><i>monitor_heart</i></span><span class="vs-tile-text"><b class="vs-title-m">マップステータス</b><span class="vs-tile-cap" id="about-maps"></span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#intro"><span class="vs-dot large c-blue"><i>photo_library</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー紹介</b><span class="vs-tile-cap">写真で見る村</span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#rates"><span class="vs-dot large c-green"><i>speed</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー倍率</b><span class="vs-tile-cap">テイム・繁殖の速さ</span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#commands"><span class="vs-dot large c-purple"><i>terminal</i></span><span class="vs-tile-text"><b class="vs-title-m">コマンド一覧</b><span class="vs-tile-cap">チャットで使う</span></span><i class="vs-go">arrow_forward</i></a>
@@ -2088,7 +2088,7 @@ const CAT = {
   trouble:{ t:'困った時一覧', d:'よくある困りごと', i:'help', to:'trouble', c:'green' },
   join:{ t:'参加手順', d:'はじめての方', i:'flag', to:'join', c:'yellow' },
   rules:{ t:'ルール', d:'1つずつ確認', i:'gavel', to:'rules', c:'red' },
-  maps:{ t:'マップステータス', d:'各マップの起動・停止', i:'monitor_heart', to:'maps', c:'green' },
+  maps:{ t:'マップステータス', d:'各マップの起動・停止', i:'monitor_heart', to:'maps', c:'yellow' },
   intro:{ t:'サーバー紹介', d:'写真で見る村', i:'photo_library', to:'intro', c:'blue' },
   rates:{ t:'サーバー倍率', d:'テイム・繁殖の速さ', i:'speed', to:'rates', c:'green' },
   api:{ t:'導入API解説', d:'便利な追加機能', i:'extension', to:'api', c:'red' },
@@ -2638,7 +2638,7 @@ function renderMaps(){
       : '<span class="vs-support">' + esc(m.note) + '</span>';
     return '<li class="s6 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
   }).join('');
-  $('#about-maps').textContent = MAP_STATUS.length + 'マップ中 ' + cnt.on + 'マップが稼働中' + (cnt.boot ? '・' + cnt.boot + 'マップが起動中' : '') + (cnt.off ? '・' + cnt.off + 'マップが停止中' : '');
+  $('#about-maps').textContent = cnt.on + ' / ' + MAP_STATUS.length + 'マップが稼働中';
 }
 function linkChip(l){
   const to = l[0], label = esc(l[1]);
