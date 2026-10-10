@@ -150,6 +150,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-tile.vs-add{block-size:auto; padding:1.25rem; border:2px dashed var(--outline-variant); background:transparent; box-shadow:none; color:var(--on-surface-variant); font-family:var(--font); font-size:.875rem; font-weight:500}
 .vs-tile.vs-add:hover{background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
 .vs-add-ic{inline-size:2.5rem; block-size:2.5rem; border-radius:.875rem; display:grid; place-items:center; background:var(--primary-container); color:var(--on-primary-container)}
+.vs-favs{padding:var(--vs-gutter); border-radius:1.75rem; background-color:var(--surface-container)}
 .vs-tiles.editing .vs-tile:not(.vs-add){box-shadow:inset 0 0 0 2px var(--outline-variant); background-color:var(--surface)}
 .vs-remove{position:absolute !important; inset:-.5rem -.5rem auto auto; z-index:2; box-shadow:var(--vs-e1)}
 @media (prefers-reduced-motion:no-preference){
@@ -490,7 +491,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s4 vs-fig" role="listitem"><i>bolt</i><b>99<small>%</small></b><span>直近12か月の稼働率</span></div>
       <div class="s4 vs-fig" role="listitem"><i>groups</i><b>2,530<small>人</small></b><span>Discord参加中</span></div>
     </div>
-    <section class="vs-section" aria-labelledby="tiles-title">
+    <section class="vs-section vs-favs" aria-labelledby="tiles-title">
       <div class="vs-sechead">
         <h2 id="tiles-title" class="vs-title-l">お気に入り</h2>
         <button class="circle transparent" type="button" id="tiles-edit" aria-pressed="false" aria-label="お気に入りを編集"><i>edit</i></button>
