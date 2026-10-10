@@ -151,7 +151,7 @@ svg{overflow:visible}
 .st-cream{stroke:var(--neko-cream-dark)} .st-light{stroke:var(--neko-cream)} .st-line{stroke:var(--neko-line)} .st-bell{stroke:var(--neko-bell-dark)}
 .wh{stroke:var(--neko-whisker);opacity:.8}
 .smile-eye{fill:var(--neko-eyeline);stroke:var(--neko-eyeline);stroke-width:2.2;stroke-linejoin:round;opacity:0;transition:opacity .15s}
-.smile-gloss{fill:#fff;stroke:none}
+.smile-lash{fill:none;stroke-linecap:round}
 .rim{fill:none;stroke:var(--neko-eyeline)}
 .lidline{fill:none;stroke:var(--neko-eyeline);stroke-width:2.6;stroke-linecap:round}
 .lid-low{stroke:none}
@@ -310,7 +310,7 @@ svg{overflow:visible}
 
   /* ---------------- 絵 ---------------- */
   // ネコの目：色のついた虹彩、丸い瞳孔、ふちどり。ふだんは上まぶたでジト目になる
-  // skin はまぶたの色（目のまわりの毛と同じクラス）。smile-up / smile-down は閉じた笑い目
+  // skin はまぶたの色（目のまわりの毛と同じクラス）。smile-up / smile-down は閉じた笑い目（smile-up は丸い「∩」に、目じりの小さなまつげ）
   const eye = (side, cx, px, clip, skin) => {
     const shape = `cx="${cx}" cy="101" rx="17.5" ry="16.5"`;
     return `
@@ -331,8 +331,8 @@ svg{overflow:visible}
         <ellipse class="lid lid-low ${skin}" cx="${cx}" cy="140.5" rx="30" ry="22"/>
       </g>
     </g></g>
-    <path class="smile-eye smile-up" d="M${cx - 14} 106.5Q${cx} 82 ${cx + 14} 106.5Q${cx} 97 ${cx - 14} 106.5Z"/>
-    <ellipse class="smile-eye smile-up smile-gloss" cx="${cx - 5.5}" cy="98.6" rx="2.1" ry="1.4" transform="rotate(-28 ${cx - 5.5} 98.6)"/>
+    <path class="smile-eye smile-up" d="M${cx - 12} 104.5Q${cx} 80.5 ${cx + 12} 104.5Q${cx} 92.5 ${cx - 12} 104.5Z"/>
+    <path class="smile-eye smile-up smile-lash" d="${side === 'l' ? `M${cx - 12} 103.6q-3.6-.6-5.8-4.4` : `M${cx + 12} 103.6q3.6-.6 5.8-4.4`}"/>
     <path class="smile-eye smile-down" d="M${cx - 14} 98Q${cx} 120 ${cx + 14} 98Q${cx} 106 ${cx - 14} 98Z"/>
     </g>`;
   };

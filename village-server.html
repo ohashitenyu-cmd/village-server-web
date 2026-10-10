@@ -102,6 +102,10 @@ header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shad
 .vs-bar{box-sizing:border-box; max-inline-size:75rem; inline-size:100%; margin-inline:auto; padding-inline:var(--vs-gutter); gap:.5rem}
 .vs-brand{gap:.625rem; color:var(--on-surface); justify-content:flex-start; border-radius:.75rem}
 .vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:22%; flex:none; clip-path:inset(0 round 22%)}
+/* 初心者マーク：文字の高さに合わせる。ふちは文字色をうすく（黄色の地でも形が分かるように） */
+.vs-wakaba{display:inline-block; flex:none; inline-size:.8em; block-size:1.04em; vertical-align:-.14em; margin-inline-end:.35em; overflow:visible}
+.vs-wakaba path{stroke:currentColor; stroke-opacity:.4; stroke-width:1.4; stroke-linejoin:round; paint-order:stroke}
+:is(.button,.chip)>.vs-wakaba{inline-size:1rem; block-size:1.3rem; margin:0}
 .vs-wordmark{font-family:"Outfit",var(--font); font-weight:600; font-size:1.375rem; letter-spacing:-.005em; line-height:1}
 .vs-wl{display:inline-block; transform-origin:50% 82%}  /* ロゴの動きで、1文字ずつ下から立ち上がる */
 .vs-seg>button{padding-inline:.875rem; gap:.25rem}
@@ -182,6 +186,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-fig>span{font-size:.8125rem; line-height:1.45; color:var(--on-surface-variant)}
 .vs-ratefig{padding:1rem 1.25rem}
 .vs-ratefig b{font-size:1.75rem; color:var(--vs-ic,var(--on-surface))}
+.vs-rate-eg{display:block; margin-block-start:.375rem; font-size:.75rem; line-height:1.55; color:var(--on-surface-variant)}  /* 実数の目安 */
 .vs-info>i{--_size:1.75rem; display:flex; margin-block-end:.5rem}
 .vs-list{list-style:none; margin:0; padding:.5rem 1.25rem; border-radius:1.25rem; background-color:var(--surface-container)}
 .vs-list>li{display:flex; align-items:center; gap:1rem; min-block-size:3.5rem; padding-block:.5rem; box-sizing:border-box}
@@ -384,6 +389,10 @@ dialog.vs-ruledlg{padding:0; inline-size:min(34rem,calc(100vw - 2rem)); max-inli
 .vs-rbody{padding:0 1rem 1rem calc(1rem + 2.25rem + .875rem)}
 @media (max-width:600px){ .vs-rbody{padding-inline-start:1rem} }
 .vs-chev{transition:transform var(--speed2); color:var(--on-surface-variant)}
+/* 困った時一覧の回答：箇条書きと、どちらのゲームの話かの小さな札 */
+#faq-list .vs-rbody>*{margin:0 !important} #faq-list .vs-rbody>*+*{margin-block-start:.5rem !important}
+.vs-faq-ul{padding-inline-start:1.25rem; display:flex; flex-direction:column; gap:.25rem; font-size:.875rem; line-height:1.7; color:var(--on-surface-variant)}
+.vs-faq-game{font-size:.6875rem; font-weight:700; line-height:1.6; padding:0 .5rem; border-radius:.375rem; background-color:var(--surface-container-high); color:var(--on-surface-variant)}
 details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-ex{display:flex; gap:.5rem; align-items:flex-start; font-size:.875rem; line-height:1.6}
 .vs-ex>i{--_size:1.25rem}
@@ -427,7 +436,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-chiprow{gap:.5rem}
 .vs-table-wrap{overflow-x:auto}
 /* ランク比較：数値は伸びる棒、使える特典はマスごとのチェック。行は1行おきの面で横に追いやすく（線は使わない） */
-.vs-ranks{min-inline-size:44rem; font-size:.875rem; table-layout:fixed; border-collapse:separate; border-spacing:0}
+.vs-ranks{--vs-mine-col:color-mix(in srgb,var(--primary) 5%,transparent); min-inline-size:44rem; font-size:.875rem; table-layout:fixed; border-collapse:separate; border-spacing:0}
 .vs-ranks thead th:first-child{inline-size:11rem}
 .vs-ranks th,.vs-ranks td{padding:.625rem .5rem; text-align:center; vertical-align:middle; border:0}
 .vs-ranks thead th{vertical-align:bottom; padding-block-end:.75rem}
@@ -450,6 +459,10 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-cmp-num>b{display:block; font-weight:800; font-variant-numeric:tabular-nums}
 .vs-cmp-bar{display:block; inline-size:1.75rem; block-size:max(.25rem,calc(var(--h) * 2.5rem)); margin:.25rem auto 0; border-radius:.5rem .5rem .25rem .25rem; background-color:var(--vs-green)}
 .vs-ranks tfoot td{padding-block-start:1rem}
+/* いまのランクの列：うすい面で縦に通して示す（線は使わない）。上と下の端だけ角丸 */
+.vs-ranks .is-mine{background-image:linear-gradient(var(--vs-mine-col),var(--vs-mine-col))}
+.vs-ranks thead th.is-mine{border-start-start-radius:.75rem; border-start-end-radius:.75rem}
+.vs-ranks tfoot td.is-mine{border-end-start-radius:.75rem; border-end-end-radius:.75rem}
 .vs-sr{position:absolute !important; inline-size:1px; block-size:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap}
 /* ランクの申し込み：サブスクの料金カード。ランクは素材の色（銅・銀・金・ダイヤ）で表す */
 .vs-bill{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem}
@@ -619,7 +632,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1"><span class="vs-phrase">あなたの</span><span class="vs-phrase">新しい</span><span class="vs-phrase">遊び場が</span><span class="vs-phrase">ここにある。</span></h1>
         <p class="vs-hero-sub"><span class="vs-phrase">好きなゲームをきっかけに入った遊び場が、</span><span class="vs-phrase">いつしか自分の居場所になっていく。</span></p>
         <nav class="wrap vs-mt">
-          <a class="button extra primary-container vs-cta" href="#join"><span>はじめて参加する</span><i>arrow_forward</i></a>
+          <a class="button extra primary-container vs-cta" href="#join"><svg class="vs-wakaba" viewBox="0 0 20 26" aria-hidden="true"><path d="M10 7 1 1v17l9 7z" fill="#F2B516"></path><path d="m10 7 9-6v17l-9 7z" fill="#3DC48F"></path></svg><span>はじめて参加する</span><i>arrow_forward</i></a>
           <a class="button transparent vs-ghost" href="#" data-ext="Discordの招待リンク"><span>Discordをのぞく</span><i>open_in_new</i></a>
         </nav>
       </div>
@@ -699,7 +712,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s12 l5">
         <h2 class="vs-title-l">有志でつくる、長く遊べるサーバー</h2>
         <p class="vs-body">ARK:SAとパルワールドの非公式サーバーを運営する、Discordのコミュニティです。</p>
-        <a class="button primary-container vs-mt" href="#join"><span>参加手順へ</span><i>arrow_forward</i></a>
+        <a class="button primary-container vs-mt" href="#join"><svg class="vs-wakaba" viewBox="0 0 20 26" aria-hidden="true"><path d="M10 7 1 1v17l9 7z" fill="#F2B516"></path><path d="m10 7 9-6v17l-9 7z" fill="#3DC48F"></path></svg><span>参加手順へ</span><i>arrow_forward</i></a>
       </div>
     </div>
     <section class="vs-section" aria-labelledby="pts-title">
@@ -1047,7 +1060,7 @@ body:not(.vs-ready) .page.active{animation:none}
         </a>
         <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
       </div>
-      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2><svg class="vs-wakaba" viewBox="0 0 20 26" aria-hidden="true"><path d="M10 7 1 1v17l9 7z" fill="#F2B516"></path><path d="m10 7 9-6v17l-9 7z" fill="#3DC48F"></path></svg>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#maps">マップステータス</a></li><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サポート"><div><h2>サポート</h2><ul><li><a href="#trouble">困った時一覧</a></li><li><a href="#scribe">スクライブ</a></li><li><a href="#request">管理者依頼</a></li><li><a href="#ranks">ランク比較・購入</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="そのほか"><div><h2>そのほか</h2><ul><li><a href="#mypage">マイページ</a></li><li><a href="#" data-ext="Village Portal">Village Portal<i>open_in_new</i></a></li><li><a href="#" data-ext="Wiki">Wiki<i>open_in_new</i></a></li></ul></div></nav>
@@ -1250,7 +1263,7 @@ svg{overflow:visible}
 .st-cream{stroke:var(--neko-cream-dark)} .st-light{stroke:var(--neko-cream)} .st-line{stroke:var(--neko-line)} .st-bell{stroke:var(--neko-bell-dark)}
 .wh{stroke:var(--neko-whisker);opacity:.8}
 .smile-eye{fill:var(--neko-eyeline);stroke:var(--neko-eyeline);stroke-width:2.2;stroke-linejoin:round;opacity:0;transition:opacity .15s}
-.smile-gloss{fill:#fff;stroke:none}
+.smile-lash{fill:none;stroke-linecap:round}
 .rim{fill:none;stroke:var(--neko-eyeline)}
 .lidline{fill:none;stroke:var(--neko-eyeline);stroke-width:2.6;stroke-linecap:round}
 .lid-low{stroke:none}
@@ -1409,7 +1422,7 @@ svg{overflow:visible}
 
   /* ---------------- 絵 ---------------- */
   // ネコの目：色のついた虹彩、丸い瞳孔、ふちどり。ふだんは上まぶたでジト目になる
-  // skin はまぶたの色（目のまわりの毛と同じクラス）。smile-up / smile-down は閉じた笑い目
+  // skin はまぶたの色（目のまわりの毛と同じクラス）。smile-up / smile-down は閉じた笑い目（smile-up は丸い「∩」に、目じりの小さなまつげ）
   const eye = (side, cx, px, clip, skin) => {
     const shape = `cx="${cx}" cy="101" rx="17.5" ry="16.5"`;
     return `
@@ -1430,8 +1443,8 @@ svg{overflow:visible}
         <ellipse class="lid lid-low ${skin}" cx="${cx}" cy="140.5" rx="30" ry="22"/>
       </g>
     </g></g>
-    <path class="smile-eye smile-up" d="M${cx - 14} 106.5Q${cx} 82 ${cx + 14} 106.5Q${cx} 97 ${cx - 14} 106.5Z"/>
-    <ellipse class="smile-eye smile-up smile-gloss" cx="${cx - 5.5}" cy="98.6" rx="2.1" ry="1.4" transform="rotate(-28 ${cx - 5.5} 98.6)"/>
+    <path class="smile-eye smile-up" d="M${cx - 12} 104.5Q${cx} 80.5 ${cx + 12} 104.5Q${cx} 92.5 ${cx - 12} 104.5Z"/>
+    <path class="smile-eye smile-up smile-lash" d="${side === 'l' ? `M${cx - 12} 103.6q-3.6-.6-5.8-4.4` : `M${cx + 12} 103.6q3.6-.6 5.8-4.4`}"/>
     <path class="smile-eye smile-down" d="M${cx - 14} 98Q${cx} 120 ${cx + 14} 98Q${cx} 106 ${cx - 14} 98Z"/>
     </g>`;
   };
@@ -2040,6 +2053,8 @@ const store = {
   get(k, d){ try { const v = localStorage.getItem('vs-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v){ try { if (v === null) localStorage.removeItem('vs-' + k); else localStorage.setItem('vs-' + k, JSON.stringify(v)); } catch (e) {} }
 };
+/* 初心者マーク（若葉マーク）：はじめて参加する人向けの入口に付ける。左が黄、右が緑 */
+const WAKABA = '<svg class="vs-wakaba" viewBox="0 0 20 26" aria-hidden="true"><path d="M10 7 1 1v17l9 7z" fill="#F2B516"></path><path d="m10 7 9-6v17l-9 7z" fill="#3DC48F"></path></svg>';
 const dot = (c, i, size) => '<span class="vs-dot c-' + c + (size ? ' ' + size : '') + '"><i>' + i + '</i></span>';
 
 /* ---------- データ ---------- */
@@ -2049,7 +2064,7 @@ const CAT = {
   commands:{ t:'コマンド一覧', d:'チャットで使う', i:'terminal', to:'commands', c:'purple' },
   ranks:{ t:'ランク比較・購入', d:'特典を比べる', i:'workspace_premium', to:'ranks', c:'yellow' },
   trouble:{ t:'困った時一覧', d:'よくある困りごと', i:'help', to:'trouble', c:'green' },
-  join:{ t:'参加手順', d:'はじめての方', i:'flag', to:'join', c:'yellow' },
+  join:{ t:'参加手順', d:'はじめての方', i:'flag', to:'join', c:'yellow', beginner:true },
   rules:{ t:'ルール', d:'1つずつ確認', i:'gavel', to:'rules', c:'red' },
   maps:{ t:'マップステータス', d:'各マップの起動・停止', i:'monitor_heart', to:'maps', c:'yellow' },
   intro:{ t:'サーバー紹介', d:'写真で見る村', i:'photo_library', to:'intro', c:'blue' },
@@ -2156,10 +2171,25 @@ const CMD_GROUPS = [
   { key:'death', title:'死亡時の所持品', icon:'backpack', c:'red', items:[['/deaths','死亡の一覧を表示','無料'],['/deathclaim [ID]','その死亡時の所持品を復元（DIAMOND）','500pt']] },
   { key:'shop', title:'ショップ・そのほか', icon:'storefront', c:'yellow', items:[['/points','ポイント数を確認','無料'],['/shop','販売アイテムを表示（F1キーでも可）','無料'],['/buy [ID] [個数]','アイテムを購入（個数は省略可）','無料'],['/link [コード]','サイトで発行したコードでARK連携','無料'],['/groups','月額課金の残り時間を表示','無料'],['/gamma 5','明るさを変更（1〜5）','無料']] }
 ];
+/* 倍率：[項目, 値, 補足, 実際にはどうなるか]。4つ目は、倍率だけでは分かりにくいので、公式（1倍）と比べた実数の目安（Wikiのサーバー設定より） */
 const RATES = [
-  { title:'テイム・繁殖', icon:'pets', c:'green', rows:[['テイム速度','×3.0'],['テイム時の食料消費','×2.5'],['手渡しテイムの餌付け間隔','×0.2'],['交配間隔','×0.1'],['孵化・成熟','×17.5'],['インプリント','×4.0','約1時間10分ごと']] },
-  { title:'成長・収集', icon:'trending_up', c:'blue', rows:[['取得経験値','×2.0'],['収穫量','×1.5'],['夜の経過','×3.0'],['クレートの品質','×1.0']] },
-  { title:'上限', icon:'vertical_align_top', c:'purple', rows:[['野生生物の最大Lv','150'],['サバイバーの最大Lv','210'],['トライブのテイム数','300'],['サーバー全体のテイム数','15,000']] }
+  { title:'テイム・繁殖', icon:'pets', c:'green', rows:[
+    ['テイム速度','×3.0','','公式で3時間かかるテイムが、約1時間'],
+    ['テイム時の食料消費','×2.5','','餌を食べる間隔が短くなり、テイムが早く進む。餌と麻酔は多めに'],
+    ['手渡しテイムの餌付け間隔','×0.2','','次の餌を手渡せるまでの待ち時間が1/5'],
+    ['交配間隔','×0.1','','次に交配できるまで1時間48分〜4時間48分（公式は18〜48時間）'],
+    ['孵化・成熟','×17.5','','公式で24時間かかる孵化や成長が、約1時間22分'],
+    ['インプリント','×4.0','','お世話は1時間10分34秒ごと。1回で上がる量が公式の4倍']] },
+  { title:'成長・収集', icon:'trending_up', c:'blue', rows:[
+    ['取得経験値','×2.0','','レベル上げにかかる時間が、約半分'],
+    ['収穫量','×1.5','','公式で10個取れる木や岩から、15個'],
+    ['夜の経過','×3.0','','夜が公式の約1/3の時間で明ける'],
+    ['クレートの品質','×1.0','','補給物資（クレート）の中身は公式と同じ']] },
+  { title:'上限', icon:'vertical_align_top', c:'purple', rows:[
+    ['野生生物の最大Lv','150','','テイムすると、最大でLv225になる（テイム効果で最大1.5倍）'],
+    ['サバイバーの最大Lv','210','','はじめは105まで。ボスの討伐や記録の収集で上がる'],
+    ['トライブのテイム数','300','','1つのトライブが持てる、テイム済みの生物の数'],
+    ['サーバー全体のテイム数','15,000','','1つのマップ全体で持てる数。超えると新しくテイムできない']] }
 ];
 const SCHEDULE = [['5:00','全サーバーを再起動','数分間つながりません'],['5:30','野生の生物と卵をリセット','テイム中の生物は消えません'],['常時','止まったら自動で起動','5分ごとに確認']];
 const APIS = [
@@ -2173,22 +2203,46 @@ const APIS = [
 const RANK_COLS = [['未連携','—',''],['連携済','無料','link'],['BRONZE','500円/月','buy'],['SILVER','1,000円/月','buy'],['GOLD','1,500円/月','buy'],['DIAMOND','2,500円/月','buy']];
 const Y = '✓', N = '—';
 const RANK_ROWS = [['撤去までの日数',['7日','30日','30日','45日','45日','60日']],['ポイント（5分ごと）',[N,'5','5','10','10','20']],['ショップ・コマンド',[N,Y,Y,Y,Y,Y]],['所持品・生物の復元依頼（有償）',[N,N,Y,Y,Y,Y]],['チャットの色の変更',[N,N,Y,Y,Y,Y]],['繁殖の設定変更',[N,N,N,Y,Y,Y]],['孵化・成熟・性別変更',[N,N,N,N,Y,Y]],['新しく追加されるマップ',[N,N,N,N,'先行','最速']],['マップデータ・死亡時の所持品の復元',[N,N,N,N,N,Y]]];
-const FAQ_CATS = [['all','すべて'],['conn','接続'],['lost','失った・動けない'],['trouble','トラブル'],['before','参加前']];
+/* 困った時一覧：[分類, 質問, 回答, リンク, ゲーム]。回答は改行で段落、「- 」で始まる行は箇条書き。ゲーム：asa＝ARK:SAだけ、pal＝パルワールドだけ（なし＝両方）
+   内容は公式Wiki（よくある質問・撤去システム・DiscordとARKの連携・管理者対応の各ページ）から、ARK:SAとパルワールドに当てはまるものを抜き出して短くしたもの */
+const FAQ_CATS = [['all','すべて'],['conn','接続・転送'],['lost','失った・動けない'],['trouble','トラブル'],['before','参加前'],['game','遊び方']];
 const FAQ = [
-  ['conn','サーバーが見つからない','[対処法]'],
-  ['conn','サーバーにつながらない','毎日5:00の再起動中は、数分間つながりません。[そのほかの対処法]',[['rates','毎日のスケジュール']]],
-  ['conn','「There is already a player…」と表示される','[対処法]'],
-  ['conn','DiscordとARKを連携できない','参加手順の「ARKと連携」で新しいコードを発行し、ゲームのチャットに入力してください。',[['join-asa','ARK:SAの参加手順']]],
-  ['lost','所持品・生物を失った','スクライブで記録を確かめてから、管理者依頼（Elder）で復元を依頼できます（BRONZE以上・有償）。',[['scribe','スクライブ'],['request','管理者依頼']]],
-  ['lost','休んでいて、撤去が心配','1つのマップに入れば、全マップの期限がのびます。',[['ranks','ランクごとの日数']]],
-  ['lost','地形や建物から出られない','管理者依頼（Elder）で脱出を依頼できます。',[['request','管理者依頼']]],
-  ['lost','サバイバー名を変えたい','管理者依頼（Elder）で変更を依頼できます。',[['request','管理者依頼']]],
-  ['trouble','ルール違反・嫌がらせを受けた','[報告のしかた]',[['rules','ルール']]],
-  ['before','ゲームが初めてでも大丈夫？','[回答]'],
-  ['before','毎日ログインが必要？','不要です。連携済なら30日ログインしなくても撤去されません。'],
+  ['conn','サーバーが見つからない','ゲーム内のサーバー検索で次のように設定し、「village」で検索してください。\n- 上のタブで「非公式（UNOFFICIAL）」を選ぶ\n- 満員の非表示（HIDE FULL）：オフ\n- パスワードありのサーバーを表示：オン\n- PC（PS/Xbox）のみのオンラインマルチプレイヤー：オフ\n- プレイヤーサーバーを表示：オン\n- 左下で「MODでフィルタリングしない」を選ぶ',null,'asa'],
+  ['conn','サーバーにつながらない','毎日5:00の再起動中や、サーバーが止まっているときはつながりません。止まっても、ふつうは10分ほどで自動で起動します。\n動いているかは、マップステータスか、Discordの #map_status・#playerlist で確かめられます（Offline＝停止中、Starting＝起動中）。\n10分以上たっても起動しないときは、管理者依頼（Elder）で「サーバー起動」を依頼してください。',[['maps','マップステータス'],['request','管理者依頼']]],
+  ['conn','「There is already a player…」と表示される','サーバーに、あなたのサバイバーがログインしたまま残っています。数分待ってから、ログインし直してください。\nDiscordの #ark-helper で「Kick Me」を押すと、すぐにログインできます。',null,'asa'],
+  ['conn','DiscordとARKを連携できない','Discordに参加しただけでは連携されません。参加手順の「ARKと連携」でコードを発行し、ARKのゲーム内チャットに入力して送信してください。\n反応がないときは、連携のしくみ（BOT）が不調です。しばらく待ってからやり直してください。\n連携できたかは、ゲーム内チャットで名前の前に [Verified] と出るかで分かります。ポイントやコマンドは、連携のあとゲームを再起動すると使えます。',[['join-asa','ARK:SAの参加手順']],'asa'],
+  ['conn','サバイバー転送ができない','転送を何度もやり直すと、サバイバーのデータが重なって転送できなくなることがあります。やり直さず、10分ほど待ってから転送先のマップでダウンロードしてください。\n30分待ってもできないときは、ほかの人の被害が広がらないよう、まずDiscordの #ark質問フォーラム で相談してください。\nサバイバーが2つのマップに重なっているときは、片方をもう片方のマップへ転送して上書きすると直ることがあります（トライブの仲間がいるマップへの上書きがおすすめ）。',null,'asa'],
+  ['lost','所持品・生物を失った','BRONZE以上のランクなら、有償で復元を依頼できます。まずスクライブで記録を探し、管理者依頼（Elder）で依頼してください。\n- 所持品：死亡時の所持品は90日分、ふだんの所持品は15分ごと・プレイ中の約25時間分の記録から\n- 生物：死亡した生物\n- 過去のマップデータからの回収：DIAMONDだけ（ログインしなかったことによる全撤去は、全員が対象）\n- 建物はマップのデータに含まれるため、復元できません\nARKは不具合が多いので、大事なものは自分でも守ってください。',[['scribe','スクライブ'],['request','管理者依頼'],['ranks','ランク']],'asa'],
+  ['lost','休んでいて、撤去が心配','どれか1つのマップにログインすれば、全マップの建物と生物の期限がのびます（見に行く必要はありません）。\n- 撤去までの日数：未連携7日、連携済30日、SILVER以上45日、DIAMOND60日\n- 自分の建物を画面の中央に入れ、ゲーム内チャットで /decaytime と入力すると、残りの日数が分かります\n- 土台10個の範囲に建物が10個以下しかない場所は、2日で撤去されます（餌箱、貯水槽、プラットフォームなどは除く）',[['ranks','ランクごとの日数']],'asa'],
+  ['lost','地形や建物から出られない','- インベントリのインプラントにカーソルを5秒当て続けてからEを押すと、自殺してリスポーンできます\n- 土台に埋まったときは、ログインし直すと出られることがあります\n- ほかのトライブの拠点から出られないときは、Discordの #ark依頼・募集・周知フォーラム で、そのトライブに頼んでください\nそれでも出られないときは、管理者依頼（Elder）で「スタック脱出」を依頼してください。',[['request','管理者依頼']],'asa'],
+  ['lost','テイムした生物が埋まった・動けない','低温ポッドに入れられるか試してください。届かない位置なら、ゲーム内チャットで /pods と入力します。\nそれでも動かせないときは、管理者依頼（Elder）で相談できます（有償。例：埋まった生物の移動 500円）。',[['commands','コマンド一覧'],['request','管理者依頼']],'asa'],
+  ['lost','死体からアイテムを回収できない','死体が肉食の生物でかめる位置にあれば、死体をかむとアイテムが地面の上に浮き上がります。\n取れないときは、死亡時の所持品の復元を依頼できます（BRONZE以上・有償）。',[['scribe','スクライブ'],['request','管理者依頼']],'asa'],
+  ['lost','ログインしたら死んでいた','ベッドで寝ずにログアウトすると、地形に埋まって死ぬことがあります。ログアウトはベッドで寝てから（水分と食料の減りも1/10になります）。\nベッドで寝ていても不具合で死ぬことがあるので、大事なものは収納箱に入れてからログアウトしてください。失った所持品は、復元を依頼できます（BRONZE以上・有償）。',[['scribe','スクライブ'],['request','管理者依頼']],'asa'],
+  ['lost','サバイバー転送でアイテムが消えた','エングラムを取りすぎ、アイテムを持ちすぎた状態で転送すると、アイテムや装備が消えることがあります。マインドワイプトニックでエングラムを初期化し、持ち物を減らしてから転送してください。たくさん運ぶときは、アイテム転送を使います。\n消えた所持品は、復元を依頼できます（BRONZE以上・有償）。',[['request','管理者依頼']],'asa'],
+  ['lost','トライブを脱退してしまった','脱退すると、トライブの建物と生物に触れなくなります。\n- 何人かのトライブ：ほかのメンバーに招待してもらえば戻れます\n- 1人のトライブ：管理者依頼（Elder）で「トライブ加入」を依頼してください（不具合のときは無料。それ以外は初回無料、2回目から1,000円〜）',[['request','管理者依頼']],'asa'],
+  ['lost','サバイバー名を変えたい','管理者依頼（Elder）で「サバイバー名変更」を依頼してください。いまの名前と、変えたい名前を書きます。初回は無料、2回目から500円〜です。',[['request','管理者依頼']],'asa'],
+  ['trouble','ルール違反・嫌がらせを受けた','建物は自動でロックされるので、盗難は基本的に起きません。\n迷惑行為は、Discordの #ark依頼・募集・周知フォーラム（パルワールドは #パルワールド総合🐑）で報告してください。角が立ちそうなときは、Village Server相談窓口に相談できます。',[['rules','ルール']]],
+  ['before','ゲームが初めてでも大丈夫？','大丈夫です。同じ時期に始めた人がいるので、Discordの #ark依頼・募集・周知フォーラム（パルワールドは #パルワールド総合🐑）で仲間を探してみてください。初心者どうしで組むのがおすすめです。\n1人で遊ぶときも、キルログを確かめられるよう、トライブを作っておくと安心です。悪意のある人もいるので、トライブの権限はよく確かめてください。',[['join','参加手順']]],
+  ['before','毎日ログインが必要？','不要です。どれか1つのマップに入れば、全マップの撤去までの日数がのびます。連携済なら30日、未連携だと7日で撤去されます。',[['ranks','ランクごとの日数']],'asa'],
   ['before','ボイスチャットは必須？','必須ではありません。'],
-  ['before','配信・動画投稿はできる？','[回答]']
+  ['before','配信・動画投稿はできる？','できます。概要欄などに、サーバー名（Village Server）、Discordの招待リンク（https://discord.gg/EbfScdh）、WikiのURL（https://wiki.village-server.jp/）を書いていただけるとうれしいです。'],
+  ['game','テイム計算サイト（DoDoDexなど）に入れる値は？','- Taming Speed（テイム速度）：3.0\n- Food Drain Multiplier（テイム時の食料消費）：2.5\n- Allow speed leveling：オン\n麻酔や餌は少し多めに用意してください。手渡しテイムは間隔を0.2倍にしているので、表示より早く終わります。',[['rates','サーバー倍率']],'asa'],
+  ['game','マップ間の転送のしかたと注意','オベリスクやビーコンなどで、サバイバー・アイテム・生物を別のマップへ送れます。\n- アップロードしたサバイバーは72時間、アイテムと生物は24時間で消えます\n- 1つのマップには、1アカウントにつきサバイバーが1人だけ。サバイバーがいるマップへダウンロードすると上書きされ、元のサバイバーは消えます\n- 新しいマップは、追加から2か月ほど転送できません\n- アイテムを持ちすぎて移動すると、一部が消えることがあります。たくさん送るときはアイテム転送を使います',null,'asa'],
+  ['game','Aberrationに持ち込めない生物がいる','Aberrationにいない生物は、基本的に持ち込めません（例：ティラノサウルス、ギガノトサウルス）。Aberrationに変種がいる生物は持ち込めます（例：スピノサウルス）。イキオオミツバチは、持ち込みも持ち出しもできません。\n例外として、オヴィラプトル、メガラニア、マナガルム、ベロナサウルス、ガスバッグ、ガチャ、エンフォーサー、スカウト、Mek、Exo-Mek、フェロクス、マグマサウルス、メガケロン、ブラッドストーカー、ノグリン、TEKストライダー、シャドウメイン、シノマクロプス、メイグアナは持ち込めます。',null,'asa'],
+  ['game','Genesisで飛行生物に乗れない','Aberrationと同じく、Genesisでは飛行生物に乗れない仕様です。生物を出すことはできます。',null,'asa'],
+  ['game','画面が暗い（ガンマ値を変えたい）','変えられます。Tabキーで入力欄を開き、/gamma 5 と入力してEnterで実行します。1がいちばん暗く、5がいちばん明るくなります（はじめは2.2）。',null,'asa'],
+  ['game','低温ポッドとは？','テイムした生物を、アイテムにして持ち運べる道具です（Lv51で覚えられます）。\n- 使わない生物をしまって、場所や餌を節約する\n- 引っ越しや遠出、洞窟の探検に連れて行く\n- 繁殖を途中で止める',null,'asa'],
+  ['game','TEKヘルメットのモードを切り替えたい','Rキーを長押しして出るメニューから、バイザーの起動と切り替えができます。パルス（周りの生物を強調）→暗視→パルス＋暗視の順に切り替わります。',null,'asa']
 ];
+const FAQ_GAME = { asa:'ARK:SA', pal:'パルワールド' };
+/* 回答の本文：改行で段落、「- 」で始まる行は箇条書き */
+function faqBody(s){
+  let out = '', list = [];
+  const flush = () => { if (list.length) { out += '<ul class="vs-faq-ul">' + list.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>'; list = []; } };
+  s.split('\n').forEach(line => { if (line.indexOf('- ') === 0) list.push(line.slice(2)); else { flush(); if (line) out += '<p class="vs-body vs-muted">' + esc(line) + '</p>'; } });
+  flush();
+  return out;
+}
 const REQ_KINDS = [['所持品の復元','backpack'],['生物の復元','pets'],['マップデータの復元','map'],['全撤去後のマップ復元','restore'],['サバイバーの復元','person'],['トライブへの復帰','group_add'],['サバイバー名の変更','badge'],['地形・建物からの脱出','exit_to_app'],['サーバーの起動','power_settings_new'],['そのほかの依頼','more_horiz']];
 const MAPS = [['TheIsland',27],['Ragnarok',27],['LostColony',4]];
 const ROUTES = {
@@ -2296,7 +2350,7 @@ function renderTiles(){
   el.classList.toggle('editing', state.editing);
   el.innerHTML = keys.map(k => {
     const c = CAT[k];
-    const inner = dot(c.c, c.i, 'large') + '<span class="vs-tile-text"><b class="vs-title-m">' + esc(c.t) + '</b></span>';
+    const inner = dot(c.c, c.i, 'large') + '<span class="vs-tile-text"><b class="vs-title-m">' + (c.beginner ? WAKABA : '') + esc(c.t) + '</b></span>';
     if (state.editing) return '<div class="vs-tile s6 m4 l2">' + inner + '<button class="circle small error vs-remove" type="button" data-remove="' + k + '" aria-label="' + esc(c.t) + 'を外す"><i>remove</i></button></div>';
     return '<a class="vs-tile s6 m4 l2 wave" href="#' + c.to + '">' + inner + '<i class="vs-go">arrow_forward</i></a>';
   }).join('') + '<button class="vs-tile vs-add s6 m4 l2" type="button" data-act="add-tile" aria-label="お気に入りに追加"><i aria-hidden="true">add</i></button>';
@@ -2375,11 +2429,13 @@ function linkBody(){
   const web = issued
     ? '<div class="field border round suffix"><input type="text" id="link-code" readonly value="' + esc(L.code) + '" aria-label="連携コード"><a href="#" data-copy="' + esc(L.code) + '" aria-label="コードをコピー"><i>content_copy</i></a></div><nav class="vs-mt-s"><span class="vs-support"><i>timer</i> <span data-expiry></span></span><button class="transparent small" type="button" data-act="link-issue"><i>refresh</i><span>再発行</span></button></nav>'
     : '<button type="button" data-act="link-issue"><i>key</i><span>連携コードを発行</span></button>';
+  /* 連携コマンドは、このサイトではなく「ARKのゲーム内チャット」に入力する（Wikiの手順：Enterでチャット欄を開いて貼り付け、送信。画面上部に緑の英文が出たら完了） */
   const ark = issued
-    ? '<div class="field border round suffix"><input type="text" id="link-cmd" readonly value="' + esc(cmd) + '" aria-label="ARKのチャットに入力するコマンド"><a href="#" data-copy="' + esc(cmd) + '" aria-label="コマンドをコピー"><i>content_copy</i></a></div><p class="vs-wait vs-mt-s"><progress class="circle small indeterminate" value="50" max="100" style="--_value:50" aria-label="待機中"></progress>ゲームでの入力を待っています</p><button class="transparent small vs-mt-s" type="button" data-act="link-demo"><span>デモ：入力したことにする</span></button>'
-    : '<p class="vs-support">コードを発行すると、入力するコマンドがここに出ます。</p>';
-  return '<div class="vs-lf"><p class="vs-label"><i>language</i> 1. このサイトで</p>' + web + '</div>' +
-    '<div class="vs-lf"><p class="vs-label"><i>sports_esports</i> 2. ARKのチャットで</p>' + ark + '</div>' +
+    ? '<p class="vs-support">ARKにログインし、<b>Enterキーでゲーム内のチャット欄を開いて</b>、次のコマンドを貼り付けて送信します。</p><div class="field border round suffix vs-mt-s"><input type="text" id="link-cmd" readonly value="' + esc(cmd) + '" aria-label="ARKのゲーム内チャットに入力するコマンド"><a href="#" data-copy="' + esc(cmd) + '" aria-label="コマンドをコピー"><i>content_copy</i></a></div>' +
+      '<p class="vs-support vs-mt-s">画面上部に緑の英文が出たら完了です。手で入力するときは、スペースを半角にしてください。</p><p class="vs-wait vs-mt-s"><progress class="circle small indeterminate" value="50" max="100" style="--_value:50" aria-label="待機中"></progress>ゲーム内チャットでの入力を待っています</p><button class="transparent small vs-mt-s" type="button" data-act="link-demo"><span>デモ：入力したことにする</span></button>'
+    : '<p class="vs-support">コードを発行すると、<b>ARKのゲーム内チャット</b>に入力するコマンドがここに出ます。</p>';
+  return '<div class="vs-lf"><p class="vs-label"><i>language</i> 1. このサイトでコードを発行</p>' + web + '</div>' +
+    '<div class="vs-lf"><p class="vs-label"><i>sports_esports</i> 2. ARKのゲーム内チャットで入力</p>' + ark + '</div>' +
     '<p class="vs-note vs-mt"><i>info</i><span>連携すると、撤去までの日数が7日から30日にのびます。</span></p>';
 }
 function stepBody(g, id){
@@ -2396,7 +2452,7 @@ function stepBody(g, id){
 function renderSteps(){
   const g = state.game, G = GAMES[g], ids = FLOW[g];
   const cur = ids.findIndex(id => !stepDone(g, id));
-  $('#steps-title').textContent = G.short + 'の参加手順';
+  $('#steps-title').innerHTML = WAKABA + esc(G.short + 'の参加手順');
   $('#steps-done').hidden = cur !== -1;
   $('#stepper').innerHTML = ids.map((id, i) => {
     const s = STEP_DEF[id], done = stepDone(g, id), cls = done ? 'done' : (i === cur ? 'current' : '');
@@ -2451,7 +2507,7 @@ function renderRates(){
   const el = $('#rates-body');
   if (state.game === 'pal') { el.innerHTML = '<div class="grid"><div class="s12 vs-block vs-info"><i class="ink-blue">pets</i><h2 class="vs-title-m">ほぼ初期設定のワールド</h2><p class="vs-support">[変更している設定があれば、ここに入ります]</p></div></div>'; return; }
   el.innerHTML = RATES.map((gr, i) => '<section' + (i ? ' class="vs-section"' : '') + '><div class="vs-sechead"><i class="ink-' + gr.c + '">' + gr.icon + '</i><h2 class="vs-title-l">' + esc(gr.title) + '</h2></div><div class="grid vs-mt-s">' +
-    gr.rows.map(r => '<div class="' + (gr.rows.length % 4 ? 's6 m4 l2' : 's6 m3 l3') + ' vs-fig vs-block vs-ratefig" style="--vs-ic:var(--vs-' + gr.c + '-ink)"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
+    gr.rows.map(r => '<div class="' + (gr.rows.length % 4 ? 's6 m4 l2' : 's6 m3 l3') + ' vs-fig vs-block vs-ratefig" style="--vs-ic:var(--vs-' + gr.c + '-ink)"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span>' + (r[3] ? '<small class="vs-rate-eg">' + esc(r[3]) + '</small>' : '') + '</div>').join('') + '</div></section>').join('') +
     '<div class="grid vs-section"><section class="s12 l8"><div class="vs-sechead"><i class="ink-blue">today</i><h2 class="vs-title-l">毎日のスケジュール</h2></div><ul class="vs-list vs-mt-s">' +
     SCHEDULE.map(t => '<li><span class="vs-time">' + esc(t[0]) + '</span><span class="max"><b>' + esc(t[1]) + '</b><span class="vs-support" style="display:block">' + esc(t[2]) + '</span></span></li>').join('') + '</ul></section>' +
     '<section class="s12 l4"><div class="vs-sechead"><i class="ink-red">schedule</i><h2 class="vs-title-l">撤去までの日数</h2></div><p class="vs-big vs-mt-s">7〜60<small>日</small></p><a class="button transparent vs-mt-s" href="#ranks"><span>ランクごとの日数</span><i>arrow_forward</i></a></section></div>';
@@ -2477,15 +2533,16 @@ function renderRanks(){
   $('#bill').innerHTML = [['month','月払い'],['year','年払い']].map(b => { const on = bill === b[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-bill="' + b[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + b[1] + '</span></button>'; }).join('') +
     '<span class="vs-bill-save"><i>savings</i>年払いは' + (12 - YEAR_MONTHS) + 'か月分おトク</span>';
   const th = RANK_COLS.map((c, i) => { const p = rankPrice(c[0], bill); return '<th scope="col"' + (c[0] === mine ? ' class="is-mine"' : '') + '><span class="vs-rk-head' + rankCls(c[0]) + '">' + (c[0] === mine ? '<span class="vs-mine-label">いまのランク</span>' : '') + '<b>' + esc(c[0]) + '</b><small>' + (p ? fmt(p.n) + p.unit : esc(c[1])) + '</small></span></th>'; }).join('');
+  const mi = RANK_COLS.findIndex(c => c[0] === mine), mc = i => i === mi ? ' is-mine' : '';
   const rows = RANK_ROWS.map(r => {
     const max = r[0] === '撤去までの日数' ? 60 : r[0].indexOf('ポイント') === 0 ? 20 : 0;
-    return '<tr><th scope="row">' + esc(r[0]) + (RANK_SUB[r[0]] ? '<small>' + esc(RANK_SUB[r[0]]) + '</small>' : '') + '</th>' + r[1].map(v => {
-      if (v === N) return '<td class="no"><span aria-hidden="true">—</span><span class="vs-sr">なし</span></td>';
-      if (max) return '<td class="vs-cmp-num"><b>' + esc(v) + '</b><span class="vs-cmp-bar" style="--h:' + (parseInt(v, 10) / max).toFixed(3) + '"></span></td>';
-      return v === Y ? '<td class="yes"><i aria-hidden="true">check_circle</i><span class="vs-sr">あり</span></td>' : '<td class="val"><b>' + esc(v) + '</b></td>';
+    return '<tr><th scope="row">' + esc(r[0]) + (RANK_SUB[r[0]] ? '<small>' + esc(RANK_SUB[r[0]]) + '</small>' : '') + '</th>' + r[1].map((v, i) => {
+      if (v === N) return '<td class="no' + mc(i) + '"><span aria-hidden="true">—</span><span class="vs-sr">なし</span></td>';
+      if (max) return '<td class="vs-cmp-num' + mc(i) + '"><b>' + esc(v) + '</b><span class="vs-cmp-bar" style="--h:' + (parseInt(v, 10) / max).toFixed(3) + '"></span></td>';
+      return v === Y ? '<td class="yes' + mc(i) + '"><i aria-hidden="true">check_circle</i><span class="vs-sr">あり</span></td>' : '<td class="val' + mc(i) + '"><b>' + esc(v) + '</b></td>';
     }).join('') + '</tr>';
   }).join('');
-  const foot = RANK_COLS.map(c => '<td>' + (c[2] === 'link' ? '<a class="button border small" href="#join-asa">連携する</a>' : c[2] === 'buy' ? (c[0] === mine ? '<span class="vs-status c-green">利用中</span>' : '<button class="small" type="button" data-bot="rank:' + c[0] + ':' + bill + '">申し込む</button>') : '') + '</td>').join('');
+  const foot = RANK_COLS.map((c, i) => '<td' + (mc(i) ? ' class="is-mine"' : '') + '>' + (c[2] === 'link' ? '<a class="button border small" href="#join-asa">連携する</a>' : c[2] === 'buy' ? (c[0] === mine ? '<span class="vs-status c-green">利用中</span>' : '<button class="small" type="button" data-bot="rank:' + c[0] + ':' + bill + '">申し込む</button>') : '') + '</td>').join('');
   $('#ranks-table').innerHTML = '<table class="vs-ranks"><thead><tr><th scope="col">特典</th>' + th + '</tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td></td>' + foot + '</tr></tfoot></table>';
   renderPlans(mine, bill);
 }
@@ -2737,10 +2794,10 @@ function linkChip(l){
   return '<a class="chip" href="#' + esc(to) + '"><span>' + label + '</span><i>arrow_forward</i></a>';
 }
 function renderFaq(){
-  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + (c[0] === 'before' ? WAKABA : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.faqQ.trim().toLowerCase();
   const list = FAQ.filter(f => (state.faqCat === 'all' || f[0] === state.faqCat) && (!q || (f[1] + f[2]).toLowerCase().indexOf(q) >= 0));
-  $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-body vs-muted">' + esc(f[2]) + '</p>' + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
+  $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b>' + (f[4] ? '<span class="vs-faq-game">' + FAQ_GAME[f[4]] + '</span>' : '') + '</span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">' + faqBody(f[2]) + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
     : '<li class="vs-rrow nocheck"><p class="vs-note" style="padding-block:1rem"><i>search_off</i><span>見つかりませんでした</span></p></li>';
 }
 function renderReqKinds(){ $('#req-kinds').innerHTML = REQ_KINDS.map(k => '<li><i class="ink-red">' + k[1] + '</i><span class="max">' + esc(k[0]) + '</span></li>').join(''); }
@@ -2887,7 +2944,7 @@ const ANSWERS = [
   { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'[excited]特典は比較表にまとめてあるにゃ。[smug]ARKと連携するだけでも、無料の特典があるんだよ。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
   { k:['コマンド','pod','/'], a:'[nod]コマンド一覧から探せるにゃ。コピーボタンで、そのまま貼り付けられるよ。', l:[['commands','コマンド一覧']] },
   { k:['撤去','期限','休','放置'], a:'[thinking]1つのマップに入れば、全マップの期限がのびるにゃ。[nod]連携済なら30日、ランクで最大60日だよ。', l:[['ranks','ランクごとの日数']] },
-  { k:['連携','コード','link'], a:'[nod]参加手順の「ARKと連携」でコードを発行して、ARKのチャットで /link コード と入力してにゃ。', l:[['join-asa','ARK:SAの参加手順']] },
+  { k:['連携','コード','link'], a:'[nod]参加手順の「ARKと連携」でコードを発行して、ARKのゲーム内チャット（Enterキーで開く）に /link コード と入力して送信してにゃ。', l:[['join-asa','ARK:SAの参加手順']] },
   { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'[nod]ルールは、絵つきでひとつずつまとめてあるにゃ。', l:[['rules','ルール']] },
   { k:['参加','はじめ','初めて','始め'], a:'[happy]ようこそ！[nod]参加手順を上から進めれば遊べるにゃ。', l:[['join','参加手順']] }
 ];
