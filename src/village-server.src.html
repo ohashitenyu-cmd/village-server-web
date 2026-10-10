@@ -1170,10 +1170,7 @@ const CAT = {
   intro:{ t:'サーバー紹介', d:'写真で見る村', i:'photo_library', to:'intro', c:'blue' },
   rates:{ t:'サーバー倍率', d:'テイム・繁殖の速さ', i:'speed', to:'rates', c:'green' },
   api:{ t:'導入API解説', d:'便利な追加機能', i:'extension', to:'api', c:'red' },
-  balance:{ t:'残高', d:'Monetaの残高', i:'account_balance_wallet', to:'mypage', c:'yellow' },
-  decay:{ t:'撤去期限', d:'マップごとの残り日数', i:'schedule', to:'mypage', c:'green' },
-  status:{ t:'依頼状況', d:'送った依頼の進み具合', i:'assignment', to:'mypage', c:'red' },
-  link:{ t:'ARK連携', d:'連携の状態', i:'link', to:'mypage', c:'purple' }
+  mypage:{ t:'マイページ', d:'ランク・残高・撤去期限・依頼状況', i:'account_circle', to:'mypage', c:'purple' }  /* 残高・撤去期限などはマイページの中身なので、1つにまとめる */
 };
 const GAMES = {
   asa:{ name:'ARK: Survival Ascended', short:'ARK:SA', tag:'Steam・Xbox・PlayStation クロスプレイ', img:'img/game-asa-card.jpg' },
@@ -1374,7 +1371,8 @@ const state = {
   discord: !!store.get('discord', false),
   ruleChecks: Object.assign({ asa:[], pal:[] }, store.get('ruleChecks', {})),
   link: Object.assign({ status:'none', code:'', exp:0 }, store.get('link', {})),
-  tiles: store.get('tiles', ['request','scribe','commands','ranks','trouble']),
+  /* お気に入り：前の「残高」「撤去期限」「依頼状況」「ARK連携」は「マイページ」1つに置き換える（重なりは1つに） */
+  tiles: [...new Set(store.get('tiles', ['request','scribe','commands','ranks','trouble']).map(k => ['balance','decay','status','link'].indexOf(k) >= 0 ? 'mypage' : k))],
   billing: store.get('bill', 'month') === 'year' ? 'year' : 'month',
   notify: store.get('notify', true) !== false,
   requests: [{ t:'所持品の復元', d:'10/06', s:'対応中' }, { t:'サバイバー名の変更', d:'09/28', s:'完了' }],
