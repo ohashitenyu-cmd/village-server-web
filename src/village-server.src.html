@@ -137,9 +137,9 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-dot.c-blue{--vs-c:var(--vs-blue)} .vs-dot.c-purple{--vs-c:var(--vs-purple)}
 .vs-dot.c-night{--vs-c:var(--vs-night); color:var(--vs-ember); box-shadow:inset 0 0 0 1px var(--outline-variant)}
 .vs-dot.large{inline-size:3rem; block-size:3rem} .vs-dot.large>i{--_size:1.5rem}
-.vs-tile,.vs-row,.vs-game{position:relative; box-sizing:border-box; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); text-align:start; white-space:normal; transition:box-shadow var(--speed2), background-image var(--speed2)}
-.vs-tile:hover,.vs-row:hover,.vs-game:hover{box-shadow:var(--vs-e2); background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
-.vs-tile:focus-visible,.vs-row:focus-visible,.vs-game:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+.vs-tile,.vs-row,.vs-game,.vs-news{position:relative; box-sizing:border-box; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); text-align:start; white-space:normal; transition:box-shadow var(--speed2), background-image var(--speed2)}
+.vs-tile:hover,.vs-row:hover,.vs-game:hover,.vs-news:hover{box-shadow:var(--vs-e2); background-image:linear-gradient(var(--vs-hover),var(--vs-hover))}
+.vs-tile:focus-visible,.vs-row:focus-visible,.vs-game:focus-visible,.vs-news:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
 .vs-go{color:var(--on-surface-variant); flex:none}
 .vs-tile{display:flex; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1rem; padding:1.25rem; min-block-size:8rem; border-radius:1.25rem}
 .vs-tile>.vs-go{position:absolute; inset:2rem 1.25rem auto auto}
@@ -209,6 +209,44 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-perk-link>span:not(.vs-perk-ok){flex:1; block-size:2px; background:var(--vs-green)}
 .vs-perk-ok{flex:none; inline-size:1.5rem; block-size:1.5rem; border-radius:50%; display:grid; place-items:center; background:var(--vs-green); color:var(--vs-night)}
 .vs-perk-ok>i{--_size:1rem}
+
+/* ---- TOP：お知らせ（公式Discordの #お知らせ の新しい3件）。押せる＝浮いた面＋外部リンクのアイコン ---- */
+.vs-sechead+.vs-support{margin-block-start:.25rem !important}
+.vs-newslist{list-style:none; padding:0}
+.vs-news{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; gap:.375rem; block-size:100%; padding:1rem 1.25rem; border-radius:1.25rem}
+.vs-news-meta{display:flex; align-items:center; gap:.375rem; padding-inline-end:1.75rem; font-size:.75rem; font-weight:700}
+.vs-news-meta>i{--_size:1rem}
+.vs-news-meta>time{margin-inline-start:.25rem; font-weight:500; color:var(--on-surface-variant); font-variant-numeric:tabular-nums}
+.vs-news-title{font-size:.9375rem; font-weight:700; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.vs-news-text{font-size:.8125rem; line-height:1.6; color:var(--on-surface-variant); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.vs-news>.vs-go{position:absolute; inset:1rem 1.25rem auto auto; --_size:1.125rem}
+@media (max-width:600px){ .vs-news-text{display:none} }
+
+/* ---- マップステータス：状態は「色の点＋ことば」、絵の明るさ（停止は灰色）、動き（稼働中は脈打つ点・起動中は回る輪）で重ねて伝える ---- */
+.vs-st{display:inline-flex; align-items:center; gap:.375rem; font-weight:700; white-space:nowrap; --vs-sc:var(--outline)}
+.vs-st::before{content:""; flex:none; inline-size:.625rem; block-size:.625rem; border-radius:50%; background:var(--vs-sc)}
+.vs-st.on{--vs-sc:var(--vs-green)} .vs-st.boot{--vs-sc:var(--vs-yellow)} .vs-st.off{--vs-sc:var(--vs-red)}
+@media (prefers-reduced-motion:no-preference){ .vs-st.on::before{animation:vs-pulse 2s ease-out infinite} }
+@keyframes vs-pulse{0%{box-shadow:0 0 0 0 rgb(64 198 139 / .6)} 100%{box-shadow:0 0 0 .5rem rgb(64 198 139 / 0)}}
+.vs-mapsum{display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 1.5rem}
+.vs-mapsum>.vs-st{font-size:.875rem}
+.vs-mapsum>.vs-st b{font-size:1.5rem; font-weight:800; font-variant-numeric:tabular-nums}
+.vs-mapsum-time{margin-inline-start:auto; display:inline-flex; align-items:center; gap:.25rem; font-size:.8125rem; color:var(--on-surface-variant)}
+.vs-mapcards{list-style:none; padding:0}
+.vs-map{display:flex; flex-direction:column; block-size:100%; border-radius:1.5rem; overflow:hidden; background-color:var(--surface-container)}
+.vs-map-art{position:relative; display:block; aspect-ratio:368/172; max-inline-size:100%; overflow:hidden; border-radius:0; background:var(--vs-night)}
+.vs-map-art>svg{display:block; inline-size:100%; block-size:100%; border-radius:0; transition:filter var(--speed3)}
+.vs-map.boot .vs-map-art>svg{filter:saturate(.5) brightness(.75)}
+.vs-map.off .vs-map-art>svg{filter:grayscale(1) brightness(.55)}
+.vs-map-chip{position:absolute; inset:.75rem auto auto .75rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--on-surface); font-size:.75rem; box-shadow:var(--vs-e1)}
+.vs-map-ov{position:absolute; inset:0; display:grid; place-items:center; border-radius:0; color:var(--vs-flame)}
+.vs-map-ov>i{--_size:2.5rem}
+.vs-map-body{display:flex; flex-direction:column; flex:1; gap:.5rem; padding:1.25rem 1.5rem 1.5rem}
+.vs-map-body>*{margin:0 !important}
+.vs-map-name{font-size:1.125rem; font-weight:800; line-height:1.3}
+.vs-map-line{display:flex; align-items:baseline; justify-content:space-between; gap:.75rem; font-size:.875rem; color:var(--on-surface-variant)}
+.vs-map-line b{color:var(--on-surface); font-variant-numeric:tabular-nums}
+.vs-map-bar{block-size:.375rem; border-radius:.25rem; background:linear-gradient(var(--vs-green),var(--vs-green)) 0 0/var(--w) 100% no-repeat,var(--surface-container-highest)}
 
 /* ---- TOP：写真のメインビジュアル ---- */
 .vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
@@ -527,6 +565,14 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s4 vs-fig" role="listitem"><i>bolt</i><b>99<small>%</small></b><span>直近12か月の稼働率</span></div>
       <div class="s4 vs-fig" role="listitem"><i>groups</i><b>2,530<small>人</small></b><span>Discord参加中</span></div>
     </div>
+    <section class="vs-section" aria-labelledby="news-title">
+      <div class="vs-sechead">
+        <h2 id="news-title" class="vs-title-l">お知らせ</h2>
+        <a class="button transparent small" href="#" data-ext="公式Discordの #お知らせ"><span>Discordで見る</span><i>open_in_new</i></a>
+      </div>
+      <p class="vs-support">公式Discordの #お知らせ から、新しい3件を表示しています（プロトタイプでは例）。</p>
+      <ul class="grid vs-newslist vs-mt-s" id="news"></ul>
+    </section>
     <section class="vs-section vs-panel" aria-labelledby="tiles-title">
       <div class="vs-sechead">
         <h2 id="tiles-title" class="vs-title-l">お気に入り</h2>
@@ -575,11 +621,20 @@ body:not(.vs-ready) .page.active{animation:none}
   <div class="page" id="p-about">
     <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1">サーバーについて</h1></nav>
     <div class="grid vs-mt">
+      <div class="s12"><a class="vs-row wave" href="#maps"><span class="vs-dot large c-green"><i>monitor_heart</i></span><span class="max"><b class="vs-title-m">マップステータス</b><span class="vs-support" id="about-maps"></span></span><i class="vs-go">arrow_forward</i></a></div>
       <a class="vs-tile s6 l3 wave" href="#intro"><span class="vs-dot large c-blue"><i>photo_library</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー紹介</b><span class="vs-tile-cap">写真で見る村</span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#rates"><span class="vs-dot large c-green"><i>speed</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー倍率</b><span class="vs-tile-cap">テイム・繁殖の速さ</span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#commands"><span class="vs-dot large c-purple"><i>terminal</i></span><span class="vs-tile-text"><b class="vs-title-m">コマンド一覧</b><span class="vs-tile-cap">チャットで使う</span></span><i class="vs-go">arrow_forward</i></a>
       <a class="vs-tile s6 l3 wave" href="#api"><span class="vs-dot large c-red"><i>extension</i></span><span class="vs-tile-text"><b class="vs-title-m">導入API解説</b><span class="vs-tile-cap">便利な追加機能</span></span><i class="vs-go">arrow_forward</i></a>
     </div>
+  </div>
+
+  <div class="page" id="p-maps">
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">マップステータス</h1></nav>
+    <p class="vs-support">ARK:SAの各マップが、いま入れるかどうかを確かめられます（プロトタイプでは例）。</p>
+    <div class="vs-mapsum vs-mt" id="maps-sum" aria-live="polite"></div>
+    <ul class="grid vs-mapcards vs-mt" id="maps-grid"></ul>
+    <p class="vs-note vs-mt"><i>info</i><span>毎日5:00の再起動中は、数分間すべてのマップが「起動中」になります。</span></p>
   </div>
 
   <div class="page" id="p-intro">
@@ -867,7 +922,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
       </div>
       <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
-      <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#maps">マップステータス</a></li><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サポート"><div><h2>サポート</h2><ul><li><a href="#trouble">困った時一覧</a></li><li><a href="#scribe">スクライブ</a></li><li><a href="#request">管理者依頼</a></li><li><a href="#ranks">ランク比較・購入</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="そのほか"><div><h2>そのほか</h2><ul><li><a href="#mypage">マイページ</a></li><li><a href="#" data-ext="Village Portal">Village Portal<i>open_in_new</i></a></li><li><a href="#" data-ext="Wiki">Wiki<i>open_in_new</i></a></li></ul></div></nav>
     </div>
@@ -936,6 +991,7 @@ const CAT = {
   trouble:{ t:'困った時一覧', d:'よくある困りごと', i:'help', to:'trouble', c:'green' },
   join:{ t:'参加手順', d:'はじめての方', i:'flag', to:'join', c:'yellow' },
   rules:{ t:'ルール', d:'1つずつ確認', i:'gavel', to:'rules', c:'red' },
+  maps:{ t:'マップステータス', d:'各マップの起動・停止', i:'monitor_heart', to:'maps', c:'green' },
   intro:{ t:'サーバー紹介', d:'写真で見る村', i:'photo_library', to:'intro', c:'blue' },
   rates:{ t:'サーバー倍率', d:'テイム・繁殖の速さ', i:'speed', to:'rates', c:'green' },
   api:{ t:'導入API解説', d:'便利な追加機能', i:'extension', to:'api', c:'red' },
@@ -1015,6 +1071,7 @@ const ROUTES = {
   'join-asa':{ page:'steps', nav:'home', title:'ARK:SAの参加手順', game:'asa', parent:'join' },
   'join-pal':{ page:'steps', nav:'home', title:'パルワールドの参加手順', game:'pal', parent:'join' },
   about:{ page:'about', nav:'about', title:'サーバーについて' },
+  maps:{ page:'maps', nav:'about', title:'マップステータス', parent:'about' },
   intro:{ page:'intro', nav:'about', title:'サーバー紹介', parent:'about' },
   rates:{ page:'rates', nav:'about', title:'サーバー倍率', parent:'about' },
   commands:{ page:'commands', nav:'about', title:'コマンド一覧', parent:'about' },
@@ -1327,6 +1384,68 @@ function renderPlans(mine, bill){
       '<div class="vs-plan-body"><div class="vs-plan-price"><b>' + fmt(p.n) + '</b><span>' + p.unit + '</span>' + save + '</div><span class="vs-support">' + esc(RANK_FOR[c[0]]) + '</span><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
   }).join('');
 }
+
+/* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から新しい3件を取り込む想定 ---------- */
+const NEWS = [
+  { d:'2026-10-08', c:'maint', t:'全マップのメンテナンスのお知らせ', x:'アップデートを適用するため、一時的に全マップを停止します。日時はDiscordで確認してください。' },
+  { d:'2026-10-05', c:'event', t:'イベント開催のお知らせ', x:'期間や内容は、Discordのお知らせで確認してください。' },
+  { d:'2026-09-28', c:'rule', t:'ルールを更新しました', x:'変更点は、ルールのページの更新履歴で確認できます。' }
+];
+const NEWS_CAT = { maint:['メンテナンス','construction','ink-blue'], event:['イベント','celebration','ink-purple'], rule:['ルール','gavel','ink-red'] };
+function renderNews(){
+  $('#news').innerHTML = NEWS.slice(0, 3).map(n => {
+    const c = NEWS_CAT[n.c], dt = n.d.split('-');
+    return '<li class="s12 l4"><a class="vs-news wave" href="#" data-ext="Discordのお知らせ"><span class="vs-news-meta ' + c[2] + '"><i>' + c[1] + '</i>' + c[0] + '<time datetime="' + n.d + '">' + Number(dt[1]) + '月' + Number(dt[2]) + '日</time></span><b class="vs-news-title">' + esc(n.t) + '</b><span class="vs-news-text">' + esc(n.x) + '</span><i class="vs-go">open_in_new</i></a></li>';
+  }).join('');
+}
+
+/* ---------- マップステータス（例）。本番はサーバーの状態から取り込む想定。s：on＝稼働中／boot＝起動中／off＝停止中 ---------- */
+const MAP_STATUS = [
+  { k:'TheIsland', s:'on', p:41 },
+  { k:'ScorchedEarth', s:'on', p:12 },
+  { k:'TheCenter', s:'on', p:18 },
+  { k:'Aberration', s:'off', note:'メンテナンスのため停止しています' },
+  { k:'Extinction', s:'on', p:9 },
+  { k:'Ragnarok', s:'on', p:33 },
+  { k:'Valguero', s:'boot', note:'起動しています。数分で入れます' },
+  { k:'Astraeus', s:'on', p:7 },
+  { k:'LostColony', s:'on', p:26 }
+];
+const MAP_MAX = 70;
+const MAP_ST = { on:'稼働中', boot:'起動中', off:'停止中' };
+/* マップの絵：夜空から各マップの色へのグラデーションに、そのマップらしい地形を重ねる（368×172 はゲームカードと同じ比率） */
+const MAP_ART = {
+  TheIsland:{ sky:'#25506a', art:'<circle cx="300" cy="38" r="14" fill="#f3eee3" opacity=".9"/><path d="M150 118L196 46H210L258 118Z" fill="#2f4a52"/><ellipse cx="203" cy="47" rx="9" ry="3" fill="#ee395b" opacity=".85"/><path d="M30 130C90 98 150 104 190 112C240 100 300 104 344 130Z" fill="#40c68b"/><path d="M60 130C110 116 170 118 220 126C260 120 300 122 330 130Z" fill="#2e9c6c"/><rect y="126" width="368" height="46" fill="#009acf" opacity=".6"/>' },
+  ScorchedEarth:{ sky:'#8a4b1c', art:'<circle cx="250" cy="78" r="56" fill="#efbb0c" opacity=".22"/><circle cx="250" cy="78" r="36" fill="#efbb0c"/><path d="M0 120C60 96 120 104 180 116C240 100 300 96 368 112V172H0Z" fill="#b8742c"/><path d="M0 140C80 118 150 126 220 142C280 130 330 128 368 136V172H0Z" fill="#e0a24a"/>' },
+  TheCenter:{ sky:'#1d4f73', art:'<path d="M0 140C70 120 130 128 190 136C250 124 310 122 368 134V172H0Z" fill="#20384d"/><path d="M60 50H86L76 64Z" fill="#4a3f63"/><path d="M290 40H312L303 52Z" fill="#4a3f63"/><rect x="196" y="72" width="8" height="74" fill="#8fd8ff" opacity=".75"/><path d="M126 72H242L212 104L190 122L170 104Z" fill="#4a3f63"/><path d="M126 72Q184 50 242 72Z" fill="#40c68b"/>' },
+  Aberration:{ sky:'#2a1a4a', art:'<circle cx="99" cy="112" r="40" fill="#a257eb" opacity=".18"/><circle cx="252" cy="122" r="30" fill="#009acf" opacity=".18"/><path d="M0 0H368V26C330 40 310 30 290 46C270 30 240 44 220 30C200 48 170 34 150 46C130 30 100 42 80 30C60 44 30 34 0 40Z" fill="#0f0c1e"/><path d="M0 142C60 128 120 136 180 140C240 130 300 132 368 140V172H0Z" fill="#0f0c1e"/><rect x="96" y="112" width="6" height="32" fill="#c3b5ff"/><ellipse cx="99" cy="112" rx="22" ry="10" fill="#a257eb"/><rect x="249" y="122" width="5" height="22" fill="#a6e0ff"/><ellipse cx="252" cy="122" rx="16" ry="8" fill="#009acf"/><circle cx="160" cy="96" r="2" fill="#8fd8ff"/><circle cx="200" cy="80" r="1.5" fill="#c3b5ff"/><circle cx="300" cy="94" r="2" fill="#8fd8ff"/>' },
+  Extinction:{ sky:'#7a2235', art:'<circle cx="280" cy="52" r="30" fill="#f3eee3" opacity=".85"/><path d="M0 172V118H24V96H40V124H58V86H80V110H96V72H118V120H136V100H160V126H176V92H198V118H214V108H236V130H252V98H274V122H294V104H316V126H336V112H368V172Z" fill="#1c1426"/><rect x="62" y="96" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="102" y="84" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="182" y="104" width="4" height="4" fill="#efbb0c" opacity=".7"/><rect x="258" y="110" width="4" height="4" fill="#efbb0c" opacity=".7"/>' },
+  Ragnarok:{ sky:'#2d3f78', art:'<path d="M0 60C80 30 160 70 240 40C290 22 330 34 368 26V48C330 58 290 46 240 64C160 92 80 52 0 82Z" fill="#40c68b" opacity=".35"/><path d="M0 140L60 82L110 126L170 60L232 130L290 76L368 138V172H0Z" fill="#3a4a80"/><path d="M170 60L182 74L175 71L168 76L162 71L158 73Z" fill="#f3eee3"/><path d="M290 76L306 88L298 85L291 90L284 85L278 87Z" fill="#f3eee3"/><path d="M60 82L70 91L65 89L59 93L53 89L48 94Z" fill="#f3eee3"/><path d="M0 150C80 136 160 146 240 140C300 136 340 144 368 142V172H0Z" fill="#1f2a52"/>' },
+  Valguero:{ sky:'#3e6a4a', art:'<circle cx="70" cy="40" r="12" fill="#f3eee3" opacity=".9"/><path d="M0 118C60 92 120 96 180 110C240 90 300 92 368 108V172H0Z" fill="#2e6a4a"/><path d="M0 136C70 116 140 124 200 132C260 118 320 120 368 128V172H0Z" fill="#2e9c6c"/><path d="M150 172C170 150 210 146 200 132C192 122 220 118 236 112" stroke="#8fd8ff" stroke-width="10" fill="none" stroke-linecap="round" opacity=".85"/><path d="M0 156C80 142 150 150 230 156C290 148 340 150 368 152V172H0Z" fill="#40c68b"/>' },
+  Astraeus:{ sky:'#4a2a6e', art:'<circle cx="310" cy="30" r="6" fill="#f3eee3" opacity=".9"/><circle cx="250" cy="70" r="30" fill="#a257eb"/><ellipse cx="250" cy="70" rx="52" ry="12" fill="none" stroke="#f3eee3" stroke-width="3" opacity=".7"/><path d="M80 120L92 96L104 120L92 136Z" fill="#b49bff"/><path d="M128 132L136 116L144 132L136 142Z" fill="#8fd8ff"/><path d="M0 150C90 136 180 144 260 150C310 146 340 146 368 148V172H0Z" fill="#241640"/>' },
+  LostColony:{ sky:'#6a3a2a', art:'<circle cx="300" cy="34" r="10" fill="#f3eee3" opacity=".85"/><circle cx="328" cy="52" r="5" fill="#f3eee3" opacity=".6"/><path d="M0 172V120H40L52 104H120L132 120H160V172Z" fill="#8a4a32"/><path d="M220 172V112H236L246 96H310L320 112H368V172Z" fill="#7a3e2c"/><rect x="176" y="100" width="4" height="50" fill="#f3eee3" opacity=".8"/><circle cx="178" cy="98" r="4" fill="#ee395b"/><path d="M150 150A28 28 0 0 1 206 150Z" fill="#f3eee3" opacity=".85"/><path d="M200 150A16 16 0 0 1 232 150Z" fill="#f3eee3" opacity=".7"/><rect y="150" width="368" height="22" fill="#4a2a22"/>' }
+};
+const MAP_STARS = [[28,22],[64,12],[118,26],[156,10],[214,20],[262,12],[340,18]];
+function mapArt(k){
+  const A = MAP_ART[k] || { sky:'#2a2d44', art:'' }, id = 'vs-sky-' + k;
+  return '<svg viewBox="0 0 368 172" aria-hidden="true"><defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161827"/><stop offset="1" stop-color="' + A.sky + '"/></linearGradient></defs><rect width="368" height="172" fill="url(#' + id + ')"/>' +
+    MAP_STARS.map(s => '<circle cx="' + s[0] + '" cy="' + s[1] + '" r="1.2" fill="#f3eee3" opacity=".6"/>').join('') + A.art + '</svg>';
+}
+function renderMaps(){
+  const cnt = { on:0, boot:0, off:0 };
+  MAP_STATUS.forEach(m => { cnt[m.s]++; });
+  const now = new Date(), hm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+  $('#maps-sum').innerHTML = ['on','boot','off'].map(s => '<span class="vs-st ' + s + '">' + MAP_ST[s] + ' <b>' + cnt[s] + '</b></span>').join('') +
+    '<span class="vs-mapsum-time">' + hm + ' 時点<button class="circle transparent small" type="button" data-act="maps-refresh" aria-label="最新の状態にする"><i>refresh</i></button></span>';
+  $('#maps-grid').innerHTML = MAP_STATUS.map(m => {
+    const ov = m.s === 'boot' ? '<span class="vs-map-ov"><i class="vs-spin" aria-hidden="true">progress_activity</i></span>' : m.s === 'off' ? '<span class="vs-map-ov"><i aria-hidden="true">power_settings_new</i></span>' : '';
+    const info = m.s === 'on'
+      ? '<span class="vs-map-line"><span>プレイ中</span><span><b>' + m.p + '</b> / ' + MAP_MAX + '人</span></span><span class="vs-map-bar" style="--w:' + Math.round(m.p / MAP_MAX * 100) + '%" aria-hidden="true"></span>'
+      : '<span class="vs-support">' + esc(m.note) + '</span>';
+    return '<li class="s12 m6 l4"><div class="vs-map ' + m.s + '"><span class="vs-map-art">' + mapArt(m.k) + ov + '<span class="vs-map-chip"><span class="vs-st ' + m.s + '">' + MAP_ST[m.s] + '</span></span></span><div class="vs-map-body"><h2 class="vs-map-name">' + esc(m.k) + '</h2>' + info + '</div></div></li>';
+  }).join('');
+  $('#about-maps').textContent = MAP_STATUS.length + 'マップ中 ' + cnt.on + 'マップが稼働中' + (cnt.boot ? '・' + cnt.boot + 'マップが起動中' : '') + (cnt.off ? '・' + cnt.off + 'マップが停止中' : '');
+}
 function linkChip(l){
   const to = l[0], label = esc(l[1]);
   if (to.charAt(0) === '@') return '<button type="button" class="chip" data-bot="' + esc(to.slice(1)) + '"><span>' + label + '</span></button>';
@@ -1503,6 +1622,7 @@ D.addEventListener('click', e => {
     if (!state.discord) { state.discord = true; store.set('discord', true); afterStepChange(prev); }
   }
   else if (act === 'link-issue') issueCode();
+  else if (act === 'maps-refresh') { renderMaps(); snack('最新の状態にしました（プロトタイプでは例の値）'); }
   else if (act === 'link-demo') {
     const prev = curIndex();
     state.link = { status:'linked', code:'', exp:0 }; store.set('link', state.link);
@@ -1536,7 +1656,7 @@ addEventListener('scroll', () => topbar.classList.toggle('vs-scrolled', scrollY 
 
 /* ---------- 起動 ---------- */
 setMode(mode());
-renderAuth(); renderTiles(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
+renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
 if ((location.hash || '') === '#bot') openChat();
