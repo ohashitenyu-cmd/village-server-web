@@ -107,7 +107,6 @@ header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shad
 .vs-wakaba{display:inline-block; flex:none; inline-size:1.25em; block-size:1.25em; vertical-align:-.25em; margin-inline-end:.25em; fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
 .vs-wakaba .f{fill:currentColor}  /* 右半分は塗り（若葉マークの緑の側） */
 .button>.vs-wakaba{inline-size:1.5rem; block-size:1.5rem; margin:0}
-.chip>.vs-wakaba{inline-size:1.25rem; block-size:1.25rem; margin:0}
 .vs-dot>.vs-wakaba{inline-size:1.375rem; block-size:1.375rem; margin:0} .vs-dot.large>.vs-wakaba{inline-size:1.5rem; block-size:1.5rem}
 .vs-wordmark{font-family:"Outfit",var(--font); font-weight:600; font-size:1.375rem; letter-spacing:-.005em; line-height:1}
 .vs-wl{display:inline-block; transform-origin:50% 82%}  /* ロゴの動きで、1文字ずつ下から立ち上がる */
@@ -2798,7 +2797,7 @@ function linkChip(l){
   return '<a class="chip" href="#' + esc(to) + '"><span>' + label + '</span><i>arrow_forward</i></a>';
 }
 function renderFaq(){
-  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + (c[0] === 'before' ? WAKABA : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
+  $('#faq-cats').innerHTML = FAQ_CATS.map(c => { const on = state.faqCat === c[0]; return '<button type="button" class="chip' + (on ? ' vs-on' : '') + '" data-faqcat="' + c[0] + '" aria-pressed="' + on + '">' + (on ? '<i>check</i>' : '') + '<span>' + esc(c[1]) + '</span></button>'; }).join('');
   const q = state.faqQ.trim().toLowerCase();
   const list = FAQ.filter(f => (state.faqCat === 'all' || f[0] === state.faqCat) && (!q || (f[1] + f[2]).toLowerCase().indexOf(q) >= 0));
   $('#faq-list').innerHTML = list.length ? list.map(f => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>help</i></span><span class="vs-rtitle"><b>' + esc(f[1]) + '</b>' + (f[4] ? '<span class="vs-faq-game">' + FAQ_GAME[f[4]] + '</span>' : '') + '</span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">' + faqBody(f[2]) + (f[3] ? '<nav class="wrap vs-chiprow">' + f[3].map(linkChip).join('') + '</nav>' : '') + '</div></details></li>').join('')
