@@ -189,6 +189,27 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-cmd{font-family:var(--vs-mono); font-size:.875rem; font-weight:500; color:var(--vs-purple-ink); background:none; padding:0}
 .vs-gate{display:block}
 .vs-gate>.max{margin-block-start:1rem}
+/* ログインで使えるものの見本（押せない：影・矢印なし、鍵つき） */
+.vs-perks{list-style:none; padding:0}
+.vs-perk{position:relative; display:flex; flex-direction:column; gap:.75rem; padding:1rem; border-radius:1.25rem; background:var(--surface-container); box-sizing:border-box}
+.vs-perk-h{display:flex; align-items:center; gap:.625rem; font-size:.875rem; line-height:1.3}
+.vs-perk-h>.vs-dot{inline-size:2rem; block-size:2rem} .vs-perk-h>.vs-dot>i{--_size:1.125rem}
+.vs-perk-lock{position:absolute; inset:1.375rem 1rem auto auto; --_size:1.125rem; color:var(--on-surface-variant)}
+.vs-perk-fig{display:flex; flex-direction:column; justify-content:center; gap:.5rem; min-block-size:4.5rem; font-size:.75rem; font-variant-numeric:tabular-nums; color:var(--on-surface-variant)}
+.vs-perk-bar{display:grid; grid-template-columns:minmax(0,1fr) 2rem; align-items:center; gap:.5rem; --vs-c:var(--vs-green)}
+.vs-perk-bar>span:first-child{block-size:.375rem; border-radius:.25rem; background:linear-gradient(var(--vs-c),var(--vs-c)) 0 0/var(--w) 100% no-repeat,var(--surface-container-highest)}
+.vs-perk-bar>span:last-child{text-align:end}
+.vs-perk-bar.warn{--vs-c:var(--vs-red)} .vs-perk-bar.warn>span:last-child{color:var(--vs-red-ink); font-weight:700}
+.vs-perk-num{font-size:1.75rem; font-weight:800; line-height:1.1; color:var(--on-surface)}
+.vs-perk-num small{font-size:.75rem; font-weight:500; margin-inline-start:.25rem; color:var(--on-surface-variant)}
+.vs-perk-req{display:flex; align-items:center; gap:.5rem}
+.vs-perk-req>i{--_size:1.25rem}
+.vs-perk-req>span{flex:1; block-size:.5rem; border-radius:.25rem; background:var(--surface-container-highest)}
+.vs-perk-link{display:flex; align-items:center}
+.vs-perk-link>i{--_size:1.75rem; color:var(--on-surface)}
+.vs-perk-link>span:not(.vs-perk-ok){flex:1; block-size:2px; background:var(--vs-green)}
+.vs-perk-ok{flex:none; inline-size:1.5rem; block-size:1.5rem; border-radius:50%; display:grid; place-items:center; background:var(--vs-green); color:var(--vs-night)}
+.vs-perk-ok>i{--_size:1rem}
 
 /* ---- TOP：写真のメインビジュアル ---- */
 .vs-hero{position:relative; overflow:hidden; border-radius:1.75rem; background:var(--vs-night); color:var(--vs-flame); min-block-size:clamp(26rem,40vw,34rem); display:flex; align-items:flex-end}
@@ -717,7 +738,33 @@ body:not(.vs-ready) .page.active{animation:none}
           </svg>
           <div class="max">
             <h2 class="vs-title-l">ログインすると使えます</h2>
-            <p class="vs-support">撤去期限・残高・依頼状況・ARK連携を確認できます。</p>
+            <ul class="grid vs-perks vs-mt-s">
+              <li class="s6 l3 vs-perk">
+                <b class="vs-perk-h"><span class="vs-dot c-red"><i>timer</i></span>撤去期限</b><i class="vs-perk-lock" aria-hidden="true">lock</i>
+                <span class="vs-perk-fig" aria-hidden="true">
+                  <span class="vs-perk-bar" style="--w:90%"><span></span><span>27日</span></span>
+                  <span class="vs-perk-bar" style="--w:90%"><span></span><span>27日</span></span>
+                  <span class="vs-perk-bar warn" style="--w:14%"><span></span><span>4日</span></span>
+                </span>
+              </li>
+              <li class="s6 l3 vs-perk">
+                <b class="vs-perk-h"><span class="vs-dot c-yellow"><i>toll</i></span>残高</b><i class="vs-perk-lock" aria-hidden="true">lock</i>
+                <span class="vs-perk-fig" aria-hidden="true"><span class="vs-perk-num">1,250<small>Moneta</small></span></span>
+              </li>
+              <li class="s6 l3 vs-perk">
+                <b class="vs-perk-h"><span class="vs-dot c-blue"><i>support_agent</i></span>依頼状況</b><i class="vs-perk-lock" aria-hidden="true">lock</i>
+                <span class="vs-perk-fig" aria-hidden="true">
+                  <span class="vs-perk-req"><i class="ink-yellow">hourglass_top</i><span></span></span>
+                  <span class="vs-perk-req"><i class="ink-green">check_circle</i><span></span></span>
+                </span>
+              </li>
+              <li class="s6 l3 vs-perk">
+                <b class="vs-perk-h"><span class="vs-dot c-green"><i>link</i></span>ARK連携</b><i class="vs-perk-lock" aria-hidden="true">lock</i>
+                <span class="vs-perk-fig" aria-hidden="true">
+                  <span class="vs-perk-link"><i>account_circle</i><span></span><span class="vs-perk-ok"><i>check</i></span><span></span><i>sports_esports</i></span>
+                </span>
+              </li>
+            </ul>
             <button class="vs-mt" type="button" data-act="login"><i>login</i><span>Discordでログイン</span></button>
           </div>
         </div>
