@@ -102,15 +102,12 @@ header.vs-topbar.vs-scrolled{background-color:var(--surface-container); box-shad
 .vs-bar{box-sizing:border-box; max-inline-size:75rem; inline-size:100%; margin-inline:auto; padding-inline:var(--vs-gutter); gap:.5rem}
 .vs-brand{gap:.625rem; color:var(--on-surface); justify-content:flex-start; border-radius:.75rem}
 .vs-appicon{inline-size:2.5rem; block-size:2.5rem; border-radius:22%; flex:none; clip-path:inset(0 round 22%)}
-/* 初心者マーク（若葉）：ほかのアイコン（Material Symbols Rounded）と同じ24の格子で、角を丸めた平らな形。ふちは付けない。黄と緑は村人の色
-   文字の横ではアイコンの大きさで。タイルや黄色いボタンの中では、ほかの色つきアイコンと同じ丸（地はうすい緑）に入れる */
-.vs-wakaba{display:inline-block; flex:none; inline-size:1.25em; block-size:1.25em; vertical-align:-.25em; margin-inline-end:.25em}
-.vs-wakaba path{stroke-width:2; stroke-linejoin:round}
-.vs-wakaba .y{fill:var(--vs-yellow); stroke:var(--vs-yellow)} .vs-wakaba .g{fill:var(--vs-green); stroke:var(--vs-green)}
+/* 初心者マーク（若葉）：ほかのアイコン（Material Symbols Rounded・塗りなし）と同じ、線だけの形。24の格子に、太さ2の線・丸い角
+   色は文字と同じ（currentColor）。ボタンや見出しではアイコンの大きさで置き、タイルではほかのタイルと同じ色の丸（緑）に入れる */
+.vs-wakaba{display:inline-block; flex:none; inline-size:1.25em; block-size:1.25em; vertical-align:-.25em; margin-inline-end:.25em; fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+.button>.vs-wakaba{inline-size:1.5rem; block-size:1.5rem; margin:0}
 .chip>.vs-wakaba{inline-size:1.25rem; block-size:1.25rem; margin:0}
-.vs-dot.c-wakaba{--vs-c:var(--vs-green-soft)}
 .vs-dot>.vs-wakaba{inline-size:1.375rem; block-size:1.375rem; margin:0} .vs-dot.large>.vs-wakaba{inline-size:1.5rem; block-size:1.5rem}
-.vs-dot.small{inline-size:1.75rem; block-size:1.75rem; margin:0} .vs-dot.small>.vs-wakaba{inline-size:1.125rem; block-size:1.125rem}
 .vs-wordmark{font-family:"Outfit",var(--font); font-weight:600; font-size:1.375rem; letter-spacing:-.005em; line-height:1}
 .vs-wl{display:inline-block; transform-origin:50% 82%}  /* ロゴの動きで、1文字ずつ下から立ち上がる */
 .vs-seg>button{padding-inline:.875rem; gap:.25rem}
@@ -637,7 +634,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <h1 id="hero-title" class="vs-display vs-mt-s" tabindex="-1"><span class="vs-phrase">あなたの</span><span class="vs-phrase">新しい</span><span class="vs-phrase">遊び場が</span><span class="vs-phrase">ここにある。</span></h1>
         <p class="vs-hero-sub"><span class="vs-phrase">好きなゲームをきっかけに入った遊び場が、</span><span class="vs-phrase">いつしか自分の居場所になっていく。</span></p>
         <nav class="wrap vs-mt">
-          <a class="button extra primary-container vs-cta" href="#join"><span class="vs-dot small c-wakaba"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path class="y" d="M10.6 7.4 4.6 3.6v12.6l6 4.2z"></path><path class="g" d="M13.4 7.4l6-3.8v12.6l-6 4.2z"></path></svg></span><span>はじめて参加する</span><i>arrow_forward</i></a>
+          <a class="button extra primary-container vs-cta" href="#join"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path></svg><span>はじめて参加する</span><i>arrow_forward</i></a>
           <a class="button transparent vs-ghost" href="#" data-ext="Discordの招待リンク"><span>Discordをのぞく</span><i>open_in_new</i></a>
         </nav>
       </div>
@@ -717,7 +714,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s12 l5">
         <h2 class="vs-title-l">有志でつくる、長く遊べるサーバー</h2>
         <p class="vs-body">ARK:SAとパルワールドの非公式サーバーを運営する、Discordのコミュニティです。</p>
-        <a class="button primary-container vs-mt" href="#join"><span class="vs-dot small c-wakaba"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path class="y" d="M10.6 7.4 4.6 3.6v12.6l6 4.2z"></path><path class="g" d="M13.4 7.4l6-3.8v12.6l-6 4.2z"></path></svg></span><span>参加手順へ</span><i>arrow_forward</i></a>
+        <a class="button primary-container vs-mt" href="#join"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path></svg><span>参加手順へ</span><i>arrow_forward</i></a>
       </div>
     </div>
     <section class="vs-section" aria-labelledby="pts-title">
@@ -1065,7 +1062,7 @@ body:not(.vs-ready) .page.active{animation:none}
         </a>
         <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
       </div>
-      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path class="y" d="M10.6 7.4 4.6 3.6v12.6l6 4.2z"></path><path class="g" d="M13.4 7.4l6-3.8v12.6l-6 4.2z"></path></svg>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path></svg>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#maps">マップステータス</a></li><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サポート"><div><h2>サポート</h2><ul><li><a href="#trouble">困った時一覧</a></li><li><a href="#scribe">スクライブ</a></li><li><a href="#request">管理者依頼</a></li><li><a href="#ranks">ランク比較・購入</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="そのほか"><div><h2>そのほか</h2><ul><li><a href="#mypage">マイページ</a></li><li><a href="#" data-ext="Village Portal">Village Portal<i>open_in_new</i></a></li><li><a href="#" data-ext="Wiki">Wiki<i>open_in_new</i></a></li></ul></div></nav>
@@ -2059,8 +2056,8 @@ const store = {
   set(k, v){ try { if (v === null) localStorage.removeItem('vs-' + k); else localStorage.setItem('vs-' + k, JSON.stringify(v)); } catch (e) {} }
 };
 /* 初心者マーク（若葉マーク）：はじめて参加する人向けの入口に付ける。左が黄、右が緑 */
-const WAKABA = '<svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path class="y" d="M10.6 7.4 4.6 3.6v12.6l6 4.2z"></path><path class="g" d="M13.4 7.4l6-3.8v12.6l-6 4.2z"></path></svg>';
-const WAKABA_DOT = size => '<span class="vs-dot c-wakaba' + (size ? ' ' + size : '') + '">' + WAKABA + '</span>';
+const WAKABA = '<svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path></svg>';
+const WAKABA_DOT = size => '<span class="vs-dot c-green' + (size ? ' ' + size : '') + '">' + WAKABA + '</span>';
 const dot = (c, i, size) => '<span class="vs-dot c-' + c + (size ? ' ' + size : '') + '"><i>' + i + '</i></span>';
 
 /* ---------- データ ---------- */
