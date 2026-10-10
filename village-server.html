@@ -316,24 +316,31 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-rule-img{display:block; block-size:76%; inline-size:auto; max-inline-size:78%; object-fit:contain; margin-block-start:1rem; border-radius:0}
 .vs-rule-ban{position:absolute; inset:.75rem auto auto .75rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem .25rem .5rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-red-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
 .vs-rule-ban>i{--_size:1rem}
-.vs-rule-chip{position:absolute; inset:.75rem .75rem auto auto; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-green-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
-.vs-rule-chip>i{--_size:1rem}
+.vs-rule-ic{--_size:3.5rem; margin-block-start:1rem; color:var(--vs-flame)}
+/* 参加手順の一覧：押さずに読める行（絵・見出し・ひとこと） */
+.vs-rulelist{list-style:none; padding:0; display:flex; flex-direction:column; gap:.5rem}
+.vs-rulelist>li{display:flex; align-items:center; gap:1rem; padding:.75rem 1rem .75rem .75rem; border-radius:1.25rem; background-color:var(--vs-tile-bg)}
+.vs-rulelist>li>.max{display:flex; flex-direction:column; min-inline-size:0}
+.vs-rulelist-art{flex:none; display:flex; align-items:center; justify-content:center; inline-size:4.5rem; block-size:4.5rem; overflow:hidden; border-radius:1rem; background:radial-gradient(70% 70% at 50% 60%,color-mix(in srgb,var(--rc) 55%,transparent),transparent 80%),var(--vs-night)}
+.vs-rulelist-art>img{display:block; inline-size:84%; block-size:84%; object-fit:contain; border-radius:0}
+.vs-rulelist-art>i{--_size:2rem; color:var(--vs-flame)}
 .vs-rule-body{display:flex; flex-direction:column; flex:1; gap:.375rem; padding:1.25rem 1.5rem}
 .vs-rule-body>*{margin:0 !important}
 .vs-rule-foot{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-block-start:auto !important; padding-block-start:.5rem; font-size:.8125rem; font-weight:700; color:var(--on-surface-variant)}
 .vs-rule-foot>span{display:inline-flex; align-items:center; gap:.25rem}
-.vs-rule-foot>span>i{--_size:1.125rem}
-.vs-rule.done .vs-rule-foot>span{color:var(--vs-green-ink)}
 @media (max-width:600px){
   .vs-rulecards .vs-rule-art{block-size:6.5rem}
   .vs-rulecards .vs-rule-img{block-size:66%; margin-block-start:.5rem}
-  .vs-rulecards .vs-rule-chip{inset:.5rem .5rem auto auto; padding:.125rem .5rem}
   .vs-rulecards .vs-rule-ban{display:none}
+  .vs-rulecards .vs-rule-ic{--_size:2.5rem; margin-block-start:.5rem}
+  .vs-rulelist-art{inline-size:3.5rem; block-size:3.5rem; border-radius:.875rem}
+  .vs-rulelist>li{padding:.625rem .75rem .625rem .625rem; gap:.75rem}
   .vs-rule-body{padding:1rem}
   .vs-rulecards .vs-rule-body>.vs-support{display:none}
 }
 dialog.vs-ruledlg{padding:0; inline-size:min(34rem,calc(100vw - 2rem)); max-inline-size:none; max-block-size:calc(100dvh - 2rem); overflow:auto; border-radius:1.75rem}
 .vs-ruledlg .vs-rule-art{block-size:12rem}
+.vs-ruledlg .vs-rule-ic{--_size:4.5rem}
 .vs-ruledlg-body{display:flex; flex-direction:column; gap:.75rem; padding:1.5rem}
 .vs-ruledlg-body>*{margin:0 !important}
 .vs-exlist{list-style:none; padding:0; display:flex; flex-direction:column; gap:.5rem}
@@ -739,18 +746,9 @@ body:not(.vs-ready) .page.active{animation:none}
 
     <section class="vs-section" aria-labelledby="rules-ban">
       <h2 class="vs-title-l" id="rules-ban">禁止事項</h2>
-      <p class="vs-support">知っていれば必ず避けられることです。違反した場合は、悪質と判断して対応します。</p>
-      <div class="grid vs-mt-s">
-        <div class="s12 l8">
-          <div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" data-ruleprog>
-            <progress value="0" max="100" aria-hidden="true"></progress>
-            <b class="vs-tnum" data-rulecount>0 / 0</b>
-          </div>
-          <p class="vs-support vs-mt-s">カードを開いて読み、「確認した」を押してください。</p>
-        </div>
-      </div>
+      <p class="vs-support">知っていれば必ず避けられることです。違反した場合は、悪質と判断して対応します。カードを押すと、くわしい説明と例を読めます。</p>
       <ul class="grid vs-rulecards vs-mt" id="rules-list"></ul>
-      <div class="vs-mt" id="rules-back"></div>
+      <div class="vs-mt" id="rules-confirm"></div>
     </section>
 
     <div class="grid vs-section">
@@ -761,49 +759,88 @@ body:not(.vs-ready) .page.active{animation:none}
           <div id="rules-manners"></div>
         </section>
 
-        <section class="vs-section" aria-labelledby="rules-report">
-          <h2 class="vs-title-l" id="rules-report">違反を見つけたら</h2>
-          <div class="vs-flow vs-mt-s">
-            <div class="vs-flow-row"><span class="vs-flow-step"><span class="vs-dot c-blue"><i>chat</i></span>ゲーム内チャットで、対応を頼む</span></div>
-            <div class="vs-flow-row vs-flow-branch"><span class="vs-flow-if">返事あり</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-green"><i>check</i></span>違反した人が対応</span></div>
-            <div class="vs-flow-row vs-flow-branch"><span class="vs-flow-if">返事なし</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-purple"><i>forum</i></span>Discordのフォーラムに投稿し、@でメンション</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-green"><i>check</i></span>違反した人が対応</span></div>
-          </div>
-          <p class="vs-note vs-mt"><i>alternate_email</i><span>投稿先は、Discordの「ark依頼・募集・周知」フォーラムです。メンションする相手は、トライブ所属情報で確かめてください。ソロトライブの場合は、本人に直接メンションします。</span></p>
-          <p class="vs-note vs-mt-s"><i>info</i><span>「〇〇って違反ですか？」と聞くと議論になりやすいので、対応のお願いだけにしてください。まわりの方も、状況がわからないまま意見を言うのは控えましょう。</span></p>
-        </section>
+        <div data-rgame-only="asa">
+          <section class="vs-section" aria-labelledby="rules-report">
+            <h2 class="vs-title-l" id="rules-report">違反を見つけたら</h2>
+            <div class="vs-flow vs-mt-s">
+              <div class="vs-flow-row"><span class="vs-flow-step"><span class="vs-dot c-blue"><i>chat</i></span>ゲーム内チャットで、対応を頼む</span></div>
+              <div class="vs-flow-row vs-flow-branch"><span class="vs-flow-if">返事あり</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-green"><i>check</i></span>違反した人が対応</span></div>
+              <div class="vs-flow-row vs-flow-branch"><span class="vs-flow-if">返事なし</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-purple"><i>forum</i></span>Discordのフォーラムに投稿し、@でメンション</span><i aria-hidden="true">arrow_forward</i><span class="vs-flow-step"><span class="vs-dot c-green"><i>check</i></span>違反した人が対応</span></div>
+            </div>
+            <p class="vs-note vs-mt"><i>alternate_email</i><span>投稿先は、Discordの「ark依頼・募集・周知」フォーラムです。メンションする相手は、トライブ所属情報で確かめてください。ソロトライブの場合は、本人に直接メンションします。</span></p>
+            <p class="vs-note vs-mt-s"><i>info</i><span>「〇〇って違反ですか？」と聞くと議論になりやすいので、対応のお願いだけにしてください。まわりの方も、状況がわからないまま意見を言うのは控えましょう。</span></p>
+          </section>
 
-        <section class="vs-section" aria-labelledby="rules-penalty">
-          <h2 class="vs-title-l" id="rules-penalty">違反したときの対応</h2>
-          <div class="grid vs-mt-s">
-            <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-red">gavel</i><span class="vs-support">わざと何度も違反した</span><b class="vs-title-m">永久BAN</b></div>
-            <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-yellow">schedule</i><span class="vs-support">報告から48時間以内に、対応の投稿がない</span><b class="vs-title-m">投稿があるまでBAN</b></div>
-            <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-purple">share</i><span class="vs-support">悪質な違反をした</span><b class="vs-title-m">ほかの非公式サーバーとも共有</b></div>
-          </div>
-          <p class="vs-support vs-mt-s">悪質な違反は、ほかの非公式サーバーの管理人とプレイヤー情報を共有するため、そちらでも遊べなくなります。</p>
-        </section>
+          <section class="vs-section" aria-labelledby="rules-penalty">
+            <h2 class="vs-title-l" id="rules-penalty">違反したときの対応</h2>
+            <div class="grid vs-mt-s">
+              <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-red">gavel</i><span class="vs-support">わざと何度も違反した</span><b class="vs-title-m">永久BAN</b></div>
+              <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-yellow">schedule</i><span class="vs-support">報告から48時間以内に、対応の投稿がない</span><b class="vs-title-m">投稿があるまでBAN</b></div>
+              <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-purple">share</i><span class="vs-support">悪質な違反をした</span><b class="vs-title-m">ほかの非公式サーバーとも共有</b></div>
+            </div>
+            <p class="vs-support vs-mt-s">悪質な違反は、ほかの非公式サーバーの管理人とプレイヤー情報を共有するため、そちらでも遊べなくなります。</p>
+          </section>
 
-        <section class="vs-section" aria-labelledby="rules-last">
-          <h2 class="vs-title-l" id="rules-last">さいごに</h2>
-          <ul class="vs-list vs-mt-s">
-            <li><i class="ink-blue">groups</i><span class="max">ルールにないもめごとには、管理者は関わりません。当事者どうしで話し合って解決してください。</span></li>
-            <li><i class="ink-blue">forum</i><span class="max">質問は「ark質問」、ほかのメンバーへの依頼は「ark依頼・募集・周知」（どちらもDiscordのフォーラム）へ。</span></li>
-            <li><i class="ink-blue">support_agent</i><span class="max">管理者への依頼・連絡・要望は、<a class="vs-link" href="#request">管理者依頼</a>から。</span></li>
-            <li><i class="ink-red">mail_lock</i><span class="max">質問や依頼をDMで送ったり、フレンド申請をしたりしないでください。</span></li>
-          </ul>
-        </section>
+          <section class="vs-section" aria-labelledby="rules-last">
+            <h2 class="vs-title-l" id="rules-last">さいごに</h2>
+            <ul class="vs-list vs-mt-s">
+              <li><i class="ink-blue">groups</i><span class="max">ルールにないもめごとには、管理者は関わりません。当事者どうしで話し合って解決してください。</span></li>
+              <li><i class="ink-blue">forum</i><span class="max">質問は「ark質問」、ほかのメンバーへの依頼は「ark依頼・募集・周知」（どちらもDiscordのフォーラム）へ。</span></li>
+              <li><i class="ink-blue">support_agent</i><span class="max">管理者への依頼・連絡・要望は、<a class="vs-link" href="#request">管理者依頼</a>から。</span></li>
+              <li><i class="ink-red">mail_lock</i><span class="max">質問や依頼をDMで送ったり、フレンド申請をしたりしないでください。</span></li>
+            </ul>
+          </section>
 
-        <section class="vs-section" aria-labelledby="rules-hist">
-          <ul class="vs-rlist">
-            <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>history</i></span><span class="vs-rtitle"><b id="rules-hist">更新履歴</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">
-              <ul class="vs-list">
-                <li><span class="vs-label vs-tnum">2025-01-09</span><span class="max">コミュニケーション関連の記述を変更</span></li>
-                <li><span class="vs-label vs-tnum">2025-01-04</span><span class="max">グリッチ・バグの悪用に例を追加</span></li>
-                <li><span class="vs-label vs-tnum">2025-01-04</span><span class="max">不等価取引を禁止事項に追加</span></li>
-                <li><span class="vs-label vs-tnum">2024-12-22</span><span class="max">無償譲渡を禁止事項に追加</span></li>
-              </ul>
-            </div></details></li>
-          </ul>
-        </section>
+          <section class="vs-section" aria-labelledby="rules-hist">
+            <ul class="vs-rlist">
+              <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>history</i></span><span class="vs-rtitle"><b id="rules-hist">更新履歴</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">
+                <ul class="vs-list">
+                  <li><span class="vs-label vs-tnum">2025-01-09</span><span class="max">コミュニケーション関連の記述を変更</span></li>
+                  <li><span class="vs-label vs-tnum">2025-01-04</span><span class="max">グリッチ・バグの悪用に例を追加</span></li>
+                  <li><span class="vs-label vs-tnum">2025-01-04</span><span class="max">不等価取引を禁止事項に追加</span></li>
+                  <li><span class="vs-label vs-tnum">2024-12-22</span><span class="max">無償譲渡を禁止事項に追加</span></li>
+                </ul>
+              </div></details></li>
+            </ul>
+          </section>
+        </div>
+
+        <div data-rgame-only="pal" hidden>
+          <section class="vs-section" aria-labelledby="rules-report-p">
+            <h2 class="vs-title-l" id="rules-report-p">違反を見つけたら</h2>
+            <div class="vs-flow vs-mt-s">
+              <div class="vs-flow-row"><span class="vs-flow-step"><span class="vs-dot c-purple"><i>forum</i></span>Discordのパルワールド総合チャンネルに投稿する</span></div>
+            </div>
+            <p class="vs-support vs-mt-s">チーターや迷惑行為の被害にあったときは、Discordのパルワールド総合チャンネルに投稿してください。</p>
+          </section>
+
+          <section class="vs-section" aria-labelledby="rules-penalty-p">
+            <h2 class="vs-title-l" id="rules-penalty-p">違反したときの対応</h2>
+            <div class="grid vs-mt-s">
+              <div class="s12 m4 vs-block vs-info vs-pen"><i class="ink-red">gavel</i><span class="vs-support">禁止事項に違反した</span><b class="vs-title-m">一定時間または永久のBAN</b></div>
+            </div>
+          </section>
+
+          <section class="vs-section" aria-labelledby="rules-last-p">
+            <h2 class="vs-title-l" id="rules-last-p">さいごに</h2>
+            <ul class="vs-list vs-mt-s">
+              <li><i class="ink-blue">groups</i><span class="max">ルールにないもめごとには、管理者は関わりません。当事者どうしで話し合って解決してください。</span></li>
+              <li><i class="ink-blue">support_agent</i><span class="max">管理者への依頼・連絡・要望は、<a class="vs-link" href="#request">管理者依頼</a>から。</span></li>
+              <li><i class="ink-red">mail_lock</i><span class="max">質問や依頼をDMで送ったり、フレンド申請をしたりしないでください。</span></li>
+            </ul>
+          </section>
+
+          <section class="vs-section" aria-labelledby="rules-hist-p">
+            <ul class="vs-rlist">
+              <li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>history</i></span><span class="vs-rtitle"><b id="rules-hist-p">更新履歴</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody">
+                <ul class="vs-list">
+                  <li><span class="vs-label vs-tnum">2026-07-12</span><span class="max">禁漁区への建設を禁止事項に追加。マナーに商人の捕獲を追加</span></li>
+                  <li><span class="vs-label vs-tnum">2024-01-28</span><span class="max">新規作成</span></li>
+                </ul>
+              </div></details></li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
   </div>
@@ -1104,49 +1141,64 @@ const STEP_DEF = {
   link:{ t:'ARKと連携', short:'ARK連携', icon:'link' }
 };
 const FLOW = { asa:['login','discord','rules','link'], pal:['login','discord','rules'] };
-/* 禁止事項（公式Wikiのサーバールールより。有精卵のポイ捨ては削除）。c＝絵の色、asa:1＝ARK:SAだけ、pal＝パルワールドでの表記（ない項目はARKと同じ） */
-/* 灯りの色は、これまでのイラストの地色に合わせる */
-const RULE_C = { green:'#3fbf5a', red:'#ee2a35', orange:'#f2692a', yellow:'#f7aa2f', brown:'#b9773f', cream:'#9aa0b8', blue:'#2f9e5a', pink:'#ec3a82', purple:'#9b4fd6' };
+/* ルール（ゲームごとに別）。c＝絵の灯りの色、i＝アイコン（絵がないときに使う）
+   ARK:SA：公式Wikiのサーバールールより（有精卵のポイ捨ては削除）。絵は img/rules/rule-ID.png
+   パルワールド：これまでのパルワールドのルールより。ARKの絵は使わず、アイコンで表す */
+const RULE_C = { green:'#3fbf5a', red:'#ee2a35', orange:'#f2692a', yellow:'#f7aa2f', brown:'#b9773f', cream:'#9aa0b8', forest:'#2f9e5a', pink:'#ec3a82', purple:'#9b4fd6', blue:'#009acf' };
 const RULES = [
   { id:'name', c:'green', i:'badge', t:'初期名・不適切な名前', s:'「ヒト」「Human」のままの名前や、公序良俗に反する名前は使えません。',
     d:['サバイバーの作成画面では、名前に「ヒト（Human）」が最初から入っています。作成するときに、最初に名前を変えてください。名前はあとから自分では変えられません。','すでに該当する名前で作ってしまった場合は、サバイバーを作り直すか、名前の変更を依頼してください。'],
-    ng:['初期名（ヒト・Human）','公序良俗に反するプレイヤー名・トライブ名','そのほか、管理者が不適切と判断した名前'], ok:['サバイバーの作成画面で、最初に名前を変える'],
-    pal:{ t:'初期のギルド名・不適切な名前', s:'初期のギルド名のままや、公序良俗に反する名前は使えません。', d:['ギルドを作ったら、すぐに名前を変えてください。ほかのプレイヤーになりすました名前も使えません。'], ng:['初期のギルド名のまま','公序良俗に反するプレイヤー名・ギルド名','そのほか、管理者が不適切と判断した名前'], ok:['ギルドを作ったら、すぐに名前を変える'] } },
-  { id:'theft', c:'red', i:'back_hand', asa:1, t:'盗難', s:'ほかのプレイヤーの物を盗むことは禁止です。',
+    ng:['初期名（ヒト・Human）','公序良俗に反するプレイヤー名・トライブ名','そのほか、管理者が不適切と判断した名前'], ok:['サバイバーの作成画面で、最初に名前を変える'] },
+  { id:'theft', c:'red', i:'back_hand', t:'盗難', s:'ほかのプレイヤーの物を盗むことは禁止です。',
     d:['拠点を壁で囲めば、ほとんど防げます。むだなトラブルを避けるために、自分の拠点は自分でも守りましょう。'],
     ng:['有精卵を盗む','拠点の物資を盗む','ほかのプレイヤーの死体からアイテムを取る'] },
   { id:'mpk', c:'orange', i:'directions_run', t:'MPK', s:'野生の恐竜を、ほかのプレイヤーや拠点へわざと連れていくことは禁止です。',
-    d:['MPKは、野生の恐竜をわざと誘導して、ほかのプレイヤーや拠点を襲わせる行為です。'],
-    pal:{ s:'野生のパルを、ほかのプレイヤーや拠点へわざと連れていくことは禁止です。', d:['MPKは、野生のパルをわざと誘導して、ほかのプレイヤーや拠点を襲わせる行為です。'] } },
-  { id:'taming', c:'yellow', i:'pets', t:'テイム中の恐竜の殺害・横取り', s:'ほかの人がテイムしている恐竜を、わざと倒したり横取りしたりすることは禁止です。',
-    pal:{ t:'パルやアイテムの横取り', s:'ほかの人が戦っているパルや、先に狙っているパル・宝箱・ボスを横から取ることは禁止です。' } },
+    d:['MPKは、野生の恐竜をわざと誘導して、ほかのプレイヤーや拠点を襲わせる行為です。'] },
+  { id:'taming', c:'yellow', i:'pets', t:'テイム中の恐竜の殺害・横取り', s:'ほかの人がテイムしている恐竜を、わざと倒したり横取りしたりすることは禁止です。' },
   { id:'build', c:'brown', i:'foundation', t:'建築予約', s:'土台や柱だけを置いて、場所を取っておくことは一切禁止です。',
-    d:['建物の形になっていないものも含め、土台や柱の単体設置や、それに似た建築予約はすべて禁止です。'],
-    pal:{ s:'場所を取っておくための建築は、建造物の形になっていないものも含めて一切禁止です。', d:[] } },
+    d:['建物の形になっていないものも含め、土台や柱の単体設置や、それに似た建築予約はすべて禁止です。'] },
   { id:'glitch', c:'cream', i:'bug_report', t:'グリッチ・バグの悪用', s:'ゲームバランスを崩す、ほかの人の不利益になる、難しさが下がる使い方は禁止です。',
     d:['迷うものは、Discordの「ark質問」フォーラムで聞いてください。','禁止の例には、ほかのサーバーやシングルプレイで使える仕様や、攻略動画で紹介されているものもありますが、Village Serverでは禁止しています。'],
-    ng:['ハロウィンイベントで、汚染ギガノトが通常のギガノトに置き換わる不具合の悪用','上限を超えたレベルの個体のテイム','ドレッドメアを使って、本来ボス戦に連れて行けない生物を持ち込む','OSD（軌道補給物資）を建造物で囲む','Genesisの生身ミッションで恐竜を使う'], ok:['交配のオーバーフロー'],
-    pal:{ s:'ゲームバランスを崩す、ほかの人の不利益になる使い方は禁止です。', d:['迷うものは、Discordの質問フォーラムで聞いてください。'], ng:[], ok:[] } },
-  { id:'lock', c:'blue', i:'lock', asa:1, t:'共有資源のロック', s:'罠・原油ポンプ・樹液の蛇口などはロックを外し、誰でも使えるようにしてください。',
+    ng:['ハロウィンイベントで、汚染ギガノトが通常のギガノトに置き換わる不具合の悪用','上限を超えたレベルの個体のテイム','ドレッドメアを使って、本来ボス戦に連れて行けない生物を持ち込む','OSD（軌道補給物資）を建造物で囲む','Genesisの生身ミッションで恐竜を使う'], ok:['交配のオーバーフロー'] },
+  { id:'lock', c:'forest', i:'lock', t:'共有資源のロック', s:'罠・原油ポンプ・樹液の蛇口などはロックを外し、誰でも使えるようにしてください。',
     d:['いまはサーバーの設定で、置いた設備に自動でロックがかかります。置いたら、ロックを外してください。','共有の資源を扉などでふさいで、自分のトライブだけが取れるようにしている場合は、ロックを外すか扉を外してください。'],
     ng:['罠・原油ポンプ・樹液の蛇口などを、ロックしたままにする','共有の資源を扉でふさぐ'] },
   { id:'monopoly', c:'pink', i:'diamond', t:'資源の独占・湧き潰し', s:'資源が湧く場所の近くに建てて、独り占めしたり、湧かなくしたりすることは禁止です。',
     d:['建造物のまわり8マスには、資源が湧かなくなります。下の場所の近くに建てるときは、必ず誰でも取れるようにしてください。'],
-    ng:['鉱石（金属鉱石・黒曜石・水晶など）がたくさん湧く場所','カストロイデスのダムの近く','樹液・油田・ビーコン・クレートの近く'], ok:['調査書の近くに建てる（誰でも取れるようにする）'],
-    pal:{ s:'資源が湧く場所のまわりをふさいで、独り占めすることは禁止です。', d:[], ng:[], ok:[] } },
+    ng:['鉱石（金属鉱石・黒曜石・水晶など）がたくさん湧く場所','カストロイデスのダムの近く','樹液・油田・ビーコン・クレートの近く'], ok:['調査書の近くに建てる（誰でも取れるようにする）'] },
   { id:'gift', c:'purple', i:'redeem', t:'無償譲渡・不等価取引', s:'恐竜やアイテムをただで渡すことや、価値が釣り合わない取引は禁止です。',
     d:['受け取る人が喜んでいても、自分で見つけて育て、探す楽しみを奪ってしまいます。サーバー全体のバランスが崩れ、ゲームの寿命も縮めてしまいます。','取引したいときは、Discordの「ark取引」チャンネルに、取引タグを付けて投稿してください。'],
-    ng:['設計図や恐竜を、ただで貸し借りする','恐竜・設計図・サドル・武器などを、ただで渡す','恐竜のテイムを手伝いすぎる','パラサウロロフスとギガノトサウルスのように、価値の違うもの同士の取引'], ok:['有志が消耗品や資材を配る'],
-    pal:{ s:'パルやアイテムをただで渡すことや、価値が釣り合わない取引は禁止です。', d:['受け取る人が自分で見つけて育てる楽しみを奪い、サーバー全体のバランスも崩れてしまいます。'], ng:[], ok:[] } }
+    ng:['設計図や恐竜を、ただで貸し借りする','恐竜・設計図・サドル・武器などを、ただで渡す','恐竜のテイムを手伝いすぎる','パラサウロロフスとギガノトサウルスのように、価値の違うもの同士の取引'], ok:['有志が消耗品や資材を配る'] }
 ];
-/* マナー（お願い）。asa:1＝ARK:SAだけ */
+const PAL_RULES = [
+  { id:'p-name', c:'green', i:'badge', t:'初期のギルド名・不適切な名前', s:'初期のギルド名のままや、なりすまし、公序良俗に反する名前は使えません。',
+    d:['ギルドを作ったら、すぐに名前を変えてください。'],
+    ng:['初期のギルド名のまま','ほかのプレイヤーになりすました名前','公序良俗に反するプレイヤー名・ギルド名','そのほか、管理者が不適切と判断した名前'], ok:['ギルドを作ったら、すぐに名前を変える'] },
+  { id:'p-mpk', c:'orange', i:'directions_run', t:'MPK', s:'野生のパルを、ほかのプレイヤーや拠点へわざと連れていくことは禁止です。' },
+  { id:'p-snatch', c:'yellow', i:'front_hand', t:'パルやアイテムの横取り', s:'ほかの人が戦っているパルを倒したり、先に狙っているパル・宝箱・ボスを横から取ったりすることは禁止です。' },
+  { id:'p-build', c:'brown', i:'foundation', t:'建築予約', s:'場所を取っておくための建築は、建造物の形になっていないものも含めて一切禁止です。' },
+  { id:'p-abandon', c:'cream', i:'delete', t:'いらない建造物の放置', s:'使わなくなった建造物は解体してください。',
+    d:['使っていないのにパルボックスを建てて、土地を占拠しないでください。'] },
+  { id:'p-sanctuary', c:'forest', i:'forest', t:'禁漁区への建設', s:'パルボックスなどの建造物は、禁漁区に建てられません。',
+    d:['建造物があると、禁漁区のパルが湧かなくなるためです。'] },
+  { id:'p-glitch', c:'blue', i:'bug_report', t:'チート・グリッチ・バグの使用', s:'ゲームバランスが崩れる、ほかのプレイヤーが不利益を受けるものは禁止です。',
+    d:['サーバーのゲームデータが壊れて、全員が遊べなくなることがあります。'], ng:['塔のボスの捕獲','チートや外部ツールの使用'] },
+  { id:'p-monopoly', c:'pink', i:'diamond', t:'共有資源の独占', s:'資源をほかの人が取れないようにふさぐことは禁止です。',
+    ng:['鉱石（金属鉱石・石炭など）をふさぐ','クルリス像・探検者の手記をふさぐ','宝箱・技の実の樹をふさぐ'] },
+  { id:'p-gift', c:'purple', i:'redeem', t:'無償譲渡', s:'パルやアイテムなどを、対価なしで渡すことは禁止です。',
+    d:['対価を決めた取引はおすすめしています。取引したいときは、Discordのパルワールド総合チャンネルに、取引タグを付けて投稿してください。'] },
+  { id:'p-words', c:'red', i:'sentiment_dissatisfied', t:'煽り・暴言・誹謗中傷・下ネタ・物乞い', s:'ボイスチャットも含めて、相手が嫌な思いをする言葉は禁止です。',
+    d:['冗談のつもりでも、相手や周りの人には伝わらないことがあります。'] },
+  { id:'p-spoiler', c:'blue', i:'visibility_off', t:'行き過ぎたアドバイス・ネタバレ', s:'全体チャットは全員が見ています。初めての人もいるので、ネタバレには十分に気をつけてください。' }
+];
+/* マナー（お願い） */
 const MANNERS = [
   { t:'遊びかた', i:'sports_esports', items:[
     { t:'恐竜・クレート・イベントアイテムの横取り', i:'front_hand', d:'公開サーバーなので、いろいろな人が遊んでいます。自分のことだけを考えず、譲り合ってください。' },
-    { t:'ファストトラベルでのクレート回収', i:'bed', asa:1, d:'ベッドや寝袋を使ったクレート回収は、先に来た人がまわりの土地を占めてしまい、あとから来た人が取りにくくなるため、おすすめしません。効率よく集められますが、ゲームの寿命を自分で縮めてしまいます。' },
-    { t:'一部のアイテムだけを抜き取る', i:'inventory_2', asa:1, d:'カストロイデスのダム、ビーコン、クレート、アーティファクトの格納器などは、中にアイテムが残っていると新しく湧きません。すべて取ってから、いらないものを捨ててください。特にダムで欲しい資源だけを取り、木材を残す例が目立ちます。' },
-    { t:'恐竜の出しっぱなし（サーバーの負荷）', i:'memory', asa:1, d:'恐竜を拠点にたくさん並べたままにすると、人が通るたびに読み込みが起きてサーバーに負荷がかかり、テイム数の上限にも達しやすくなります。いらない恐竜は低温ポッドに入れて、冷蔵庫で保管してください。外に出しておくのは、多くても30体くらいまでが目安です。繁殖などで一時的に多く出すことや、プラットフォームサドルを付けた恐竜を出しておくことは問題ありません。' },
-    { t:'恐竜の湧きを妨げる', i:'forest', asa:1, d:'カストロイデス（ビーバー）は湧く場所が少なく、近くの建造物のせいで数が減っています。近くに建てている方は、移動か拠点の縮小をお願いします。TheIslandの右上の島（通称：肉食島）は、高レベルのREXを狙う人にとって大切な場所です。罠はすでにあるものを使うか、使ったあとに解体してください。拠点の建設はNGです。' }
+    { t:'ファストトラベルでのクレート回収', i:'bed', d:'ベッドや寝袋を使ったクレート回収は、先に来た人がまわりの土地を占めてしまい、あとから来た人が取りにくくなるため、おすすめしません。効率よく集められますが、ゲームの寿命を自分で縮めてしまいます。' },
+    { t:'一部のアイテムだけを抜き取る', i:'inventory_2', d:'カストロイデスのダム、ビーコン、クレート、アーティファクトの格納器などは、中にアイテムが残っていると新しく湧きません。すべて取ってから、いらないものを捨ててください。特にダムで欲しい資源だけを取り、木材を残す例が目立ちます。' },
+    { t:'恐竜の出しっぱなし（サーバーの負荷）', i:'memory', d:'恐竜を拠点にたくさん並べたままにすると、人が通るたびに読み込みが起きてサーバーに負荷がかかり、テイム数の上限にも達しやすくなります。いらない恐竜は低温ポッドに入れて、冷蔵庫で保管してください。外に出しておくのは、多くても30体くらいまでが目安です。繁殖などで一時的に多く出すことや、プラットフォームサドルを付けた恐竜を出しておくことは問題ありません。' },
+    { t:'恐竜の湧きを妨げる', i:'forest', d:'カストロイデス（ビーバー）は湧く場所が少なく、近くの建造物のせいで数が減っています。近くに建てている方は、移動か拠点の縮小をお願いします。TheIslandの右上の島（通称：肉食島）は、高レベルのREXを狙う人にとって大切な場所です。罠はすでにあるものを使うか、使ったあとに解体してください。拠点の建設はNGです。' }
   ] },
   { t:'コミュニケーション', i:'forum', items:[
     { t:'煽り・暴言・誹謗中傷・下ネタ', i:'sentiment_dissatisfied', d:'ゲームで遊んでいる相手も、1人の人間です。お互いに敬意を持って接してください。親しくなっても、自分では問題ないと思う冗談が、相手には嫌な思いをさせているかもしれません。ボイスチャットはほかの人にも聞こえているので、言葉づかいに特に気をつけてください。' },
@@ -1155,14 +1207,20 @@ const MANNERS = [
   ] },
   { t:'建築', i:'home_work', items:[
     { t:'いらない建造物の放置', i:'delete', d:'いらなくなった建造物は解体してください。まわり8マスには資源も生物も湧かなくなり、ほかの人の建築の邪魔にもなります。使い捨ての罠、生物を守る柵、生物を足止めする門などは、使ったら必ず解体してください。置いたままにする罠は、扉のロックを外して誰でも使えるようにしてください。土台10個の範囲に建造物が10個以下しかない場合は、APIで自動的に撤去されます。' },
-    { t:'リスポーン地点への建築', i:'location_on', asa:1, d:'ほかのプレイヤーが抜け出せなくなります。すでに建てている場合は、ロックを外した扉を付けてください。' },
-    { t:'ほかのトライブの拠点の近くへの建築', i:'holiday_village', asa:1, d:'先に建てていた方が優先です。あとから建てる方は、土台20個分ほど離れた場所に建ててください。近くに建てたいときは、建てる前にDiscordの「ark依頼・募集・周知」フォーラムやグローバルチャットで話してください。' },
-    { t:'通り道をふさぐ建築（洞窟・川など）', i:'block', asa:1, d:'通り抜けられる場所をふさぐことは禁止です。すでに建てている場合は、ロックを外した巨大門を付けるか、迂回路を作ってください。' },
-    { t:'タレット・攻撃指示の恐竜の放置', i:'security', asa:1, d:'運ばれている生物やテイム中の生物を倒してしまうことがあるため、おすすめしません。オフライン保護があるので、基本的には不要です。どうしても置くときは、タレットは拠点の外をなるべく範囲に入れず、範囲は「低」、警告は4秒に。攻撃的指示は、囲った自分の拠点の中で、オンラインのときだけにしてください。' }
+    { t:'リスポーン地点への建築', i:'location_on', d:'ほかのプレイヤーが抜け出せなくなります。すでに建てている場合は、ロックを外した扉を付けてください。' },
+    { t:'ほかのトライブの拠点の近くへの建築', i:'holiday_village', d:'先に建てていた方が優先です。あとから建てる方は、土台20個分ほど離れた場所に建ててください。近くに建てたいときは、建てる前にDiscordの「ark依頼・募集・周知」フォーラムやグローバルチャットで話してください。' },
+    { t:'通り道をふさぐ建築（洞窟・川など）', i:'block', d:'通り抜けられる場所をふさぐことは禁止です。すでに建てている場合は、ロックを外した巨大門を付けるか、迂回路を作ってください。' },
+    { t:'タレット・攻撃指示の恐竜の放置', i:'security', d:'運ばれている生物やテイム中の生物を倒してしまうことがあるため、おすすめしません。オフライン保護があるので、基本的には不要です。どうしても置くときは、タレットは拠点の外をなるべく範囲に入れず、範囲は「低」、警告は4秒に。攻撃的指示は、囲った自分の拠点の中で、オンラインのときだけにしてください。' }
+  ] }
+];
+const PAL_MANNERS = [
+  { t:'遊びかた', i:'sports_esports', items:[
+    { t:'商人の捕獲', i:'storefront', d:'街にいる固定の商人を捕獲すると、ほかのプレイヤーが困ります。捕獲したい場合は、サーバーの再起動の直前にしてください。' }
   ] }
 ];
 const FLAME = cls => '<svg class="' + cls + '" aria-hidden="true"><use href="#vs-flame"></use></svg>';
-const rulesFor = g => RULES.filter(r => g === 'asa' || !r.asa);
+const rulesFor = g => g === 'pal' ? PAL_RULES : RULES;
+const mannersFor = g => g === 'pal' ? PAL_MANNERS : MANNERS;
 const CMD_GROUPS = [
   { key:'pets', title:'生物の管理', icon:'pets', c:'purple', items:[['/pod','見ている生物を低温ポッドに格納','無料'],['/pods','土台10個の範囲の生物をすべて格納','無料'],['/uncryo','手持ちのポッドの生物（最大40体）を出す','100pt'],['/getstats','見ている生物のステータスを表示','無料'],['/kill','見ている自トライブの生物を倒す','100pt'],['/decaytime','生物・建造物の撤去期限を表示','無料']] },
   { key:'breed', title:'繁殖', icon:'egg', c:'green', items:[['/mate','交配を開始（範囲は /mateaoe）','無料'],['/claim','土台10個の範囲の子どもを取得','100pt'],['/settings','繁殖の設定を変更（SILVER以上）','無料'],['/hatch','卵を孵化・妊娠を完了（GOLD以上）','250pt'],['/raise','成熟度を100%に（GOLD以上）','500pt'],['/cg','生物の性別を変更（GOLD以上）','500pt']] },
@@ -1341,53 +1399,49 @@ function renderJoin(){
       '<span class="vs-game-foot"><span class="vs-mini" aria-hidden="true">' + ids.map(id => '<span class="' + (stepDone(g, id) ? 'on' : '') + '"></span>').join('') + '</span><b class="vs-tnum vs-support">' + n + ' / ' + ids.length + ' ステップ</b><i class="vs-go">arrow_forward</i></span></span></a></div>';
   }).join('');
 }
-/* ルールの表記：パルワールドでは pal の項目で上書きする */
-const ruleView = (g, r) => g === 'pal' && r.pal ? Object.assign({}, r, r.pal) : r;
-const ruleOn = (g, id) => state.ruleChecks[g].indexOf(id) >= 0;
-/* ルールのイラスト（img/rules/rule-ID.png）と、左上の「禁止」 */
-const ruleArt = r => '<span class="vs-rule-ban"><i>block</i>禁止</span><img class="vs-rule-img" src="img/rules/rule-' + r.id + '.png" alt="">';
+/* ルールの絵：ARK:SAはイラスト（img/rules/rule-ID.png）、パルワールドはアイコン */
+const ruleArt = (g, r) => g === 'asa' ? '<img class="vs-rule-img" src="img/rules/rule-' + r.id + '.png" alt="">' : '<i class="vs-rule-ic" aria-hidden="true">' + r.i + '</i>';
+const RULE_BAN = '<span class="vs-rule-ban"><i>block</i>禁止</span>';
+/* ルールのページ：1件ずつのカード。押すとくわしい説明と例 */
 function ruleCards(g, cols){
-  return rulesFor(g).map(r0 => {
-    const r = ruleView(g, r0), on = ruleOn(g, r.id);
-    return '<li class="' + cols + '"><a class="vs-rule wave' + (on ? ' done' : '') + '" href="#" role="button" data-ruleopen="' + r.id + '" data-rgame="' + g + '" aria-label="' + esc(r.t) + 'の禁止（' + (on ? '確認済み' : '未確認') + '）">' +
-      '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(r) + (on ? '<span class="vs-rule-chip"><i>check</i>確認済み</span>' : '') + '</span>' +
-      '<span class="vs-rule-body"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
-      '<span class="vs-rule-foot"><span><i>' + (on ? 'check_circle' : 'radio_button_unchecked') + '</i>' + (on ? '確認済み' : '未確認') + '</span><i class="vs-go">arrow_forward</i></span></span></a></li>';
-  }).join('');
+  return rulesFor(g).map(r => '<li class="' + cols + '"><a class="vs-rule wave" href="#" role="button" data-ruleopen="' + r.id + '" data-rgame="' + g + '" aria-label="' + esc(r.t) + 'の禁止（くわしく見る）">' +
+    '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + RULE_BAN + ruleArt(g, r) + '</span>' +
+    '<span class="vs-rule-body"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
+    '<span class="vs-rule-foot"><span>くわしく見る</span><i class="vs-go">arrow_forward</i></span></span></a></li>').join('');
+}
+/* 参加手順：押さずに読める一覧（絵・見出し・ひとこと） */
+function ruleList(g){
+  return '<ul class="vs-rulelist">' + rulesFor(g).map(r => '<li><span class="vs-rulelist-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(g, r) + '</span><span class="max"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span></span></li>').join('') + '</ul>';
 }
 function openRule(g, id){
-  const r0 = RULES.find(x => x.id === id); if (!r0) return;
-  const r = ruleView(g, r0), on = ruleOn(g, id), list = (a, cls, ic) => a && a.length ? '<ul class="vs-exlist ' + cls + '">' + a.map(x => '<li><i>' + ic + '</i><span>' + esc(x) + '</span></li>').join('') + '</ul>' : '';
-  $('#rule-dlg').innerHTML = '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(r) + '</span>' +
+  const r = rulesFor(g).find(x => x.id === id); if (!r) return;
+  const list = (a, cls, ic) => a && a.length ? '<ul class="vs-exlist ' + cls + '">' + a.map(x => '<li><i>' + ic + '</i><span>' + esc(x) + '</span></li>').join('') + '</ul>' : '';
+  $('#rule-dlg').innerHTML = '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(g, r) + '</span>' +
     '<div class="vs-ruledlg-body"><span class="vs-label">禁止事項</span><h2 class="vs-title-l" id="rule-title">' + esc(r.t) + 'の禁止</h2><p class="vs-body">' + esc(r.s) + '</p>' +
     (r.d || []).map(p => '<p class="vs-body vs-muted">' + esc(p) + '</p>').join('') +
     (r.ng && r.ng.length ? '<b class="vs-title-m">禁止の例</b>' + list(r.ng, 'ng', 'block') : '') +
-    (r.ok && r.ok.length ? '<b class="vs-title-m">' + (r.id === 'name' ? 'こうすれば大丈夫' : '問題ない例') + '</b>' + list(r.ok, 'ok', 'check_circle') : '') + '</div>' +
-    '<nav class="vs-ruledlg-acts">' + (on
-      ? '<button class="transparent" type="button" data-rulecheck="' + id + '" data-rgame="' + g + '" data-on="0">確認を取り消す</button><button type="button" data-close="dlg-rule">閉じる</button>'
-      : '<button class="transparent" type="button" data-close="dlg-rule">閉じる</button><button type="button" data-rulecheck="' + id + '" data-rgame="' + g + '" data-on="1"><i>check</i><span>確認した</span></button>') + '</nav>';
+    (r.ok && r.ok.length ? '<b class="vs-title-m">' + (/name$/.test(r.id) ? 'こうすれば大丈夫' : '問題ない例') + '</b>' + list(r.ok, 'ok', 'check_circle') : '') + '</div>' +
+    '<nav class="vs-ruledlg-acts"><button type="button" data-close="dlg-rule">閉じる</button></nav>';
   toggleDialog('dlg-rule', true);
   $('#dlg-rule').scrollTop = 0;
 }
-function setRuleCheck(g, id, on){
-  const arr = state.ruleChecks[g], prev = curIndex(), wasDone = stepDone(g, 'rules'), at = arr.indexOf(id);
-  if (on && at < 0) arr.push(id);
-  if (!on && at >= 0) arr.splice(at, 1);
+/* 確認は1回の操作で、そのゲームのルールすべて */
+function setRulesAll(g, on){
+  const prev = curIndex(), wasDone = stepDone(g, 'rules');
+  state.ruleChecks[g] = on ? rulesFor(g).map(r => r.id) : [];
   store.set('ruleChecks', state.ruleChecks);
-  if (stepDone(g, 'rules') !== wasDone) { afterStepChange(prev); if (stepDone(g, 'rules')) snack('ルールをすべて確認しました'); }
+  if (stepDone(g, 'rules') !== wasDone) { afterStepChange(prev); snack(on ? 'ルールを確認しました' : 'ルールの確認を取り消しました'); }
   else { renderRules(); renderSteps(); }
 }
 function renderManners(g){
-  const groups = MANNERS.map(m => ({ t:m.t, i:m.i, items:m.items.filter(x => g === 'asa' || !x.asa) })).filter(m => m.items.length);
-  $('#rules-manners').innerHTML = groups.map(m => '<h3 class="vs-manner-h"><i>' + m.i + '</i>' + esc(m.t) + '</h3><ul class="vs-rlist">' +
+  $('#rules-manners').innerHTML = mannersFor(g).map(m => '<h3 class="vs-manner-h"><i>' + m.i + '</i>' + esc(m.t) + '</h3><ul class="vs-rlist">' +
     m.items.map(x => '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i>' + x.i + '</i></span><span class="vs-rtitle"><b>' + esc(x.t) + '</b></span><i class="vs-chev">expand_more</i></summary><div class="vs-rbody"><p class="vs-body vs-muted">' + esc(x.d) + '</p></div></details></li>').join('') + '</ul>').join('');
 }
-function ruleCount(g){ const all = rulesFor(g); return [all.filter(r => state.ruleChecks[g].indexOf(r.id) >= 0).length, all.length]; }
-function updateRuleCounters(){
-  const g = state.game, c = ruleCount(g);
-  $$('[data-rulecount]').forEach(el => { el.textContent = c[0] + ' / ' + c[1]; });
-  $$('[data-ruleprog]').forEach(el => { el.setAttribute('aria-valuemax', c[1]); el.setAttribute('aria-valuenow', c[0]); const pg = el.querySelector('progress'); if (pg) pg.value = Math.round(c[0] / c[1] * 100); });
-  $('#rules-back').innerHTML = c[0] === c[1] ? '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button vs-mt-s" href="#join-' + g + '"><span>参加手順へ戻る</span><i>arrow_forward</i></a>' : '';
+function renderRulesConfirm(){
+  const g = state.game, done = stepDone(g, 'rules');
+  $('#rules-confirm').innerHTML = done
+    ? '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><nav class="wrap vs-mt-s"><a class="button" href="#join-' + g + '"><span>参加手順へ戻る</span><i>arrow_forward</i></a><button class="transparent" type="button" data-rulesall="0" data-rgame="' + g + '">確認を取り消す</button></nav>'
+    : '<button type="button" data-rulesall="1" data-rgame="' + g + '"><i>check</i><span>禁止事項をすべて確認した</span></button>';
 }
 function linkBody(){
   const L = state.link;
@@ -1408,8 +1462,9 @@ function stepBody(g, id){
   if (id === 'discord') return state.discord ? '<p class="vs-ok"><i>check_circle</i>招待リンクを開きました</p><a class="button transparent small vs-mt-s" href="#" data-act="discord"><span>もう一度開く</span><i>open_in_new</i></a>' : '<a class="button" href="#" data-act="discord"><span>Discordサーバーに参加</span><i>open_in_new</i></a>';
   if (id === 'rules') {
     if (stepDone(g, 'rules')) return '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button transparent small vs-mt-s" href="#rules"><span>ルールを見直す</span><i>arrow_forward</i></a>';
-    const c = ruleCount(g);
-    return '<div class="vs-progressrow" role="progressbar" aria-label="確認したルール" aria-valuemin="0" aria-valuemax="' + c[1] + '" aria-valuenow="' + c[0] + '" data-ruleprog><progress value="' + Math.round(c[0] / c[1] * 100) + '" max="100" aria-hidden="true"></progress><b class="vs-tnum" data-rulecount>' + c[0] + ' / ' + c[1] + '</b></div><p class="vs-support vs-mt-s">カードを開いて読み、「確認した」を押してください。</p><ul class="grid vs-rulecards vs-mt">' + ruleCards(g, 's6 m6') + '</ul>';
+    return '<p class="vs-support">次の' + rulesFor(g).length + 'つの禁止事項を読んで、確認してください。</p><div class="vs-mt-s">' + ruleList(g) + '</div>' +
+      '<p class="vs-support vs-mt-s">くわしい説明と例は、<a class="vs-link" href="#rules">ルールのページ</a>で読めます。</p>' +
+      '<button class="vs-mt" type="button" data-rulesall="1" data-rgame="' + g + '"><i>check</i><span>すべて読んで確認した</span></button>';
   }
   if (id === 'link') return linkBody();
   return '';
@@ -1460,7 +1515,12 @@ function afterStepChange(prevCur){
 }
 
 /* ---------- ルール ---------- */
-function renderRules(){ $('#rules-list').innerHTML = ruleCards(state.game, 's6 m6 l4'); renderManners(state.game); updateRuleCounters(); }
+function renderRules(){
+  const g = state.game;
+  $('#rules-list').innerHTML = ruleCards(g, 's6 m6 l4');
+  renderManners(g); renderRulesConfirm();
+  $$('[data-rgame-only]').forEach(el => { el.hidden = el.dataset.rgameOnly !== g; });
+}
 
 /* ---------- 倍率・コマンド・API（押せない情報：影のない薄い面） ---------- */
 function renderRates(){
@@ -1752,7 +1812,7 @@ window.addEventListener('hashchange', () => {
 
 /* ---------- 操作の受け口 ---------- */
 D.addEventListener('click', e => {
-  const t = e.target.closest('[data-ext],[data-act],[data-close],[data-copy],[data-game],[data-bot],[data-chat],[data-remove],[data-add],[data-cmdcat],[data-faqcat],[data-bill],[data-ruleopen],[data-rulecheck]');
+  const t = e.target.closest('[data-ext],[data-act],[data-close],[data-copy],[data-game],[data-bot],[data-chat],[data-remove],[data-add],[data-cmdcat],[data-faqcat],[data-bill],[data-ruleopen],[data-rulesall]');
   if (!t) return;
   const ds = t.dataset;
   if (ds.ext !== undefined) { e.preventDefault(); snack(ds.ext + 'は仮のリンクです（プロトタイプ）'); return; }
@@ -1780,7 +1840,7 @@ D.addEventListener('click', e => {
   if (ds.cmdcat) { state.cmdCat = ds.cmdcat; renderCommands(); return; }
   if (ds.bill) { state.billing = ds.bill; store.set('bill', ds.bill); renderRanks(); return; }
   if (ds.ruleopen) { e.preventDefault(); openRule(ds.rgame, ds.ruleopen); return; }
-  if (ds.rulecheck) { toggleDialog('dlg-rule', false); setRuleCheck(ds.rgame, ds.rulecheck, ds.on === '1'); return; }
+  if (ds.rulesall) { setRulesAll(ds.rgame, ds.rulesall === '1'); return; }
   if (ds.faqcat) { state.faqCat = ds.faqcat; renderFaq(); return; }
   const act = ds.act;
   if (act === 'login') openLogin();
