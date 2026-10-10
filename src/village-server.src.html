@@ -110,6 +110,13 @@ main .grid{--_gap:1rem}
 .vs-section{margin-block-start:var(--vs-sp) !important}
 .vs-mt{margin-block-start:1.5rem !important}
 .vs-mt-s{margin-block-start:.75rem !important}
+/* 読みものの画面（中身が1列）：広い画面では、12列のうち中央の8列（3〜10列目）に、パンくず・見出しごと置く。全体が左に寄らないように。
+   左右の余白＝2列＋2つの溝（溝は main .grid と同じ1rem）。中の .grid は、この8列の幅で12分割する */
+@media (min-width:993px){ #main>.page.vs-narrow, #main:has(>.page.vs-narrow.active)>.vs-crumbs{padding-inline:calc((100% - 11rem) / 6 + 2rem)} }
+/* 3つずつ並ぶタイル：最後の行が欠けるときは、12列の格子のまま、その行を中央に寄せる */
+/* （vs-center3＝タブレット以上で3つずつ、vs-center3-l＝PCで3つずつ並ぶ一覧） */
+@media (min-width:601px){ .vs-center3>:nth-child(3n+1):nth-last-child(2){grid-column:3 / span 4} .vs-center3>:nth-child(3n+1):last-child{grid-column:5 / span 4} }
+@media (min-width:993px){ .vs-center3-l>:nth-child(3n+1):nth-last-child(2){grid-column:3 / span 4} .vs-center3-l>:nth-child(3n+1):last-child{grid-column:5 / span 4} }
 .vs-sprite{position:absolute; inline-size:0; block-size:0; overflow:hidden}
 nav.vs-crumbs{display:block; margin:0 !important; white-space:normal; font-size:.875rem; line-height:1.4}
 .vs-crumbs>ol{all:unset; display:flex; flex-wrap:wrap; align-items:center; gap:.25rem}
@@ -314,7 +321,7 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-rule{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
 .vs-rule-art{position:relative; display:flex; align-items:center; justify-content:center; block-size:9rem; overflow:hidden; border-radius:0; background:radial-gradient(55% 80% at 50% 60%,color-mix(in srgb,var(--rc) 55%,transparent),transparent 78%),var(--vs-night)}
 .vs-rule-img{display:block; block-size:76%; inline-size:auto; max-inline-size:78%; object-fit:contain; margin-block-start:1rem; border-radius:0}
-.vs-rule-ban{position:absolute; inset:.75rem auto auto .75rem; display:inline-flex; align-items:center; gap:.25rem; padding:.25rem .75rem .25rem .5rem; border-radius:1rem; background-color:var(--surface); color:var(--vs-red-ink); font-size:.75rem; font-weight:700; box-shadow:var(--vs-e1)}
+.vs-rule-ban{display:inline-flex; align-self:flex-start; align-items:center; gap:.25rem; padding:.125rem .5rem .125rem .375rem; border-radius:.5rem; background-color:color-mix(in srgb,var(--vs-red) 12%,transparent); color:var(--vs-red-ink); font-size:.75rem; font-weight:700}
 .vs-rule-ban>i{--_size:1rem}
 .vs-rule-ic{--_size:3.5rem; margin-block-start:1rem; color:var(--vs-flame)}
 .vs-rule-body{display:flex; flex-direction:column; flex:1; gap:.375rem; padding:1.25rem 1.5rem}
@@ -686,10 +693,10 @@ body:not(.vs-ready) .page.active{animation:none}
   </div>
 
   <!-- ===================== 参加手順：ステップ ===================== -->
-  <div class="page" id="p-steps">
+  <div class="page vs-narrow" id="p-steps">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#join" aria-label="ゲームの選択に戻る"><i>arrow_back</i></a><h1 class="vs-headline" id="steps-title" tabindex="-1">ARK:SAの参加手順</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12 l8">
+      <div class="s12">
         <ol class="vs-stepper" id="stepper" aria-label="進み具合"></ol>
         <div class="vs-done vs-mt" id="steps-done" hidden>
           <svg class="vs-camp" viewBox="30 90 452 360" aria-hidden="true">
@@ -717,12 +724,12 @@ body:not(.vs-ready) .page.active{animation:none}
   <!-- ===================== サーバーについて ===================== -->
   <div class="page" id="p-about">
     <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1">サーバーについて</h1></nav>
-    <div class="grid vs-mt">
-      <a class="vs-tile s6 l3 wave" href="#maps"><span class="vs-dot large c-yellow"><i>monitor_heart</i></span><span class="vs-tile-text"><b class="vs-title-m">マップステータス</b><span class="vs-tile-cap" id="about-maps"></span></span><i class="vs-go">arrow_forward</i></a>
-      <a class="vs-tile s6 l3 wave" href="#intro"><span class="vs-dot large c-blue"><i>photo_library</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー紹介</b><span class="vs-tile-cap">写真で見る村</span></span><i class="vs-go">arrow_forward</i></a>
-      <a class="vs-tile s6 l3 wave" href="#rates"><span class="vs-dot large c-green"><i>speed</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー倍率</b><span class="vs-tile-cap">テイム・繁殖の速さ</span></span><i class="vs-go">arrow_forward</i></a>
-      <a class="vs-tile s6 l3 wave" href="#commands"><span class="vs-dot large c-purple"><i>terminal</i></span><span class="vs-tile-text"><b class="vs-title-m">コマンド一覧</b><span class="vs-tile-cap">チャットで使う</span></span><i class="vs-go">arrow_forward</i></a>
-      <a class="vs-tile s6 l3 wave" href="#api"><span class="vs-dot large c-red"><i>extension</i></span><span class="vs-tile-text"><b class="vs-title-m">導入API解説</b><span class="vs-tile-cap">便利な追加機能</span></span><i class="vs-go">arrow_forward</i></a>
+    <div class="grid vs-mt vs-center3">
+      <a class="vs-tile s6 m4 l4 wave" href="#maps"><span class="vs-dot large c-yellow"><i>monitor_heart</i></span><span class="vs-tile-text"><b class="vs-title-m">マップステータス</b><span class="vs-tile-cap" id="about-maps"></span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 m4 l4 wave" href="#intro"><span class="vs-dot large c-blue"><i>photo_library</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー紹介</b><span class="vs-tile-cap">写真で見る村</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 m4 l4 wave" href="#rates"><span class="vs-dot large c-green"><i>speed</i></span><span class="vs-tile-text"><b class="vs-title-m">サーバー倍率</b><span class="vs-tile-cap">テイム・繁殖の速さ</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 m4 l4 wave" href="#commands"><span class="vs-dot large c-purple"><i>terminal</i></span><span class="vs-tile-text"><b class="vs-title-m">コマンド一覧</b><span class="vs-tile-cap">チャットで使う</span></span><i class="vs-go">arrow_forward</i></a>
+      <a class="vs-tile s6 m4 l4 wave" href="#api"><span class="vs-dot large c-red"><i>extension</i></span><span class="vs-tile-text"><b class="vs-title-m">導入API解説</b><span class="vs-tile-cap">便利な追加機能</span></span><i class="vs-go">arrow_forward</i></a>
     </div>
   </div>
 
@@ -730,7 +737,7 @@ body:not(.vs-ready) .page.active{animation:none}
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">マップステータス</h1></nav>
     <p class="vs-support">ARK:SAの各マップが、いま入れるかどうかを確かめられます（プロトタイプでは例）。</p>
     <div class="vs-mapsum vs-mt" id="maps-sum" aria-live="polite"></div>
-    <ul class="grid vs-mapcards vs-mt" id="maps-grid"></ul>
+    <ul class="grid vs-mapcards vs-mt vs-center3-l" id="maps-grid"></ul>
     <p class="vs-note vs-mt"><i>info</i><span>毎日5:00の再起動中は、数分間すべてのマップが「起動中」になります。</span></p>
   </div>
 
@@ -785,7 +792,7 @@ body:not(.vs-ready) .page.active{animation:none}
   </div>
 
   <!-- ===================== ルール ===================== -->
-  <div class="page" id="p-rules">
+  <div class="page vs-narrow" id="p-rules">
     <nav class="vs-pagehead"><h1 class="vs-headline" id="rules-title" tabindex="-1">ルール</h1></nav>
     <nav class="wrap vs-chiprow vs-mt-s" data-gamechips aria-label="表示するゲーム"></nav>
     <p class="vs-body vs-mt">参加する前に、すべてのルールに目を通してください。基本的に、ほかの人に迷惑をかける行為は禁止です。</p>
@@ -793,12 +800,12 @@ body:not(.vs-ready) .page.active{animation:none}
     <section class="vs-section" aria-labelledby="rules-ban">
       <h2 class="vs-title-l" id="rules-ban">禁止事項</h2>
       <p class="vs-support">知っていれば必ず避けられることです。違反した場合は、悪質と判断して対応します。カードを押すと、くわしい説明と例を読めます。</p>
-      <ul class="grid vs-rulecards vs-mt" id="rules-list"></ul>
+      <ul class="grid vs-rulecards vs-mt vs-center3-l" id="rules-list"></ul>
       <div class="vs-mt" id="rules-confirm"></div>
     </section>
 
     <div class="grid vs-section">
-      <div class="s12 l8">
+      <div class="s12">
         <section aria-labelledby="rules-manner" id="rules-manner-sec">
           <h2 class="vs-title-l" id="rules-manner">マナー</h2>
           <p class="vs-support">守ってほしいお願いです。公開サーバーなので、譲り合って遊びましょう。</p>
@@ -902,10 +909,10 @@ body:not(.vs-ready) .page.active{animation:none}
     </div>
   </div>
 
-  <div class="page" id="p-scribe">
+  <div class="page vs-narrow" id="p-scribe">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">スクライブ</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12 l8">
+      <div class="s12">
         <div class="vs-gate">
           <span class="vs-dot large c-blue" aria-hidden="true"><i>manage_search</i></span>
           <div class="max">
@@ -934,10 +941,10 @@ body:not(.vs-ready) .page.active{animation:none}
     </div>
   </div>
 
-  <div class="page" id="p-request">
+  <div class="page vs-narrow" id="p-request">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">管理者依頼</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12 l8">
+      <div class="s12">
         <div class="vs-gate">
           <span class="vs-dot large c-red" aria-hidden="true"><i>support_agent</i></span>
           <div class="max">
@@ -980,10 +987,10 @@ body:not(.vs-ready) .page.active{animation:none}
     </section>
   </div>
 
-  <div class="page" id="p-trouble">
+  <div class="page vs-narrow" id="p-trouble">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#support" aria-label="サポートに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">困った時一覧</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12 l8">
+      <div class="s12">
         <div class="field round fill prefix">
           <i>search</i>
           <input type="search" id="faq-q" placeholder="言葉で探す（例：接続）" aria-label="困りごとを検索" autocomplete="off">
@@ -999,10 +1006,10 @@ body:not(.vs-ready) .page.active{animation:none}
   </div>
 
   <!-- ===================== マイページ ===================== -->
-  <div class="page" id="p-mypage">
+  <div class="page vs-narrow" id="p-mypage">
     <nav class="vs-pagehead"><h1 class="vs-headline" tabindex="-1" id="mp-title">マイページ</h1></nav>
     <div class="grid vs-mt">
-      <div class="s12 l8">
+      <div class="s12">
         <div class="vs-gate" id="mp-out">
           <svg class="vs-camp vs-camp-lg" viewBox="30 90 452 360" aria-hidden="true">
             <ellipse class="vs-camp-glow" cx="256" cy="300" rx="200" ry="170" fill="url(#vs-glow-g)"></ellipse>
@@ -1455,8 +1462,8 @@ const RULE_BAN = '<span class="vs-rule-ban"><i>block</i>禁止</span>';
 /* ルールのページ：1件ずつのカード。押すとくわしい説明と例 */
 function ruleCards(g, cols){
   return rulesFor(g).map(r => '<li class="' + cols + '"><a class="vs-rule wave" href="#" role="button" data-ruleopen="' + r.id + '" data-rgame="' + g + '" aria-label="' + esc(r.t) + 'の禁止（くわしく見る）">' +
-    '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + RULE_BAN + ruleArt(g, r) + '</span>' +
-    '<span class="vs-rule-body"><b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
+    '<span class="vs-rule-art" style="--rc:' + RULE_C[r.c] + '">' + ruleArt(g, r) + '</span>' +
+    '<span class="vs-rule-body">' + RULE_BAN + '<b class="vs-title-m">' + esc(r.t) + 'の禁止</b><span class="vs-support">' + esc(r.s) + '</span>' +
     '<span class="vs-rule-foot"><span>くわしく見る</span><i class="vs-go">arrow_forward</i></span></span></a></li>').join('');
 }
 function openRule(g, id){
@@ -1508,7 +1515,7 @@ function stepBody(g, id){
   if (id === 'discord') return state.discord ? '<p class="vs-ok"><i>check_circle</i>招待リンクを開きました</p><a class="button transparent small vs-mt-s" href="#" data-act="discord"><span>もう一度開く</span><i>open_in_new</i></a>' : '<a class="button" href="#" data-act="discord"><span>Discordサーバーに参加</span><i>open_in_new</i></a>';
   if (id === 'rules') {
     if (stepDone(g, 'rules')) return '<p class="vs-ok"><i>check_circle</i>すべて確認しました</p><a class="button transparent small vs-mt-s" href="#rules"><span>ルールを見直す</span><i>arrow_forward</i></a>';
-    return '<p class="vs-support">次の' + rulesFor(g).length + 'つの禁止事項を読んで、確認してください。カードを押すと、くわしい説明と例を読めます。</p><ul class="grid vs-rulecards vs-mt-s">' + ruleCards(g, 's6 m6 l4') + '</ul>' +
+    return '<p class="vs-support">次の' + rulesFor(g).length + 'つの禁止事項を読んで、確認してください。カードを押すと、くわしい説明と例を読めます。</p><ul class="grid vs-rulecards vs-mt-s vs-center3-l">' + ruleCards(g, 's6 m6 l4') + '</ul>' +
       '<button class="vs-mt" type="button" data-rulesall="1" data-rgame="' + g + '"><i>check</i><span>すべて読んで確認した</span></button>';
   }
   if (id === 'link') return linkBody();
@@ -1570,9 +1577,9 @@ function renderRules(){
 /* ---------- 倍率・コマンド・API（押せない情報：影のない薄い面） ---------- */
 function renderRates(){
   const el = $('#rates-body');
-  if (state.game === 'pal') { el.innerHTML = '<div class="grid"><div class="s12 l8 vs-block vs-info"><i class="ink-blue">pets</i><h2 class="vs-title-m">ほぼ初期設定のワールド</h2><p class="vs-support">[変更している設定があれば、ここに入ります]</p></div></div>'; return; }
+  if (state.game === 'pal') { el.innerHTML = '<div class="grid"><div class="s12 vs-block vs-info"><i class="ink-blue">pets</i><h2 class="vs-title-m">ほぼ初期設定のワールド</h2><p class="vs-support">[変更している設定があれば、ここに入ります]</p></div></div>'; return; }
   el.innerHTML = RATES.map((gr, i) => '<section' + (i ? ' class="vs-section"' : '') + '><div class="vs-sechead"><i class="ink-' + gr.c + '">' + gr.icon + '</i><h2 class="vs-title-l">' + esc(gr.title) + '</h2></div><div class="grid vs-mt-s">' +
-    gr.rows.map(r => '<div class="s6 m4 l2 vs-fig vs-block vs-ratefig" style="--vs-ic:var(--vs-' + gr.c + '-ink)"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
+    gr.rows.map(r => '<div class="' + (gr.rows.length % 4 ? 's6 m4 l2' : 's6 m3 l3') + ' vs-fig vs-block vs-ratefig" style="--vs-ic:var(--vs-' + gr.c + '-ink)"><b>' + esc(r[1]) + '</b><span>' + esc(r[0]) + (r[2] ? '（' + esc(r[2]) + '）' : '') + '</span></div>').join('') + '</div></section>').join('') +
     '<div class="grid vs-section"><section class="s12 l8"><div class="vs-sechead"><i class="ink-blue">today</i><h2 class="vs-title-l">毎日のスケジュール</h2></div><ul class="vs-list vs-mt-s">' +
     SCHEDULE.map(t => '<li><span class="vs-time">' + esc(t[0]) + '</span><span class="max"><b>' + esc(t[1]) + '</b><span class="vs-support" style="display:block">' + esc(t[2]) + '</span></span></li>').join('') + '</ul></section>' +
     '<section class="s12 l4"><div class="vs-sechead"><i class="ink-red">schedule</i><h2 class="vs-title-l">撤去までの日数</h2></div><p class="vs-big vs-mt-s">7〜60<small>日</small></p><a class="button transparent vs-mt-s" href="#ranks"><span>ランクごとの日数</span><i>arrow_forward</i></a></section></div>';
