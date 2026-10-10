@@ -506,8 +506,11 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-swatch.c-base>span{background:conic-gradient(var(--vs-red) 0 20%,var(--vs-yellow) 0 40%,var(--vs-green) 0 60%,var(--vs-blue) 0 80%,var(--vs-purple) 0)}
 .vs-swatch.c-red{--vs-c:var(--vs-red)} .vs-swatch.c-yellow{--vs-c:var(--vs-yellow)} .vs-swatch.c-green{--vs-c:var(--vs-green)} .vs-swatch.c-blue{--vs-c:var(--vs-blue)} .vs-swatch.c-purple{--vs-c:var(--vs-purple)}
 
-/* ---- AIに相談（FAB とチャットパネル） ---- */
-.vs-fab{position:fixed !important; z-index:60; inset:auto var(--vs-gutter) calc(1.5rem + env(safe-area-inset-bottom,0px)) auto; block-size:3.5rem !important; border-radius:1rem !important; padding-inline:1rem 1.25rem !important; gap:.5rem; box-shadow:var(--elevate2); font-weight:700}
+/* ---- タマに相談（FAB とチャットパネル）。アイコンは村のネコ「タマ」（mura-neko、頭まわりだけ）を夜空の丸に ---- */
+.vs-neko{display:grid; place-items:center; flex:none; inline-size:2.5rem; block-size:2.5rem; overflow:hidden; border-radius:50%; background-color:var(--vs-night)}
+.vs-neko-l{inline-size:3rem; block-size:3rem}
+.vs-neko mura-neko{--neko-size:100%}
+.vs-fab{position:fixed !important; z-index:60; inset:auto var(--vs-gutter) calc(1.5rem + env(safe-area-inset-bottom,0px)) auto; block-size:3.5rem !important; border-radius:1rem !important; padding-inline:.5rem 1.25rem !important; gap:.625rem; box-shadow:var(--elevate2); font-weight:700}
 @media (max-width:600px){ .vs-fab{inset-block-end:calc(5.5rem + env(safe-area-inset-bottom,0px))} }
 dialog.vs-chatpanel{position:fixed; inset:auto var(--vs-gutter) calc(6rem + env(safe-area-inset-bottom,0px)) auto; transform:none !important; margin:0; padding:0; inline-size:min(25rem,calc(100vw - 2 * var(--vs-gutter))); min-inline-size:0; max-inline-size:none; block-size:min(38rem,calc(100dvh - 9rem)); max-block-size:none; border-radius:1.75rem; background:var(--surface-container-low); box-shadow:var(--elevate3); overflow:hidden; flex-direction:column; z-index:70}
 dialog.vs-chatpanel[open]{display:flex}
@@ -518,6 +521,9 @@ body:has(dialog.vs-chatpanel[open]:not(:modal)){overflow:auto; overflow-x:hidden
 .vs-msg{max-inline-size:85%; padding:.625rem 1rem; border-radius:1.25rem; line-height:1.7; white-space:pre-line; font-size:.9375rem}
 .vs-msg.ai{align-self:flex-start; background:var(--surface-container-highest); border-end-start-radius:.25rem}
 .vs-msg.me{align-self:flex-end; background:var(--primary); color:var(--on-primary); border-end-end-radius:.25rem}
+.vs-msg.typing::after{content:""; display:inline-block; inline-size:2px; block-size:1em; margin-inline-start:2px; vertical-align:-2px; background-color:currentColor; animation:vs-caret .8s steps(1) infinite}
+@keyframes vs-caret{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ .vs-msg.typing::after{animation:none} }
 .vs-msg-acts{white-space:normal; gap:.5rem; margin-block-start:.625rem}
 .vs-msg-acts .chip{background:var(--surface-container-lowest)}
 .vs-chat-form{padding:.75rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)); gap:.5rem; background-color:var(--surface-container)}
@@ -946,7 +952,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <p class="vs-support">チェックの付いた特典が、そのランクで使えます。棒が長いほど、日数やポイントが多くなります。</p>
       <p class="vs-note s vs-mt-s"><i>swipe</i><span>横にスクロールすると、ほかのランクも見られます。</span></p>
       <div class="vs-table-wrap vs-mt-s" id="ranks-table"></div>
-      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みは村のAIが受け付けます。</p>
+      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みはタマ（右下の「タマに相談」）が受け付けます。</p>
     </section>
   </div>
 
@@ -962,7 +968,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <ul class="vs-rlist vs-mt" id="faq-list"></ul>
         <section class="vs-section" aria-labelledby="faq-more">
           <h2 class="vs-title-l" id="faq-more">解決しないときは</h2>
-          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-dot c-night"><i>forum</i></span><span class="max"><b class="vs-title-m">村のAIに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
+          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-neko"><mura-neko crop="bust" aria-hidden="true"></mura-neko></span><span class="max"><b class="vs-title-m">タマに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
         </section>
       </div>
     </div>
@@ -1074,19 +1080,19 @@ body:not(.vs-ready) .page.active{animation:none}
   </footer>
 </main>
 
-<button class="primary-container vs-fab" type="button" id="fab" aria-controls="chat" aria-expanded="false"><i>forum</i><span>AIに相談</span></button>
+<button class="primary-container vs-fab" type="button" id="fab" aria-controls="chat" aria-expanded="false"><span class="vs-neko"><mura-neko id="tama-fab" crop="bust" aria-hidden="true"></mura-neko></span><span class="vs-fab-label">タマに相談</span></button>
 
 <dialog id="chat" class="vs-chatpanel" aria-labelledby="chat-title">
   <nav class="vs-chat-head">
-    <svg class="vs-appicon" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="256" fill="#161827"></rect><use href="#vs-mark"></use></svg>
-    <div class="max"><b class="vs-title-m" id="chat-title">村のAI</b><div class="vs-support">プロトタイプ・回答は例です</div></div>
+    <span class="vs-neko vs-neko-l"><mura-neko id="tama" crop="bust" aria-hidden="true"></mura-neko></span>
+    <div class="max"><b class="vs-title-m" id="chat-title">タマ</b><div class="vs-support vs-chat-status" id="chat-status">プロトタイプ・回答は例です</div></div>
     <button class="circle transparent" type="button" id="chat-reset" aria-label="会話を最初からにする"><i>restart_alt</i></button>
     <button class="circle transparent" type="button" id="chat-close" aria-label="閉じる"><i>close</i></button>
   </nav>
   <div class="vs-chat" id="chat-log" aria-live="polite"></div>
   <form class="row vs-chat-form" id="chat-form">
     <div class="field round fill">
-      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="村のAIへのメッセージ" autocomplete="off">
+      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="タマへのメッセージ" autocomplete="off">
     </div>
     <button class="circle" type="submit" aria-label="送信"><i>arrow_upward</i></button>
   </form>
@@ -1114,6 +1120,8 @@ body:not(.vs-ready) .page.active{animation:none}
 
 <div class="snackbar" id="snack" role="status"><span class="max" id="snack-text"></span><button class="transparent small" type="button" id="snack-act" hidden>元に戻す</button></div>
 
+<!-- タマ（チャットのアバター）: mura-neko.js を build.ps1 で埋め込む -->
+<script>/*__MURANEKO__*/</script>
 <script>
 (function(){
 'use strict';
@@ -1557,7 +1565,7 @@ function renderCommands(){
     .filter(g => g.items.length);
   $('#cmd-groups').innerHTML = groups.length ? groups.map(g => '<section class="s12 l6"><div class="vs-sechead"><i class="ink-' + g.c + '">' + g.icon + '</i><h2 class="vs-title-m">' + esc(g.title) + '</h2></div><ul class="vs-list vs-mt-s">' +
     g.items.map(c => { const copy = c[0].split(' [')[0]; return '<li><span class="max"><code class="vs-cmd">' + esc(c[0]) + '</code><span class="vs-support" style="display:block">' + esc(c[1]) + '</span></span><span class="vs-cost' + (c[2] === '無料' ? ' free' : '') + '">' + esc(c[2]) + '</span><button class="circle transparent small" type="button" data-copy="' + esc(copy) + '" aria-label="' + esc(copy) + ' をコピー"><i>content_copy</i></button></li>'; }).join('') + '</ul></section>').join('')
-    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「AIに相談」から聞くこともできます。</span></p></div>';
+    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「タマに相談」から聞くこともできます。</span></p></div>';
 }
 function renderApi(){
   $('#api-grid').innerHTML = APIS.map(a => '<div class="s12 m6 vs-block vs-info"><i class="ink-' + a.c + '">' + a.i + '</i><h2 class="vs-title-m">' + esc(a.t) + '</h2>' + (a.p ? '<code class="vs-cmd vs-support">' + esc(a.p) + '</code>' : '') + '<p class="vs-support vs-mt-s">' + esc(a.d) + '</p>' + (a.note ? '<p class="vs-note vs-mt-s"><i>map</i><span>' + esc(a.note) + '</span></p>' : '') + '</div>').join('');
@@ -1742,14 +1750,16 @@ function renderNotify(){
 }
 $('#mp-notify').addEventListener('change', e => { state.notify = e.target.checked; store.set('notify', state.notify); renderNotify(); snack(state.notify ? '撤去期限のお知らせをオンにしました' : '撤去期限のお知らせをオフにしました'); });
 
-/* ---------- 村のAI（右下のFABから開くチャット） ---------- */
+/* ---------- タマ（右下の「タマに相談」から開くチャット）。返事はタマが口を動かして1文字ずつ話す ---------- */
 const chatDlg = $('#chat');
 const compact = () => window.matchMedia && matchMedia('(max-width:600px)').matches;
 const chat = { log:[], resume:null };
+const tama = $('#tama'), tamaFab = $('#tama-fab');
+const canSpeak = !!(tama && tama.speak);
 function updateFab(){
   const open = chatDlg.open, f = $('#fab');
   f.setAttribute('aria-expanded', String(open));
-  f.innerHTML = open ? '<i>close</i><span>閉じる</span>' : '<i>forum</i><span>AIに相談</span>';
+  $('.vs-fab-label', f).textContent = open ? '閉じる' : 'タマに相談';
 }
 function openChat(){
   if (!chat.log.length) resetChat();
@@ -1762,42 +1772,67 @@ chatDlg.addEventListener('close', updateFab);
 chatDlg.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); closeChat(); $('#fab').focus(); } });
 $('#fab').addEventListener('click', () => (chatDlg.open ? closeChat() : openChat()));
 $('#chat-close').addEventListener('click', closeChat);
-function botSay(text, links){ chat.log.push({ from:'ai', text, links: links || [] }); renderChat(); }
+/* text には [happy] [nod] などのタグを入れられる（表情と動き。画面には出ない）。リンクのチップは話し終わってから出す */
+function botSay(text, links){
+  if (!canSpeak) { chat.log.push({ from:'ai', text:String(text).replace(/\[[a-z]+\]/g, ''), links: links || [] }); renderChat(); return Promise.resolve(); }
+  const m = { from:'ai', text:'', links:[], typing:true };
+  let added = false;
+  return tama.speak(text, {
+    onChar: c => { if (!added) { chat.log.push(m); added = true; } m.text += c; renderChat(); },
+    onTag: t => { if (window.MuraNeko.moods.indexOf(t) >= 0 && tamaFab) tamaFab.setMood(t, { duration:4000 }); }
+  }).then(() => {
+    if (!added) chat.log.push(m);
+    m.text = window.MuraNeko.stripTags(text); m.links = links || []; m.typing = false; renderChat();
+  });
+}
 function meSay(text){ chat.log.push({ from:'me', text }); renderChat(); }
 function renderChat(){
   const el = $('#chat-log');
-  el.innerHTML = chat.log.map(m => '<div class="vs-msg ' + m.from + '">' + esc(m.text) + (m.links && m.links.length ? '<nav class="wrap vs-msg-acts">' + m.links.map(linkChip).join('') + '</nav>' : '') + '</div>').join('');
+  el.innerHTML = chat.log.map(m => '<div class="vs-msg ' + m.from + (m.typing ? ' typing' : '') + '">' + esc(m.text) + (m.links && m.links.length ? '<nav class="wrap vs-msg-acts">' + m.links.map(linkChip).join('') + '</nav>' : '') + '</div>').join('');
   el.scrollTop = el.scrollHeight;
 }
-function resetChat(){ chat.log = []; botSay('こんにちは、村のAIです。困っていることを入力するか、下から選んでください。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]); }
+if (canSpeak) {
+  const status = $('#chat-status');
+  tama.addEventListener('speechstart', () => { status.textContent = 'しゃべり中…'; });
+  tama.addEventListener('speechend', () => { status.textContent = 'プロトタイプ・回答は例です'; });
+}
+function resetChat(){
+  if (canSpeak) tama.stop();
+  chat.log = []; renderChat();
+  botSay('[happy]こんにちは、村のネコのタマだよ。[neutral]困っていることを入力するか、下から選んでにゃ。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]);
+}
+/* タマの返事（例）。半目でのんびり、ぼそっと短く。ときどき語尾に「にゃ」 */
 const ANSWERS = [
-  { k:['接続','つなが','入れない','見つからない','落ち'], a:'毎日5:00の再起動中は、数分間つながりません。それ以外なら困った時一覧を見てください。', l:[['trouble','困った時一覧']] },
-  { k:['失','ロスト','消え','死ん','なくし','復元'], a:'まずスクライブで記録を確かめてください。復元の依頼は、管理者依頼（Elder）で受け付けています（BRONZE以上・有償）。', l:[['scribe','スクライブ'],['request','管理者依頼']] },
-  { k:['依頼','管理者','名前','スタック','出られ','はまっ'], a:'管理者への依頼は、Village PortalのElderで受け付けています。管理者へのDMは禁止です。', l:[['request','管理者依頼']] },
-  { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'特典は比較表にまとめています。ARKと連携するだけでも無料の特典があります。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
-  { k:['コマンド','pod','/'], a:'コマンド一覧から探せます。コピーボタンでそのまま貼り付けられます。', l:[['commands','コマンド一覧']] },
-  { k:['撤去','期限','休','放置'], a:'1つのマップに入れば、全マップの期限がのびます。連携済なら30日、ランクで最大60日です。', l:[['ranks','ランクごとの日数']] },
-  { k:['連携','コード','link'], a:'参加手順の「ARKと連携」でコードを発行し、ARKのチャットで /link コード と入力してください。', l:[['join-asa','ARK:SAの参加手順']] },
-  { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'ルールは1つずつ確認できるようにまとめています。', l:[['rules','ルール']] },
-  { k:['参加','はじめ','初めて','始め'], a:'参加手順を上から進めれば遊べます。', l:[['join','参加手順']] }
+  { k:['こんにち','こんばん','おはよ','はじめまして','hello'], a:'[happy][nod]こんにちは。今日も焚き火はあったかいにゃ。' },
+  { k:['ありがと'], a:'[happy][bow]どういたしまして。また焚き火に寄ってってね。' },
+  { k:['かわい','好き','すき'], a:'[shy]…べつに、うれしくないし。[love]……ちょっとだけ、うれしいにゃ。' },
+  { k:['接続','つなが','入れない','見つからない','落ち'], a:'[thinking]うーん…[nod]毎日5:00の再起動中は、数分つながらないにゃ。それ以外なら「困った時一覧」を見てみて。', l:[['trouble','困った時一覧'],['maps','マップステータス']] },
+  { k:['失','ロスト','消え','死ん','なくし','復元'], a:'[sad]それはつらいにゃ…。[nod]まずスクライブで記録を確かめて。復元は管理者依頼（Elder）で受け付けてるよ（BRONZE以上・有償）。', l:[['scribe','スクライブ'],['request','管理者依頼']] },
+  { k:['依頼','管理者','名前','スタック','出られ','はまっ'], a:'[nod]管理者への依頼は、Village PortalのElderで受け付けてるにゃ。[shake]管理者へのDMは禁止だよ。', l:[['request','管理者依頼']] },
+  { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'[excited]特典は比較表にまとめてあるにゃ。[smug]ARKと連携するだけでも、無料の特典があるんだよ。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
+  { k:['コマンド','pod','/'], a:'[nod]コマンド一覧から探せるにゃ。コピーボタンで、そのまま貼り付けられるよ。', l:[['commands','コマンド一覧']] },
+  { k:['撤去','期限','休','放置'], a:'[thinking]1つのマップに入れば、全マップの期限がのびるにゃ。[nod]連携済なら30日、ランクで最大60日だよ。', l:[['ranks','ランクごとの日数']] },
+  { k:['連携','コード','link'], a:'[nod]参加手順の「ARKと連携」でコードを発行して、ARKのチャットで /link コード と入力してにゃ。', l:[['join-asa','ARK:SAの参加手順']] },
+  { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'[nod]ルールは、絵つきでひとつずつまとめてあるにゃ。', l:[['rules','ルール']] },
+  { k:['参加','はじめ','初めて','始め'], a:'[happy]ようこそ！[nod]参加手順を上から進めれば遊べるにゃ。', l:[['join','参加手順']] }
 ];
 function answer(text){
   const t = text.toLowerCase(), hit = ANSWERS.find(x => x.k.some(k => t.indexOf(k) >= 0));
   if (hit) botSay(hit.a, hit.l);
-  else botSay('うまく答えられませんでした。困った時一覧を見るか、管理者依頼（Elder）を使ってください。', [['trouble','困った時一覧'],['request','管理者依頼']]);
+  else botSay('[tilt]うまく答えられなかったにゃ。[neutral]「困った時一覧」か、管理者依頼（Elder）を使ってみて。', [['trouble','困った時一覧'],['request','管理者依頼']]);
 }
 function startRank(arg){
-  if (!state.signedIn) { chat.resume = () => startRank(arg); botSay('ランクの申し込みには、Discordでのログインが必要です。', [['@login','Discordでログイン']]); return; }
+  if (!state.signedIn) { chat.resume = () => startRank(arg); botSay('[nod]ランクの申し込みには、Discordでのログインが必要にゃ。', [['@login','Discordでログイン']]); return; }
   const a = String(arg).split(':'), bill = a[1] === 'year' ? 'year' : 'month';
   const col = RANK_COLS.find(c => c[0] === a[0] && c[2] === 'buy') || RANK_COLS[3], p = rankPrice(col[0], bill), label = col[0] + (bill === 'year' ? '・年払い' : '・月払い');
-  botSay(label + '（' + fmt(p.n) + p.unit + '）を申し込みます。残高：' + fmt(state.balance) + ' Moneta', [['@rank-ok:' + label, '申し込む'], ['@cancel','やめる']]);
+  botSay('[excited]' + label + '（' + fmt(p.n) + p.unit + '）を申し込むにゃ。[neutral]残高は ' + fmt(state.balance) + ' Moneta だよ。', [['@rank-ok:' + label, '申し込む'], ['@cancel','やめる']]);
 }
-function onUserText(text){ const t = text.trim(); if (!t) return; meSay(t); answer(t); }
+function onUserText(text){ const t = text.trim(); if (!t) return; meSay(t); setTimeout(() => answer(t), 400); }
 function botAction(a){
   const i = a.indexOf(':'), cmd = i < 0 ? a : a.slice(0, i), arg = i < 0 ? '' : a.slice(i + 1);
-  if (cmd === 'cancel') botSay('やめました。ほかに困っていることはありますか？');
+  if (cmd === 'cancel') botSay('[neutral]やめたにゃ。ほかに困っていることはある？');
   else if (cmd === 'rank') startRank(arg);
-  else if (cmd === 'rank-ok') { botSay(arg + 'の申し込みを受け付けました（プロトタイプのため支払いは発生しません）。', [['mypage','マイページ']]); snack(arg + 'を申し込みました（プロトタイプ）'); }
+  else if (cmd === 'rank-ok') { botSay('[happy][bow]' + arg + 'の申し込みを受け付けたにゃ（プロトタイプなので、支払いは発生しないよ）。', [['mypage','マイページ']]); snack(arg + 'を申し込みました（プロトタイプ）'); }
   else if (cmd === 'login') openLogin(() => { const f = chat.resume; chat.resume = null; if (f) f(); });
   else if (cmd === 'ask') onUserText(arg);
 }
