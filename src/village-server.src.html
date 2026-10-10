@@ -1,7 +1,7 @@
 <title>Village Server</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Outfit:wght@600&family=Roboto+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&family=Outfit:wght@600&family=Zen+Maru+Gothic:wght@700&family=Roboto+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block">
 <!-- Beer CSS 5.0.3 (MIT, https://www.beercss.com). アーティファクトは外部スタイルシートを読み込めないため、beer.min.css をここに埋め込んでいます。 -->
 <style id="beer-css">/*__BEERCSS__*/</style>
@@ -9,7 +9,7 @@
 /* Layout: 12列グリッド1本・全ページ左揃え。左右余白は --vs-gutter（16/24/32px）でヘッダーと本文を同じ左端に揃える。
    見た目のルール：押せるもの＝浮いた面＋矢印（またはシェブロン）＋ホバー。押せない情報＝影のない薄い面。区切り線は使わず、面と余白で分ける。
    色：ロゴ（広場を囲む5軒の家）の色。屋根＝村人の5色、壁＝クリーム、地＝夜空の藍。黄色の面には必ず濃い文字。選択・ナビは夜空の藍。
-   書体は Noto Sans JP 1ファミリー（M3 の文字階層）。ロゴの文字だけ Outfit。 */
+   書体は Noto Sans JP 1ファミリー（M3 の文字階層）。ロゴの文字は Outfit、TOPのキャッチコピーは Zen Maru Gothic。 */
 :root{
   --vs-night:#171B2E; --vs-flame:#F4F0E4; --vs-flame-2:#D6CFBF; --vs-ember:#F2B516;  /* night＝ロゴの地、flame＝壁のクリーム、ember＝黄色の屋根 */
   --vs-red:#EE4360; --vs-yellow:#F2B516; --vs-green:#3DC48F; --vs-blue:#0B9ED9; --vs-purple:#A259F0;
@@ -268,7 +268,8 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-hero-body{position:relative; z-index:1; padding:clamp(1.5rem,1rem + 3vw,3.5rem); max-inline-size:40rem}
 .vs-eyebrow{display:flex; align-items:center; gap:.5rem; font-size:.8125rem; font-weight:700; letter-spacing:.08em; color:var(--vs-flame-2)}
 .vs-eyebrow svg{inline-size:1.5rem; block-size:1.5rem}
-.vs-hero h1{color:var(--vs-flame); font-size:clamp(2rem,1.45rem + 2.4vw,3rem); word-break:auto-phrase}
+/* キャッチコピー：ロゴ案の見出しと同じ丸ゴシック（Zen Maru Gothic）。太すぎない700、字間を少しあけ、かなを詰めて（palt）やわらかく */
+.vs-hero h1{color:var(--vs-flame); font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN",var(--font); font-weight:700; font-size:clamp(2rem,1.45rem + 2.4vw,3rem); line-height:1.38; letter-spacing:.06em; font-feature-settings:"palt"; word-break:auto-phrase}
 .vs-hero-sub{color:var(--vs-flame-2); font-size:1rem; line-height:1.8; word-break:auto-phrase}
 /* 見出しと説明は、文節の切れ目でだけ折り返す（PCでは「…遊び場が／ここにある。」「…遊び場が、／いつしか…」） */
 .vs-phrase{display:inline-block}
