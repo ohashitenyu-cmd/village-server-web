@@ -319,6 +319,14 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-join-intro .vs-label{display:flex; align-items:center; gap:.375rem; color:var(--vs-green-ink)}
 .vs-join-intro .vs-label>.vs-wakaba{inline-size:1rem; block-size:1rem; flex:none}
 @media (max-width:600px){ .vs-join-thumb{inline-size:3.5rem; block-size:3.5rem; border-radius:.75rem} }
+/* サーバー紹介の写真：横にスクロールするカルーセル。1枚ずつ止まり、次の写真の端が見えて「まだある」と分かる。
+   写真は INTRO_PHOTOS に1行足すだけで増える。左右のボタンは、端まで来たら押せなくなり、全部が見えているときは隠れる */
+.vs-carousel{list-style:none; margin:0; padding:0; display:grid; grid-auto-flow:column; grid-auto-columns:min(72%,34rem); gap:.75rem; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; overscroll-behavior-x:contain; scrollbar-width:none}
+.vs-carousel::-webkit-scrollbar{display:none}
+.vs-carousel>li{scroll-snap-align:start; min-inline-size:0}
+.vs-carousel:focus-visible{outline:2px solid var(--primary); outline-offset:4px}
+@media (max-width:600px){ .vs-carousel{grid-auto-columns:86%} }
+@media (prefers-reduced-motion:reduce){ .vs-carousel{scroll-behavior:auto} }
 /* サーバー紹介の最後：読み終えたら、そのまま参加の準備へ */
 .vs-intro-next{display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 1.5rem}
 .vs-intro-next>*{margin:0 !important}
@@ -841,7 +849,6 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="s12 l5">
         <h2 class="vs-title-l">有志でつくる、長く遊べるサーバー</h2>
         <p class="vs-body">ARK:SAとパルワールドの非公式サーバーを運営する、Discordのコミュニティです。</p>
-        <a class="button primary-container vs-mt" href="#join"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg><span>参加手順へ</span><i>arrow_forward</i></a>
       </div>
     </div>
     <section class="vs-section" aria-labelledby="pts-title">
@@ -853,10 +860,14 @@ body:not(.vs-ready) .page.active{animation:none}
         <div class="s12 m6 l3 vs-block vs-info"><i class="ink-purple">extension</i><h3 class="vs-title-m">バランスを崩さない便利機能</h3><p class="vs-support">ポイントショップ、生物の一括収納など</p></div>
       </div>
     </section>
-    <div class="grid vs-section">
-      <figure class="s12 m6 vs-photo"><img src="img/village-jungle.jpg" alt="ジャングルの岩場で、プレイヤーと生物が並んで記念撮影している様子" loading="lazy"><figcaption>ジャングルで記念撮影</figcaption></figure>
-      <figure class="s12 m6 vs-photo"><img src="img/village-desert.jpg" alt="砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子" loading="lazy"><figcaption>砂漠の遺跡で狩りの真っ最中</figcaption></figure>
-    </div>
+    <section class="vs-section" aria-labelledby="photos-title">
+      <div class="vs-sechead">
+        <h2 class="vs-title-l" id="photos-title">村のようす</h2>
+        <button class="circle transparent" type="button" data-car="-1" aria-controls="intro-photos" aria-label="前の写真"><i>chevron_left</i></button>
+        <button class="circle transparent" type="button" data-car="1" aria-controls="intro-photos" aria-label="次の写真"><i>chevron_right</i></button>
+      </div>
+      <ul class="vs-carousel vs-mt-s" id="intro-photos" tabindex="0" aria-roledescription="カルーセル" aria-label="村のようすの写真（左右にスクロールできます）"></ul>
+    </section>
     <div class="vs-section vs-intro-next">
       <p class="vs-title-m">雰囲気がつかめたら、参加の準備へ</p>
       <a class="button primary-container" href="#join"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg><span>参加手順へ進む</span><i>arrow_forward</i></a>
@@ -3221,6 +3232,30 @@ function botAction(a){
 $('#chat-form').addEventListener('submit', e => { e.preventDefault(); const inp = $('#chat-input'), v = inp.value; inp.value = ''; onUserText(v); });
 $('#chat-reset').addEventListener('click', resetChat);
 
+/* ---------- サーバー紹介の写真（カルーセル）。写真が増えたら img/ に置いて、ここに1行足すだけ：[ファイル, 写真の説明（読み上げ用）, 見出し] ---------- */
+const INTRO_PHOTOS = [
+  ['img/village-jungle.jpg', 'ジャングルの岩場で、プレイヤーと生物が並んで記念撮影している様子', 'ジャングルで記念撮影'],
+  ['img/village-desert.jpg', '砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子', '砂漠の遺跡で狩りの真っ最中']
+];
+function renderPhotos(){
+  $('#intro-photos').innerHTML = INTRO_PHOTOS.map((p, i) => '<li aria-roledescription="スライド" aria-label="' + (i + 1) + ' / ' + INTRO_PHOTOS.length + '"><figure class="vs-photo"><img src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"><figcaption>' + esc(p[2]) + '</figcaption></figure></li>').join('');
+  syncCarousel();
+}
+/* 左右のボタン：端では押せなくし、全部が1画面に収まっているときは隠す */
+function syncCarousel(){
+  const el = $('#intro-photos'), max = el.scrollWidth - el.clientWidth;
+  $$('[data-car]').forEach(b => { b.hidden = max <= 2; b.disabled = +b.dataset.car < 0 ? el.scrollLeft <= 2 : el.scrollLeft >= max - 2; });
+}
+$('#intro-photos').addEventListener('scroll', syncCarousel, { passive:true });
+$('#intro-photos').addEventListener('scrollend', syncCarousel);
+addEventListener('resize', syncCarousel);
+$$('[data-car]').forEach(b => b.addEventListener('click', () => {
+  const el = $('#intro-photos'), li = el.firstElementChild;
+  const step = li ? li.getBoundingClientRect().width + (parseFloat(getComputedStyle(el).columnGap) || 0) : el.clientWidth;
+  el.scrollBy({ left: step * +b.dataset.car, behavior: window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  setTimeout(syncCarousel, 600);  // 送り終わったころに、ボタンの状態を合わせ直す（scrollend のないブラウザ向け）
+}));
+
 /* ---------- 画面の切り替え ---------- */
 function routeFromHash(){ const h = (location.hash || '').replace(/^#/, ''); return ROUTES[h] ? h : 'home'; }
 function renderCrumbs(route){
@@ -3240,7 +3275,7 @@ function show(route, focus){
   $$('#main > .page').forEach(p => p.classList.toggle('active', p.id === 'p-' + r.page));
   renderCrumbs(route);
   /* サーバー紹介は、ゲームを選ぶ画面（はじめての人の入口）から来たときは「←」でそこへ戻す */
-  if (r.page === 'intro') { const b = $('#p-intro .vs-back'), j = from === 'join'; b.setAttribute('href', j ? '#join' : '#about'); b.setAttribute('aria-label', j ? '参加手順に戻る' : 'サーバーについてに戻る'); }
+  if (r.page === 'intro') { const b = $('#p-intro .vs-back'), j = from === 'join'; b.setAttribute('href', j ? '#join' : '#about'); b.setAttribute('aria-label', j ? '参加手順に戻る' : 'サーバーについてに戻る'); syncCarousel(); }
   $$('[data-nav]').forEach(a => {
     const on = a.dataset.nav === r.nav;
     if (!a.classList.contains('button')) a.classList.toggle('active', on);
@@ -3327,7 +3362,7 @@ $$('svg[data-mark]').forEach(el => { el.innerHTML = el.dataset.mark === 'tile' ?
   fb.addEventListener('focus', () => { if (fb.matches(':focus-visible')) playLogo(fb); });
   if (window.IntersectionObserver) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) playLogo(fb); }), { threshold:1 }).observe($('.vs-appicon', fb));
 }
-renderAuth(); renderTiles(); renderNews(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
+renderAuth(); renderTiles(); renderNews(); renderPhotos(); renderMaps(); renderJoin(); renderApi(); renderCommands(); renderFaq(); renderReqKinds(); renderRanks(); renderMypage();
 setGame(state.game, true);
 show(routeFromHash(), false);
 if ((location.hash || '') === '#bot') openChat();
