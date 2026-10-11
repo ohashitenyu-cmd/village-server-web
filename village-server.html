@@ -311,9 +311,8 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 
 /* ---- 参加手順 ---- */
 .vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
-#join-choices{max-inline-size:52rem}
-/* ゲームを選ぶ前の「どんなサーバー？」：写真の小窓つきの押せる1行（ゲームのカードと同じ幅） */
-.vs-join-intro{max-inline-size:52rem; padding-block:.75rem !important}
+/* ゲームを選ぶ前の「どんなサーバー？」：写真の小窓つきの押せる1行（ゲームのカードと同じ幅。画面は手順と同じく中央の8列） */
+.vs-join-intro{padding-block:.75rem !important}
 .vs-join-thumb{flex:none; inline-size:4.5rem; block-size:4.5rem; border-radius:1rem; overflow:hidden; background:var(--surface-container-high)}
 .vs-join-thumb>img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover}
 .vs-join-intro .max{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0; word-break:auto-phrase; overflow-wrap:break-word}
@@ -787,7 +786,7 @@ body:not(.vs-ready) .page.active{animation:none}
   </div>
 
   <!-- ===================== 参加手順：ゲームを選ぶ ===================== -->
-  <div class="page" id="p-join">
+  <div class="page vs-narrow" id="p-join">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#home" aria-label="TOPに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">参加手順</h1></nav>
     <!-- はじめての人がまず読みたい「サーバー紹介」への入口。いちばん上に置き、ゲームを選ぶまとまりとは間をあける -->
     <a class="vs-row wave vs-join-intro vs-mt" href="#intro">
