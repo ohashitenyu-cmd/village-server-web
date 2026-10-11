@@ -325,6 +325,11 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 .vs-carousel::-webkit-scrollbar{display:none}
 .vs-carousel>li{scroll-snap-align:start; min-inline-size:0}
 .vs-carousel:focus-visible{outline:2px solid var(--primary); outline-offset:4px}
+/* マウスでつかんでめくれることを、手のカーソルで示す。ドラッグ中は吸いつき・なめらかスクロール・文字の選択を切る */
+@media (hover:hover) and (pointer:fine){ .vs-carousel{cursor:grab} }
+.vs-carousel.is-dragging{cursor:grabbing; scroll-snap-type:none; scroll-behavior:auto; user-select:none}
+.vs-carousel.is-settling{scroll-snap-type:none}
+.vs-carousel img{-webkit-user-drag:none; user-select:none}
 @media (max-width:600px){ .vs-carousel{grid-auto-columns:86%} }
 @media (prefers-reduced-motion:reduce){ .vs-carousel{scroll-behavior:auto} }
 /* サーバー紹介の最後：読み終えたら、そのまま参加の準備へ */
@@ -2373,6 +2378,40 @@ car.sec.addEventListener('focusout', e => { if (!car.sec.contains(e.relatedTarge
 ['pointerdown', 'wheel', 'keydown'].forEach(t => car.el.addEventListener(t, carTimer, { passive:true }));
 if (window.IntersectionObserver) new IntersectionObserver(es => es.forEach(e => { car.seen = e.isIntersecting; })).observe(car.el);
 carTimer();
+/* PCのマウス：写真をつかんで左右にドラッグするとめくれる（スマホの指・トラックパッドの横スワイプは、もとの横スクロールでめくれる）。
+   離すと近い写真の位置に止まり、はじくように動かしたときはその向きに1枚進む。ドラッグのあとのクリックは無視する */
+{
+  const el = car.el; let d = null, droppedAt = 0;
+  const settle = () => el.classList.remove('is-settling');
+  el.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'mouse' || e.button !== 0 || carMax() <= 2) return;
+    d = { id: e.pointerId, x: e.clientX, left: el.scrollLeft, t: performance.now(), on: false };
+  });
+  el.addEventListener('pointermove', e => {
+    if (!d || e.pointerId !== d.id) return;
+    const dx = e.clientX - d.x;
+    if (!d.on) { if (Math.abs(dx) < 5) return; d.on = true; el.setPointerCapture(d.id); el.classList.add('is-dragging'); }
+    el.scrollLeft = d.left - dx;
+  });
+  const drop = e => {
+    if (!d || e.pointerId !== d.id) return;
+    const g = d; d = null;
+    if (!g.on) return;
+    droppedAt = Date.now();
+    const li = el.firstElementChild, step = li.getBoundingClientRect().width + (parseFloat(getComputedStyle(el).columnGap) || 0), at = el.scrollLeft / step;
+    const dx = e.clientX - g.x, flick = Math.abs(dx) / Math.max(1, performance.now() - g.t) > .4;  // 速く動かした＝はじいた
+    const i = flick ? (dx < 0 ? Math.ceil(at) : Math.floor(at)) : Math.round(at);
+    el.classList.replace('is-dragging', 'is-settling');  // 止まる位置まで動く間は、吸いつき（スナップ）を切っておく
+    el.scrollTo({ left: Math.max(0, Math.min(i * step, carMax())), behavior: carReduce() ? 'auto' : 'smooth' });
+    setTimeout(settle, 700);
+    carTimer();
+  };
+  el.addEventListener('pointerup', drop);
+  el.addEventListener('pointercancel', drop);
+  el.addEventListener('scrollend', settle);
+  el.addEventListener('dragstart', e => e.preventDefault());  // 写真そのものを持ち上げない
+  el.addEventListener('click', e => { if (Date.now() - droppedAt < 250) { e.preventDefault(); e.stopPropagation(); } }, true);
+}
 
 /* ---------- 画面の切り替え ---------- */
 function routeFromHash(){ const h = (location.hash || '').replace(/^#/, ''); return ROUTES[h] ? h : 'home'; }
