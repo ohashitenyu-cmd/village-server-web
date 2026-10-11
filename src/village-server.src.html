@@ -503,7 +503,7 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-chiprow{gap:.5rem}
 .vs-table-wrap{overflow-x:auto}
 /* ランク比較：数値は伸びる棒、使える特典はマスごとのチェック。行は1行おきの面で横に追いやすく（線は使わない） */
-.vs-ranks{--vs-mine-col:color-mix(in srgb,var(--primary) 5%,transparent); min-inline-size:44rem; font-size:.875rem; table-layout:fixed; border-collapse:separate; border-spacing:0}
+.vs-ranks{--vs-mine-col:color-mix(in srgb,var(--primary) 5%,transparent); min-inline-size:48rem; font-size:.875rem; table-layout:fixed; border-collapse:separate; border-spacing:0}
 .vs-ranks thead th:first-child{inline-size:11rem}
 .vs-ranks th,.vs-ranks td{padding:.625rem .5rem; text-align:center; vertical-align:middle; border:0}
 .vs-ranks thead th{vertical-align:bottom; padding-block-end:.75rem}
@@ -526,6 +526,8 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-cmp-num>b{display:block; font-weight:800; font-variant-numeric:tabular-nums}
 .vs-cmp-bar{display:block; inline-size:1.75rem; block-size:max(.25rem,calc(var(--h) * 2.5rem)); margin:.25rem auto 0; border-radius:.5rem .5rem .25rem .25rem; background-color:var(--vs-green)}
 .vs-ranks tfoot td{padding-block-start:1rem}
+/* 表の下の「連携する」「申し込む」：文字は1行のまま。列がいちばん狭くなっても入るよう、表の最小幅（48rem）で列の幅を取っている */
+.vs-ranks tfoot :is(button,.button){white-space:nowrap; margin:0}
 /* いまのランクの列：うすい面で縦に通して示す（線は使わない）。上と下の端だけ角丸 */
 .vs-ranks .is-mine{background-image:linear-gradient(var(--vs-mine-col),var(--vs-mine-col))}
 .vs-ranks thead th.is-mine{border-start-start-radius:.75rem; border-start-end-radius:.75rem}
@@ -561,6 +563,8 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-plan-perks li.all{font-weight:700}
 .vs-plan-foot{margin-block-start:auto !important; padding-block-start:.5rem}
 .vs-plan-foot>button{box-sizing:border-box; inline-size:100%; margin:0}
+/* カードのボタン：幅が足りずに折り返しても、ボタンの外へはみ出さないよう高さが文字に合わせて伸びる（折り返すのは文節の切れ目） */
+.vs-plan-foot>:is(button,.button){block-size:auto; min-block-size:2.5rem; padding-block:.5rem; line-height:1.4; word-break:auto-phrase; text-align:center}
 /* マイページの「いまのランク」：料金カードと同じ帯（素材の色・紋章）。広い画面では帯を左、契約の中身を右に */
 .vs-myrank-facts{list-style:none; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem}
 .vs-myrank-facts li{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0}
@@ -1991,7 +1995,7 @@ function renderPlans(mine, bill){
     const p = rankPrice(c[0], bill), isMine = c[0] === mine;
     const badge = isMine ? '<span class="vs-plan-badge mine"><i>check</i>いまのランク</span>' : (c[0] === RANK_PICK && !mine ? '<span class="vs-plan-badge">おすすめ</span>' : '');
     const save = '<small>' + esc(p.alt) + ' <b>' + off + 'か月分おトク</b></small>';
-    const cta = isMine ? '<p class="vs-ok"><i>check_circle</i>利用中のランクです</p>' : '<button type="button" data-bot="rank:' + c[0] + ':' + bill + '"><span>' + c[0] + 'を申し込む</span><i>arrow_forward</i></button>';
+    const cta = isMine ? '<p class="vs-ok"><i>check_circle</i>利用中のランクです</p>' : '<button type="button" data-bot="rank:' + c[0] + ':' + bill + '" aria-label="' + c[0] + 'を申し込む"><span>申し込む</span><i>arrow_forward</i></button>';  /* ランク名はカード上の帯にあるので、ボタンは「申し込む」だけ（4列でも1行に収まる） */
     return '<li class="s12 m6 l3 vs-plan' + rankCls(c[0]) + '">' + planBand(i, badge) +
       '<div class="vs-plan-body"><div class="vs-plan-price"><b>' + fmt(p.n) + '</b><span>' + p.unit + '</span>' + save + '</div>' +
       planMeter(i) + '<span class="vs-support">' + esc(RANK_FOR[c[0]]) + '</span><ul class="vs-plan-perks">' + planPerks(i) + '</ul><div class="vs-plan-foot">' + cta + '</div></div></li>';
