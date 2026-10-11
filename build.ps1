@@ -11,12 +11,12 @@ $css = [regex]::Replace($css, '@font-face\{[^}]*\}', '')
 $wavy = [IO.File]::ReadAllBytes("$root\vendor\wavy.svg")
 $css = $css.Replace('url(wavy.svg)', 'url("data:image/svg+xml;base64,' + [Convert]::ToBase64String($wavy) + '")')
 
-# Mugi, the chat avatar (mura-neko.js, a dependency-free Web Component). Inlined so the page stays one file;
+# Yuki, the chat avatar (yuki-fukurou.js, a dependency-free Web Component). Inlined so the page stays one file;
 # "</script" inside the file is escaped so it cannot close the inline script tag.
-$neko = [IO.File]::ReadAllText("$root\vendor\mura-neko.js", $utf8).Replace('</script', '<\/script')
+$yuki = [IO.File]::ReadAllText("$root\vendor\yuki-fukurou.js", $utf8).Replace('</script', '<\/script')
 
 $tpl = [IO.File]::ReadAllText("$root\src\village-server.src.html", $utf8)
-$page = $tpl.Replace('/*__BEERCSS__*/', $css).Replace('/*__MURANEKO__*/', $neko)
+$page = $tpl.Replace('/*__BEERCSS__*/', $css).Replace('/*__YUKI__*/', $yuki)
 [IO.File]::WriteAllText("$root\village-server.html", $page, $utf8)
 "village-server.html: " + (Get-Item "$root\village-server.html").Length + " bytes"
 
