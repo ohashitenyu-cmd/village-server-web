@@ -400,6 +400,67 @@ dialog.vs-ruledlg{padding:0; inline-size:min(34rem,calc(100vw - 2rem)); max-inli
 .vs-faq-ul{padding-inline-start:1.25rem; display:flex; flex-direction:column; gap:.25rem; font-size:.875rem; line-height:1.7; color:var(--on-surface-variant)}
 .vs-faq-game{font-size:.6875rem; font-weight:700; line-height:1.6; padding:0 .5rem; border-radius:.375rem; background-color:var(--surface-container-high); color:var(--on-surface-variant)}
 details[open]>summary .vs-chev{transform:rotate(180deg)}
+.vs-rcap{flex-basis:100%; font-size:.8125rem; line-height:1.5; color:var(--on-surface-variant)}
+/* 折りたたみの一言と中身は、文節の切れ目で折り返す */
+.vs-rcap,.vs-api-body{word-break:auto-phrase; overflow-wrap:break-word}
+
+/* ---- 導入API解説 ---- */
+/* コマンドの打ち方：例のコマンドを3つに分け、それぞれが何かを色の下線と札で示す */
+.vs-anat{display:flex; flex-wrap:wrap; align-items:flex-start; gap:.25rem .375rem; margin-block:1rem}
+.vs-anat>span:not(.sp){display:flex; flex-direction:column; align-items:center; gap:.375rem}
+.vs-anat code{font-family:var(--vs-mono); font-size:1.25rem; font-weight:500; line-height:1.4; padding:.25rem .625rem; border-radius:.5rem; background:var(--surface-container-highest); color:var(--on-surface); box-shadow:inset 0 -.1875rem 0 var(--vs-seg)}
+.vs-anat small{font-size:.75rem; font-weight:700; color:var(--vs-seg)}
+.vs-anat .sp,.vs-api-sp{font-family:var(--vs-mono); color:var(--on-surface-variant)}
+.vs-anat .sp{padding-block-start:.375rem; font-size:1.125rem}
+.vs-api-sp{margin-inline:.125rem}
+.vs-api-steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.375rem; counter-reset:vs-st; font-size:.875rem; line-height:1.6}
+.vs-api-steps>li{display:flex; align-items:center; gap:.375rem; counter-increment:vs-st}
+.vs-api-steps>li::before{content:counter(vs-st); flex:none; inline-size:1.375rem; block-size:1.375rem; border-radius:50%; display:grid; place-items:center; font-size:.75rem; font-weight:800; background:var(--vs-blue); color:var(--vs-night)}
+/* キーボードのキー：小さなキーキャップ */
+.vs-key{display:inline-block; font-family:var(--vs-mono); font-size:.75rem; font-weight:700; line-height:1.5; padding:0 .4375rem; border-radius:.375rem; background:var(--surface); color:var(--on-surface); box-shadow:inset 0 0 0 1px var(--outline-variant),inset 0 -.125rem 0 var(--outline-variant)}
+.vs-api-legend{display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; font-size:.8125rem; line-height:1.6; color:var(--on-surface-variant)}
+.vs-api-legend>span{display:inline-flex; align-items:center; gap:.5rem}
+/* 範囲の札・ランクの札（ランクは比較表と同じ素材の色） */
+.vs-api-scope{flex:none; display:inline-block; font-size:.6875rem; font-weight:700; line-height:1.6; padding:0 .4375rem; border-radius:.375rem; background:color-mix(in srgb,var(--vs-blue) 22%,transparent); color:var(--vs-blue-ink)}
+.vs-rk-tag{flex:none; display:inline-block; padding:0 .4375rem; border-radius:.375rem; font-size:.6875rem; font-weight:800; line-height:1.6; letter-spacing:.04em; color:var(--rk-ink); background:linear-gradient(112deg,transparent 30%,rgb(255 255 255 / .55) 45%,transparent 60%),linear-gradient(135deg,var(--rk-hi),var(--rk-c) 46%,var(--rk-lo))}
+/* 開いた中身：こんなときに（吹き出し）→ 図 → できること（やりたいこと → コマンド） */
+.vs-api-body>*{margin:0 !important} .vs-api-body>*+*{margin-block-start:1rem !important}
+.vs-api-h{display:flex; align-items:center; gap:.375rem; margin:0 0 .5rem !important; font-size:.75rem; font-weight:700; line-height:1.5; color:var(--on-surface-variant)}
+.vs-api-h>i{--_size:1rem}
+.vs-api-scenes{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.5rem}
+.vs-api-scenes>li{font-size:.8125rem; line-height:1.5; padding:.375rem .75rem; border-radius:1rem 1rem 1rem .25rem; background:var(--surface-container-high)}
+.vs-api-bars{display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:.5rem .75rem; padding:1rem 1.25rem; border-radius:1rem; background:var(--surface-container)}
+.vs-api-bars>p{grid-column:1/-1; margin:0; font-size:.75rem; font-weight:700; color:var(--on-surface-variant)}
+.vs-api-bars>span:not(.vs-api-bar){font-size:.8125rem; white-space:nowrap}
+.vs-api-bar{display:block; block-size:.5rem; border-radius:.25rem; background:var(--surface-container-highest); overflow:hidden}
+.vs-api-bar>span{display:block; block-size:100%; border-radius:inherit; background:var(--vs-c)}
+.vs-api-bars>b{font-size:.9375rem; font-weight:800; text-align:end; font-variant-numeric:tabular-nums}
+.vs-api-bars>b>small{font-size:.75rem; font-weight:500; margin-inline-start:.125rem}
+.vs-api-flow{display:flex; flex-wrap:wrap; align-items:flex-start; gap:.75rem; padding:1rem 1.25rem; border-radius:1rem; background:var(--surface-container)}
+.vs-api-step>i{--_size:1.25rem; flex:none; margin-block-start:.125rem; color:var(--on-surface-variant)}
+.vs-api-step{display:flex; align-items:flex-start; gap:.75rem; max-inline-size:100%}
+.vs-api-step>span{display:flex; flex-direction:column; align-items:flex-start; gap:.25rem; min-inline-size:0}
+.vs-api-step b{font-size:.9375rem; font-weight:800}
+.vs-api-step small{font-size:.75rem; color:var(--on-surface-variant)}
+.vs-api-step code,.vs-api-c>code{font-family:var(--vs-mono); font-size:.875rem; font-weight:500; line-height:1.6; padding:0 .5rem; border-radius:.375rem; background:var(--surface-container-highest); color:var(--vs-purple-ink); overflow-wrap:anywhere}
+.vs-api-grp{padding:.25rem 1.25rem; border-radius:1rem; background:var(--surface-container)}
+.vs-api-grp+.vs-api-grp{margin-block-start:.5rem}
+.vs-api-gh{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:0; padding-block:.75rem .125rem; font-size:.75rem; font-weight:700; color:var(--on-surface-variant)}
+.vs-api-acts{list-style:none; margin:0; padding:0}
+.vs-api-acts>li{display:grid; grid-template-columns:minmax(0,11rem) minmax(0,1fr); gap:.375rem 1rem; align-items:baseline; padding-block:.625rem}
+.vs-api-do{display:flex; flex-wrap:wrap; align-items:center; gap:.25rem .5rem; font-size:.875rem; font-weight:700; line-height:1.6}
+.vs-api-cmds{display:flex; flex-direction:column; gap:.375rem; min-inline-size:0}
+.vs-api-c{display:flex; flex-wrap:wrap; align-items:center; gap:.25rem .5rem}
+.vs-api-c>small{font-size:.75rem; line-height:1.5; color:var(--on-surface-variant)}
+.vs-api-c>.vs-cost{font-size:.75rem}
+.vs-api-plain{font-size:.8125rem; line-height:1.6; color:var(--on-surface-variant)}
+.vs-note.vs-warn>i{color:var(--vs-red-ink)}
+.vs-ch{font-family:inherit; font-size:.8125rem; font-weight:700; white-space:nowrap; padding:0 .375rem; border-radius:.375rem; background:var(--surface-container-high); color:var(--vs-blue-ink)}  /* Discordのチャンネル名 */
+@media (max-width:600px){
+  .vs-api-grp{padding-inline:1rem}
+  .vs-api-acts>li{grid-template-columns:minmax(0,1fr); gap:.25rem}
+  .vs-api-bars,.vs-api-flow{padding-inline:1rem}
+}
 .vs-ex{display:flex; gap:.5rem; align-items:flex-start; font-size:.875rem; line-height:1.6}
 .vs-ex>i{--_size:1.25rem}
 .vs-ex.ng>i{color:var(--vs-red-ink)} .vs-ex.ok>i{color:var(--vs-green-ink)}
@@ -779,9 +840,36 @@ body:not(.vs-ready) .page.active{animation:none}
     <div class="grid vs-section" id="cmd-groups"></div>
   </div>
 
-  <div class="page" id="p-api">
+  <div class="page vs-narrow" id="p-api">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#about" aria-label="サーバーについてに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">導入API解説</h1></nav>
-    <div class="grid vs-mt" id="api-grid"></div>
+    <p class="vs-body vs-mt">ARK:SAのサーバーに追加している、便利な機能です。どれもDiscordとARKを連携すると使えます。</p>
+    <nav class="wrap vs-chiprow vs-mt-s"><a class="chip" href="#join-asa"><span>ARKと連携する</span><i>arrow_forward</i></a></nav>
+
+    <section class="vs-block vs-section" aria-labelledby="api-how">
+      <h2 class="vs-title-m" id="api-how">コマンドの打ち方</h2>
+      <div class="vs-anat" role="img" aria-label="例：/buy honey 5。/buy がコマンド、honey が何を、5 がいくつ。あいだは半角スペース">
+        <span style="--vs-seg:var(--vs-purple-ink)"><code>/buy</code><small>コマンド</small></span><span class="sp" aria-hidden="true">␣</span>
+        <span style="--vs-seg:var(--vs-blue-ink)"><code>honey</code><small>何を</small></span><span class="sp" aria-hidden="true">␣</span>
+        <span style="--vs-seg:var(--vs-green-ink)"><code>5</code><small>いくつ</small></span>
+      </div>
+      <ol class="vs-api-steps">
+        <li><kbd class="vs-key">Enter</kbd>でゲーム内チャットを開く</li>
+        <li>半角スペース<span class="vs-api-sp" aria-hidden="true">␣</span>で区切って入力</li>
+        <li><kbd class="vs-key">Enter</kbd>で送信</li>
+      </ol>
+      <p class="vs-support vs-mt-s">[ ] の部分は、自分の値に置きかえます。使えるコマンドは、ゲーム内で <code class="vs-cmd">/commands</code> と送ると一覧が出ます。</p>
+      <div class="vs-api-legend vs-mt">
+        <span><span class="vs-api-scope">範囲</span>自分のまわり、土台10個分</span>
+        <span><b class="vs-cost">100pt</b>ポイントを使う（書いていなければ無料）</span>
+        <span><span class="vs-rk-tag rk-gold">GOLD以上</span>そのランクから使える</span>
+      </div>
+    </section>
+
+    <section class="vs-section" aria-labelledby="api-list-h">
+      <h2 class="vs-title-l" id="api-list-h">機能ごとの使い方</h2>
+      <ul class="vs-rlist vs-mt-s" id="api-list"></ul>
+      <nav class="wrap vs-chiprow vs-mt"><a class="chip" href="#commands"><span>コマンド一覧</span><i>arrow_forward</i></a><a class="chip" href="#ranks"><span>ランクごとの違い</span><i>arrow_forward</i></a></nav>
+    </section>
   </div>
 
   <!-- ===================== ルール ===================== -->
@@ -1289,13 +1377,68 @@ const RATES = [
     ['サーバー全体のテイム数','15,000','','1つのマップ全体で持てる数。超えると新しくテイムできない']] }
 ];
 const SCHEDULE = [['5:00','全サーバーを再起動','数分間つながりません'],['5:30','野生の生物と卵をリセット','テイム中の生物は消えません'],['常時','止まったら自動で起動','5分ごとに確認']];
+/* 導入API：t 名前、p 元のAPI名、d 一言、r 全部に要るランク、s こんなときに、x 棒グラフ（長さで比べる）、f 流れ（順番）、
+   a できること［やりたいこと, [[コマンド, 対象, 消費pt]], 要るランク］（コマンドがnullなら操作の説明だけ。英字や記号だけのキーはキーの形で、対象が「範囲」なら札で出す）、n 補足［アイコン, 文, 注意］、l リンク
+   内容は公式Wiki（便利機能(ARK:SA)・ショップ・撤去システム・仮想金庫）から、必要なところだけを短くしたもの */
 const APIS = [
-  { t:'ショップとポイント', p:'ARKShop', i:'storefront', c:'yellow', d:'ログイン中は5分ごとにポイントが貯まります。PCはF1キー、PS・Xboxはサークルメニューから。' },
-  { t:'撤去の管理', p:'Lethal Decay', i:'schedule', c:'blue', d:'1つのマップに入れば、全マップの期限がのびます。土台10個分に建造物が10個以下だと1日で撤去。' },
-  { t:'生物の管理', p:'', i:'pets', c:'purple', d:'ポッドへの格納、ステータス表示、まとめて出すなどをチャットのコマンドで。' },
-  { t:'繁殖', p:'', i:'egg', c:'green', d:'まとめて交配、子どもをまとめて引き取るなど。ランクによっては孵化・成熟をすぐ完了。' },
-  { t:'チャット', p:'', i:'forum', c:'yellow', d:'全体チャットはマップをこえて全員に届き、Discordのクロスチャットにも表示。' },
-  { t:'仮想金庫', p:'Vaultorama', i:'inventory_2', c:'red', d:'アイテムや生物を仮想の金庫に預けられます（1年間保管）。', note:'使えるマップ：LostColony・検証用サーバー' }
+  { t:'ショップとポイント', p:'ARKShop', i:'storefront', c:'yellow', d:'遊んでいるだけで貯まるポイントで、素材や道具を買える',
+    s:['素材が少しだけ足りない','キブルや有機ポリマーを手早くそろえたい'],
+    x:{ bars:'ログイン中、5分ごとに貯まるポイント', unit:'pt', rows:[['連携済・BRONZE',5],['SILVER・GOLD',10],['DIAMOND',20]] },
+    f:[['/buy organic-polymer 5','と送ると',1],['200pt','40pt × 5セットを使って'],['有機ポリマー 100個','20個 × 5セットが手に入る']],
+    a:[['ショップを開く',[['F1','PC'],['□長押し','PS・Xbox。サークルメニューの「Ark Shop UI」'],['/shop','チャットに一覧を出す']]],
+       ['買う',[['/buy [ID] [セット数]','セット数を省くと1セット']]],
+       ['ポイントを確かめる',[['/points']]],
+       ['仲間にポイントを渡す',[["/trade '[名前]' [pt]","名前は ' で囲む。同じマップにいる人だけ"]]]],
+    n:[['info','IDは、ショップの画面か /shop で確かめられます']] },
+  { t:'撤去の管理', p:'Lethal Decay', i:'schedule', c:'blue', d:'どれか1つのマップに入れば、全マップの建物と生物が残る',
+    s:['しばらくログインできない','ほかのマップで遊んでいる間も、拠点を残したい'],
+    x:{ bars:'最後のログインから、撤去されるまで', unit:'日', rows:[['未連携',7],['連携済・BRONZE',30],['SILVER・GOLD',45],['DIAMOND',60]] },
+    a:[['撤去までの日数を見る',[['/decaytime','自分の建物を画面の中央に入れて']]],
+       ['期限をのばす',[[null,'どれか1つのマップにログインするだけ（建物を見に行かなくてよい）']]]],
+    n:[['warning','土台10個の範囲に建物が10個以下しかないと、2日で撤去されます（餌箱・貯水槽・原油ポンプ・プラットフォーム・TEKの装置などはのぞく）',1],
+       ['forum','撤去が近いトライブは、毎日Discordの #通常撤去情報_asa・#早期撤去情報_asa に出ます']] },
+  { t:'生物の管理', i:'pets', c:'purple', d:'格納・ステータスの確認・レベル振りを、チャットのコマンドで',
+    s:['引っ越しで、生物をまとめて運びたい','テイムした生物の能力を、数字で確かめたい'],
+    a:[['低温ポッドにしまう',[['/pod','見ている1体'],['/pods','範囲']]],
+       ['ポッドから出す',[['/uncryo','手持ちのポッドから最大40体','100pt']]],
+       ['ステータスを見る',[['/getstats','見ている1体']]],
+       ['レベルを振る',[['/levelhp','hp を stam・oxy・food・weight・dmg・speed にかえると、ほかの能力']]],
+       ['倒す',[['/kill','見ている1体','100pt'],['/killaoe','範囲','250pt']]],
+       ['ステータスを振り直す',[['/dinorespec','','250pt']],'GOLD'],
+       ['インプリントを変える',[['/imprintchange','乗っている生物','100pt']],'GOLD'],
+       ['自動で採取させる',[['/solofarm','ドエディクルス・アンキロサウルス・カストロイデスを、別の生物でつかんで']],'GOLD']],
+    n:[['info','倒せるのは、自分のトライブの生物だけです']] },
+  { t:'繁殖', i:'egg', c:'green', d:'交配から孵化・成長まで、まとめて進められる',
+    s:['たくさんの生物を、一度に交配したい','生まれた子どもを、まとめて引き取りたい'],
+    a:[['交配を始める',[['/mate','見ている1体'],['/mateaoe','範囲']]],
+       ['交配を止める',[['/nomate','見ている1体'],['/nomateaoe','範囲']]],
+       ['去勢する',[['/neuter','見ている1体'],['/neuteraoe','範囲']]],
+       ['子どもを引き取る',[['/claim','範囲','100pt']]],
+       ['繁殖の設定を変える',[['/settings']],'SILVER'],
+       ['孵化・出産を終わらせる',[['/hatch','','250pt']],'GOLD'],
+       ['成長を100%にする',[['/raise','','500pt']],'GOLD'],
+       ['インプリントを100%足す',[['/imprint','','250pt']],'GOLD'],
+       ['交配の待ち時間をなくす',[['/resetcd','','500pt']],'GOLD'],
+       ['性別を変える',[['/cg','','500pt']],'GOLD']] },
+  { t:'チャット', i:'forum', c:'yellow', d:'マップをこえて全員と話せる。Discordともつながる',
+    s:['別のマップにいるフレンドに、声をかけたい','ゲームを開いていない人と、Discordで話したい'],
+    f:[['/pm ktm','相手を決めて',1],['/r こんばんは','ktm にだけ届く',1]],
+    a:[['全員に話す',[[null,'ふつうに送るだけ。全マップと、Discordのクロスチャットに届く']]],
+       ['1人にだけ送る',[['/pm [名前]','送る相手を決める'],['/r [メッセージ]','その人にだけ届く']]]],
+    n:[['info','チャットは、連携していなくても使えます']] },
+  { t:'仮想金庫', p:'Vaultorama', i:'inventory_2', c:'red', d:'持ち物を金庫に預けて、別のサーバーで受け取れる（1年保管）',
+    s:['大量のアイテムを、ほかのサーバーへ運びたい','マップのリセットの前に、持ち物を逃がしたい'],
+    f:[['/store','手持ちを全部預ける',1],['サーバーを移動',''],['/take','ここで受け取る',1]],
+    a:[['預ける',[['/store','手持ちを全部'],['/store [金庫名]','名前をつけて分ける（例：/store dinos）']]],
+       ['受け取る',[['/take'],['/take [金庫名]','受け取ると、その金庫はなくなる']]],
+       ['金庫を見る',[['/list','名前・数・期限']]]],
+    n:[['place','トランスミッターやオベリスクなど、転送する場所の近くで使います'],['map','使えるマップ：LostColony・検証用サーバー']] },
+  { t:'死亡時の所持品', i:'backpack', c:'red', r:'DIAMOND', d:'死んだときの所持品を、その場で取り戻せる',
+    s:['ボスや洞窟で倒れて、取りに戻れない'],
+    a:[['死んだ記録を見る',[['/deaths','IDが出る']]],
+       ['所持品を取り戻す',[['/deathclaim [ID]','IDは /deaths で','500pt']]],
+       ['管理者が用意した所持品を受け取る',[['/recover']]]],
+    l:[['request','管理者に復元を頼む']] }
 ];
 const RANK_COLS = [['未連携','—',''],['連携済','無料','link'],['BRONZE','500円/月','buy'],['SILVER','1,000円/月','buy'],['GOLD','1,500円/月','buy'],['DIAMOND','2,500円/月','buy']];
 const Y = '✓', N = '—';
@@ -1624,8 +1767,35 @@ function renderCommands(){
     g.items.map(c => { const copy = c[0].split(' [')[0]; return '<li><span class="max"><code class="vs-cmd">' + esc(c[0]) + '</code><span class="vs-support" style="display:block">' + esc(c[1]) + '</span></span><span class="vs-cost' + (c[2] === '無料' ? ' free' : '') + '">' + esc(c[2]) + '</span><button class="circle transparent small" type="button" data-copy="' + esc(copy) + '" aria-label="' + esc(copy) + ' をコピー"><i>content_copy</i></button></li>'; }).join('') + '</ul></section>').join('')
     : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「ムギに相談」から聞くこともできます。</span></p></div>';
 }
+const rkTag = r => '<span class="vs-rk-tag rk-' + r.toLowerCase() + '">' + r + (r === 'DIAMOND' ? '' : '以上') + '</span>';
+function apiCmd(c){
+  if (!c[0]) return '<span class="vs-api-c"><span class="vs-api-plain">' + esc(c[1]) + '</span></span>';
+  const key = c[0].charAt(0) !== '/';
+  return '<span class="vs-api-c">' + (key ? '<kbd class="vs-key">' + esc(c[0]) + '</kbd>' : '<code>' + esc(c[0]) + '</code>') +
+    (c[1] === '範囲' ? '<span class="vs-api-scope">範囲</span>' : c[1] ? '<small>' + esc(c[1]) + '</small>' : '') +
+    (c[2] ? '<b class="vs-cost">' + esc(c[2]) + '</b>' : '') + '</span>';
+}
+/* できることを、要るランクごとにまとめる（だれでも → SILVER以上 → GOLD以上。同じ札を行ごとにくり返さない） */
+function apiGroups(acts){
+  const gs = [];
+  acts.forEach(x => { const r = x[2] || ''; let g = gs.find(g => g.r === r); if (!g) gs.push(g = { r, xs:[] }); g.xs.push(x); });
+  return gs;
+}
 function renderApi(){
-  $('#api-grid').innerHTML = APIS.map(a => '<div class="s12 m6 vs-block vs-info"><i class="ink-' + a.c + '">' + a.i + '</i><h2 class="vs-title-m">' + esc(a.t) + '</h2>' + (a.p ? '<code class="vs-cmd vs-support">' + esc(a.p) + '</code>' : '') + '<p class="vs-support vs-mt-s">' + esc(a.d) + '</p>' + (a.note ? '<p class="vs-note vs-mt-s"><i>map</i><span>' + esc(a.note) + '</span></p>' : '') + '</div>').join('');
+  $('#api-list').innerHTML = APIS.map(a => {
+    const max = a.x ? Math.max.apply(null, a.x.rows.map(r => r[1])) : 0;
+    const bars = a.x ? '<div class="vs-api-bars" style="--vs-c:var(--vs-' + a.c + ')"><p>' + esc(a.x.bars) + '</p>' + a.x.rows.map(r => '<span>' + esc(r[0]) + '</span><span class="vs-api-bar" aria-hidden="true"><span style="inline-size:' + (r[1] / max * 100).toFixed(1) + '%"></span></span><b>' + r[1] + '<small>' + a.x.unit + '</small></b>').join('') + '</div>' : '';
+    /* 流れ：矢印は次の段の頭につける（折り返しても、行末に矢印だけが残らない） */
+    const flow = a.f ? '<div class="vs-api-flow">' + a.f.map((s, k) => '<span class="vs-api-step">' + (k ? '<i aria-hidden="true">arrow_forward</i>' : '') + '<span>' + (s[2] ? '<code>' + esc(s[0]) + '</code>' : '<b>' + esc(s[0]) + '</b>') + (s[1] ? '<small>' + esc(s[1]) + '</small>' : '') + '</span></span>').join('') + '</div>' : '';
+    return '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i class="ink-' + a.c + '">' + a.i + '</i></span><span class="vs-rtitle"><b>' + esc(a.t) + '</b>' + (a.p ? '<span class="vs-faq-game">' + esc(a.p) + '</span>' : '') + (a.r ? rkTag(a.r) : '') + '<span class="vs-rcap">' + esc(a.d) + '</span></span><i class="vs-chev">expand_more</i></summary>' +
+      '<div class="vs-rbody vs-api-body">' +
+        '<div><p class="vs-api-h"><i>chat_bubble</i>こんなときに</p><ul class="vs-api-scenes">' + a.s.map(s => '<li>' + esc(s) + '</li>').join('') + '</ul></div>' +
+        bars + flow +
+        '<div><h3 class="vs-api-h"><i>touch_app</i>できること</h3>' + apiGroups(a.a).map(g => '<div class="vs-api-grp">' + (g.r ? '<p class="vs-api-gh">' + rkTag(g.r) + 'のランクで使える</p>' : '') + '<ul class="vs-api-acts">' + g.xs.map(x => '<li><span class="vs-api-do">' + esc(x[0]) + '</span><span class="vs-api-cmds">' + x[1].map(apiCmd).join('') + '</span></li>').join('') + '</ul></div>').join('') + '</div>' +
+        (a.n ? a.n.map(n => '<p class="vs-note' + (n[2] ? ' vs-warn' : '') + '"><i>' + n[0] + '</i><span>' + esc(n[1]).replace(/#[^\s・）]+/g, '<code class="vs-ch">$&</code>') + '</span></p>').join('') : '') +
+        (a.l ? '<nav class="wrap vs-chiprow">' + a.l.map(linkChip).join('') + '</nav>' : '') +
+      '</div></details></li>';
+  }).join('');
 }
 
 /* ---------- ランク・困った時・依頼の種類 ---------- */
