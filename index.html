@@ -863,6 +863,7 @@ body:not(.vs-ready) .page.active{animation:none}
     <section class="vs-section" aria-labelledby="photos-title">
       <div class="vs-sechead">
         <h2 class="vs-title-l" id="photos-title">村のようす</h2>
+        <button class="circle transparent" type="button" id="car-play" aria-controls="intro-photos" aria-label="写真の自動送りを止める"><i>pause</i></button>
         <button class="circle transparent" type="button" data-car="-1" aria-controls="intro-photos" aria-label="前の写真"><i>chevron_left</i></button>
         <button class="circle transparent" type="button" data-car="1" aria-controls="intro-photos" aria-label="次の写真"><i>chevron_right</i></button>
       </div>
@@ -3248,20 +3249,46 @@ function renderPhotos(){
   $('#intro-photos').innerHTML = INTRO_PHOTOS.map((p, i) => '<li aria-roledescription="スライド" aria-label="' + (i + 1) + ' / ' + INTRO_PHOTOS.length + '"><figure class="vs-photo"><img src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"><figcaption>' + esc(p[2]) + '</figcaption></figure></li>').join('');
   syncCarousel();
 }
-/* 左右のボタン：端では押せなくし、全部が1画面に収まっているときは隠す */
-function syncCarousel(){
-  const el = $('#intro-photos'), max = el.scrollWidth - el.clientWidth;
-  $$('[data-car]').forEach(b => { b.hidden = max <= 2; b.disabled = +b.dataset.car < 0 ? el.scrollLeft <= 2 : el.scrollLeft >= max - 2; });
+/* カルーセルの動き：5秒ごとに1枚ずつ自動で送り、最後まで行ったら最初に戻る。左右のボタンも、端では反対の端へ回る。
+   見ている人のじゃまをしないよう、カーソルを乗せている間・キーボードで中を操作している間・画面に見えていない間は止まる。
+   「一時停止」でずっと止めておける（動きを減らす設定の人には、はじめから止めた状態で出す）。自分でめくったら、そこから5秒数え直す */
+const CAR_MS = 5000;
+const carReduce = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const car = { el: $('#intro-photos'), sec: $('#intro-photos').closest('section'), paused: carReduce(), hover: false, focus: false, seen: true, t: 0 };
+const carMax = () => car.el.scrollWidth - car.el.clientWidth;
+function carGo(dir){
+  const el = car.el, li = el.firstElementChild, max = carMax();
+  if (!li || max <= 2) return;
+  const step = li.getBoundingClientRect().width + (parseFloat(getComputedStyle(el).columnGap) || 0), at = el.scrollLeft / step;  // いま何枚目か（右端では端数になる）
+  const left = dir > 0 ? (el.scrollLeft >= max - 2 ? 0 : Math.min((Math.floor(at + .01) + 1) * step, max)) : (el.scrollLeft <= 2 ? max : Math.max((Math.ceil(at - .01) - 1) * step, 0));
+  el.scrollTo({ left, behavior: carReduce() ? 'auto' : 'smooth' });
 }
-$('#intro-photos').addEventListener('scroll', syncCarousel, { passive:true });
-$('#intro-photos').addEventListener('scrollend', syncCarousel);
+function carTimer(){
+  clearTimeout(car.t);
+  car.t = setTimeout(() => {
+    if (!car.paused && !car.hover && !car.focus && car.seen && !D.hidden && car.el.clientWidth) carGo(1);
+    carTimer();
+  }, CAR_MS);
+}
+/* ボタンの見た目：全部が1画面に収まっているときは隠す。一時停止のボタンは、いまの状態に合わせて「止める／流す」 */
+function syncCarousel(){
+  const can = carMax() > 2, p = $('#car-play');
+  $$('[data-car]').forEach(b => { b.hidden = !can; });
+  p.hidden = !can;
+  p.setAttribute('aria-label', car.paused ? '写真を自動で流す' : '写真の自動送りを止める');
+  $('i', p).textContent = car.paused ? 'play_arrow' : 'pause';
+  car.el.setAttribute('aria-live', car.paused ? 'polite' : 'off');  // 自動で流れている間は、読み上げを割りこませない
+}
 addEventListener('resize', syncCarousel);
-$$('[data-car]').forEach(b => b.addEventListener('click', () => {
-  const el = $('#intro-photos'), li = el.firstElementChild;
-  const step = li ? li.getBoundingClientRect().width + (parseFloat(getComputedStyle(el).columnGap) || 0) : el.clientWidth;
-  el.scrollBy({ left: step * +b.dataset.car, behavior: window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  setTimeout(syncCarousel, 600);  // 送り終わったころに、ボタンの状態を合わせ直す（scrollend のないブラウザ向け）
-}));
+$$('[data-car]').forEach(b => b.addEventListener('click', () => { carGo(+b.dataset.car); carTimer(); }));
+$('#car-play').addEventListener('click', () => { car.paused = !car.paused; syncCarousel(); carTimer(); });
+car.sec.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') car.hover = true; });
+car.sec.addEventListener('pointerleave', () => { car.hover = false; carTimer(); });
+car.sec.addEventListener('focusin', e => { car.focus = e.target.matches(':focus-visible'); });
+car.sec.addEventListener('focusout', e => { if (!car.sec.contains(e.relatedTarget)) { car.focus = false; carTimer(); } });
+['pointerdown', 'wheel', 'keydown'].forEach(t => car.el.addEventListener(t, carTimer, { passive:true }));
+if (window.IntersectionObserver) new IntersectionObserver(es => es.forEach(e => { car.seen = e.isIntersecting; })).observe(car.el);
+carTimer();
 
 /* ---------- 画面の切り替え ---------- */
 function routeFromHash(){ const h = (location.hash || '').replace(/^#/, ''); return ROUTES[h] ? h : 'home'; }
