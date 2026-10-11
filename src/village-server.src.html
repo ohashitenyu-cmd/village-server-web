@@ -593,27 +593,27 @@ details[open]>summary .vs-chev{transform:rotate(180deg)}
 .vs-swatch.c-base>span{background:conic-gradient(var(--vs-red) 0 20%,var(--vs-yellow) 0 40%,var(--vs-green) 0 60%,var(--vs-blue) 0 80%,var(--vs-purple) 0)}
 .vs-swatch.c-red{--vs-c:var(--vs-red)} .vs-swatch.c-yellow{--vs-c:var(--vs-yellow)} .vs-swatch.c-green{--vs-c:var(--vs-green)} .vs-swatch.c-blue{--vs-c:var(--vs-blue)} .vs-swatch.c-purple{--vs-c:var(--vs-purple)}
 
-/* ---- ムギに相談（右下のムギとチャットパネル）。見出しなどの丸いアイコンは、ムギの頭まわり（mura-neko crop="bust"）を夜空の丸に ---- */
-.vs-neko{display:grid; place-items:center; flex:none; inline-size:2.5rem; block-size:2.5rem; overflow:hidden; border-radius:50%; background-color:var(--vs-night)}
-.vs-neko-l{inline-size:3rem; block-size:3rem}
-.vs-neko mura-neko{--neko-size:100%}
-/* 右下：ムギ本人がそこに座っている（ボタンの面は持たない）。押すとチャットが開く。吹き出しの「ムギに相談」が入口のことば */
-.vs-mugi{position:fixed !important; z-index:60; inset:auto calc(var(--vs-gutter) - .5rem) calc(.25rem + env(safe-area-inset-bottom,0px)) auto; display:block !important; inline-size:auto !important; block-size:auto !important; min-inline-size:0 !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:2rem !important; background:none !important; box-shadow:none !important; color:var(--on-surface) !important; cursor:pointer; overflow:visible !important}
-.vs-mugi mura-neko{display:block; --neko-size:7rem}
-.vs-mugi:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
-.vs-mugi-say{position:absolute; inset:1rem calc(100% - 1rem) auto auto; padding:.375rem .875rem; border-radius:1rem 1rem .25rem 1rem; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); font-size:.875rem; font-weight:700; line-height:1.5; white-space:nowrap; transition:box-shadow var(--speed2)}
-.vs-mugi::before,.vs-mugi::after{content:none !important; display:none !important}
-.vs-mugi[aria-expanded="true"] .vs-mugi-say{display:none}
+/* ---- ユキに相談（右下のユキとチャットパネル）。見出しなどの丸いアイコンは、ユキの頭まわり（yuki-fukurou crop="bust"）を夜空の丸に ---- */
+.vs-owl{display:grid; place-items:center; flex:none; inline-size:2.5rem; block-size:2.5rem; overflow:hidden; border-radius:50%; background-color:var(--vs-night)}
+.vs-owl-l{inline-size:3rem; block-size:3rem}
+.vs-owl yuki-fukurou{--owl-size:100%}
+/* 右下：ユキ本人がそこに座っている（ボタンの面は持たない）。押すとチャットが開く。吹き出しの「ユキに相談」が入口のことば */
+.vs-yuki{position:fixed !important; z-index:60; inset:auto calc(var(--vs-gutter) - .5rem) calc(.25rem + env(safe-area-inset-bottom,0px)) auto; display:block !important; inline-size:auto !important; block-size:auto !important; min-inline-size:0 !important; margin:0 !important; padding:0 !important; border:0 !important; border-radius:2rem !important; background:none !important; box-shadow:none !important; color:var(--on-surface) !important; cursor:pointer; overflow:visible !important}
+.vs-yuki yuki-fukurou{display:block; --owl-size:7rem}
+.vs-yuki:focus-visible{outline:2px solid var(--primary); outline-offset:2px}
+.vs-yuki-say{position:absolute; inset:1rem calc(100% - 1rem) auto auto; padding:.375rem .875rem; border-radius:1rem 1rem .25rem 1rem; background-color:var(--vs-tile-bg); color:var(--on-surface); box-shadow:var(--vs-e1); font-size:.875rem; font-weight:700; line-height:1.5; white-space:nowrap; transition:box-shadow var(--speed2)}
+.vs-yuki::before,.vs-yuki::after{content:none !important; display:none !important}
+.vs-yuki[aria-expanded="true"] .vs-yuki-say{display:none}
 /* 下へスクロールしている間は吹き出しをしまい、上へ戻ると出す（M3 の拡張FABと同じ）。中身にかぶる面積を減らす */
-.vs-mugi-say{transition:opacity var(--speed2),transform var(--speed2),box-shadow var(--speed2); transform-origin:100% 100%}
-.vs-mugi.vs-tucked .vs-mugi-say{opacity:0; transform:scale(.85); pointer-events:none}
-/* 隠し要素の飛びつき：身をかがめて、カーソルの方へ跳んで、戻る（--px / --py / --rot は JS で指定） */
-.vs-mugi mura-neko.vs-pounce{transform-origin:50% 100%; animation:vs-pounce .95s cubic-bezier(.3,.7,.35,1)}
+.vs-yuki-say{transition:opacity var(--speed2),transform var(--speed2),box-shadow var(--speed2); transform-origin:100% 100%}
+.vs-yuki.vs-tucked .vs-yuki-say{opacity:0; transform:scale(.85); pointer-events:none}
+/* 隠し要素の飛びかかり：身をかがめて、羽ばたきながらカーソルの方へ跳んで、戻る（--px / --py / --rot は JS で指定） */
+.vs-yuki yuki-fukurou.vs-pounce{transform-origin:50% 100%; animation:vs-pounce .95s cubic-bezier(.3,.7,.35,1)}
 @keyframes vs-pounce{0%{transform:none}22%{transform:translateY(.25rem) scale(1.06,.9)}55%{transform:translate(var(--px),var(--py)) rotate(var(--rot)) scale(.96,1.06)}80%{transform:translate(calc(var(--px) * .25),0) scale(1.05,.94)}100%{transform:none}}
 @media (max-width:600px){
-  .vs-mugi{inset-block-end:calc(4.75rem + env(safe-area-inset-bottom,0px))}
-  .vs-mugi mura-neko{--neko-size:5.5rem}
-  .vs-mugi-say{inset-block-start:.5rem}
+  .vs-yuki{inset-block-end:calc(4.75rem + env(safe-area-inset-bottom,0px))}
+  .vs-yuki yuki-fukurou{--owl-size:5.5rem}
+  .vs-yuki-say{inset-block-start:.5rem}
 }
 dialog.vs-chatpanel{position:fixed; inset:auto var(--vs-gutter) calc(8.25rem + env(safe-area-inset-bottom,0px)) auto; transform:none !important; margin:0; padding:0; inline-size:min(25rem,calc(100vw - 2 * var(--vs-gutter))); min-inline-size:0; max-inline-size:none; block-size:min(38rem,calc(100dvh - 11.25rem)); max-block-size:none; border-radius:1.75rem; background:var(--surface-container-low); box-shadow:var(--elevate3); overflow:hidden; flex-direction:column; z-index:70}
 dialog.vs-chatpanel[open]{display:flex}
@@ -654,13 +654,13 @@ nav.bottom>a>div{font-size:.75rem; white-space:nowrap}
 nav.bottom{gap:0; padding-inline:.25rem}
 nav.bottom>a:not(.button,.chip){flex:1 1 0; inline-size:auto; min-inline-size:0}
 @media (max-width:360px){ nav.bottom>a>div{font-size:.6875rem} }
-/* 高さの低い画面（横向きのスマホなど）：左のメニュー5つが縦に収まるよう間隔を詰め、ラベルは1行に。右下のムギも少し小さく */
+/* 高さの低い画面（横向きのスマホなど）：左のメニュー5つが縦に収まるよう間隔を詰め、ラベルは1行に。右下のユキも少し小さく */
 nav.left>a>div{white-space:nowrap}
 @media (max-height:500px){
   nav.left{gap:0; padding-block:.25rem}
   nav.left>a:not(.button,.chip){gap:0; font-size:.6875rem}
   nav.left>a:not(.button,.chip)>i{padding-block:.125rem}
-  .vs-mugi mura-neko{--neko-size:5rem}
+  .vs-yuki yuki-fukurou{--owl-size:5rem}
 }
 /* スマホのヘッダー：ログインは丸いアイコンだけのボタンに。とても狭い画面では、ロゴの文字とすき間を少し小さく */
 @media (max-width:600px){ #login-btn{inline-size:2.5rem; min-inline-size:2.5rem; block-size:2.5rem; padding:0; border-radius:50%} }
@@ -1064,7 +1064,7 @@ body:not(.vs-ready) .page.active{animation:none}
       <p class="vs-support">チェックの付いた特典が、そのランクで使えます。棒が長いほど、日数やポイントが多くなります。</p>
       <p class="vs-note s vs-mt-s"><i>swipe</i><span>横にスクロールすると、ほかのランクも見られます。</span></p>
       <div class="vs-table-wrap vs-mt-s" id="ranks-table"></div>
-      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みはムギ（右下の「ムギに相談」）が受け付けます。</p>
+      <p class="vs-support vs-mt-s">上位のランクは下位の特典をすべて含みます。支払いはMoneta。申し込みはユキ（右下の「ユキに相談」）が受け付けます。</p>
     </section>
   </div>
 
@@ -1080,7 +1080,7 @@ body:not(.vs-ready) .page.active{animation:none}
         <ul class="vs-rlist vs-mt" id="faq-list"></ul>
         <section class="vs-section" aria-labelledby="faq-more">
           <h2 class="vs-title-l" id="faq-more">解決しないときは</h2>
-          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-neko"><mura-neko crop="bust" aria-hidden="true"></mura-neko></span><span class="max"><b class="vs-title-m">ムギに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
+          <button class="vs-row wave vs-mt-s" type="button" data-chat="1"><span class="vs-owl"><yuki-fukurou crop="bust" aria-hidden="true"></yuki-fukurou></span><span class="max"><b class="vs-title-m">ユキに相談</b><span class="vs-support">困っていることをそのまま入力</span></span><i class="vs-go">arrow_forward</i></button>
         </section>
       </div>
     </div>
@@ -1186,19 +1186,19 @@ body:not(.vs-ready) .page.active{animation:none}
   </footer>
 </main>
 
-<button class="vs-mugi" type="button" id="fab" aria-controls="chat" aria-expanded="false" aria-label="ムギに相談"><span class="vs-mugi-say" aria-hidden="true">ムギに相談</span><mura-neko id="mugi-fab" follow aria-hidden="true"></mura-neko></button>
+<button class="vs-yuki" type="button" id="fab" aria-controls="chat" aria-expanded="false" aria-label="ユキに相談"><span class="vs-yuki-say" aria-hidden="true">ユキに相談</span><yuki-fukurou id="yuki-fab" follow aria-hidden="true"></yuki-fukurou></button>
 
 <dialog id="chat" class="vs-chatpanel" aria-labelledby="chat-title">
   <nav class="vs-chat-head">
-    <span class="vs-neko vs-neko-l"><mura-neko id="mugi" crop="bust" aria-hidden="true"></mura-neko></span>
-    <div class="max"><b class="vs-title-m" id="chat-title">ムギ</b><div class="vs-support vs-chat-status" id="chat-status">プロトタイプ・回答は例です</div></div>
+    <span class="vs-owl vs-owl-l"><yuki-fukurou id="yuki" crop="bust" aria-hidden="true"></yuki-fukurou></span>
+    <div class="max"><b class="vs-title-m" id="chat-title">ユキ</b><div class="vs-support vs-chat-status" id="chat-status">プロトタイプ・回答は例です</div></div>
     <button class="circle transparent" type="button" id="chat-reset" aria-label="会話を最初からにする"><i>restart_alt</i></button>
     <button class="circle transparent" type="button" id="chat-close" aria-label="閉じる"><i>close</i></button>
   </nav>
   <div class="vs-chat" id="chat-log" aria-live="polite"></div>
   <form class="row vs-chat-form" id="chat-form">
     <div class="field round fill">
-      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="ムギへのメッセージ" autocomplete="off">
+      <input type="text" id="chat-input" placeholder="困っていることを入力" aria-label="ユキへのメッセージ" autocomplete="off">
     </div>
     <button class="circle" type="submit" aria-label="送信"><i>arrow_upward</i></button>
   </form>
@@ -1226,8 +1226,8 @@ body:not(.vs-ready) .page.active{animation:none}
 
 <div class="snackbar" id="snack" role="status"><span class="max" id="snack-text"></span><button class="transparent small" type="button" id="snack-act" hidden>元に戻す</button></div>
 
-<!-- ムギ（チャットのアバター）: mura-neko.js を build.ps1 で埋め込む -->
-<script>/*__MURANEKO__*/</script>
+<!-- ユキ（チャットのアバター）: yuki-fukurou.js を build.ps1 で埋め込む -->
+<script>/*__YUKI__*/</script>
 <script>
 (function(){
 'use strict';
@@ -1765,7 +1765,7 @@ function renderCommands(){
     .filter(g => g.items.length);
   $('#cmd-groups').innerHTML = groups.length ? groups.map(g => '<section class="s12 l6"><div class="vs-sechead"><i class="ink-' + g.c + '">' + g.icon + '</i><h2 class="vs-title-m">' + esc(g.title) + '</h2></div><ul class="vs-list vs-mt-s">' +
     g.items.map(c => { const copy = c[0].split(' [')[0]; return '<li><span class="max"><code class="vs-cmd">' + esc(c[0]) + '</code><span class="vs-support" style="display:block">' + esc(c[1]) + '</span></span><span class="vs-cost' + (c[2] === '無料' ? ' free' : '') + '">' + esc(c[2]) + '</span><button class="circle transparent small" type="button" data-copy="' + esc(copy) + '" aria-label="' + esc(copy) + ' をコピー"><i>content_copy</i></button></li>'; }).join('') + '</ul></section>').join('')
-    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「ムギに相談」から聞くこともできます。</span></p></div>';
+    : '<div class="s12"><p class="vs-note"><i>search_off</i><span>見つかりませんでした。右下の「ユキに相談」から聞くこともできます。</span></p></div>';
 }
 const rkTag = r => '<span class="vs-rk-tag rk-' + r.toLowerCase() + '">' + r + (r === 'DIAMOND' ? '' : '以上') + '</span>';
 function apiCmd(c){
@@ -2098,13 +2098,13 @@ function renderNotify(){
 }
 $('#mp-notify').addEventListener('change', e => { state.notify = e.target.checked; store.set('notify', state.notify); renderNotify(); snack(state.notify ? '撤去期限のお知らせをオンにしました' : '撤去期限のお知らせをオフにしました'); });
 
-/* ---------- ムギ（右下の「ムギに相談」から開くチャット）。返事はムギが口を動かして1文字ずつ話す ---------- */
+/* ---------- ユキ（右下の「ユキに相談」から開くチャット）。返事はユキが口を動かして1文字ずつ話す ---------- */
 const chatDlg = $('#chat');
 const compact = () => window.matchMedia && matchMedia('(max-width:600px), (max-height:500px)').matches;
 const chat = { log:[], resume:null };
-const mugi = $('#mugi'), mugiFab = $('#mugi-fab');
-const canSpeak = !!(mugi && mugi.speak);
-/* 右下のムギ：下へスクロールしている間は「ムギに相談」の吹き出しをしまい、上へ戻るか、いちばん上の近くでは出す */
+const yuki = $('#yuki'), yukiFab = $('#yuki-fab');
+const canSpeak = !!(yuki && yuki.speak);
+/* 右下のユキ：下へスクロールしている間は「ユキに相談」の吹き出しをしまい、上へ戻るか、いちばん上の近くでは出す */
 {
   let lastY = window.scrollY;
   addEventListener('scroll', () => {
@@ -2117,41 +2117,41 @@ const canSpeak = !!(mugi && mugi.speak);
 function updateFab(){
   const open = chatDlg.open, f = $('#fab');
   f.setAttribute('aria-expanded', String(open));
-  f.setAttribute('aria-label', open ? 'ムギとの話を閉じる' : 'ムギに相談');
+  f.setAttribute('aria-label', open ? 'ユキとの話を閉じる' : 'ユキに相談');
 }
-/* 右下のムギ：カーソルを乗せている間（キーボードで選んでいる間も）は首をかしげたまま。
-   mura-neko の「tilt」の姿勢を、ムギの中（shadow root）に足したスタイルで保つ */
-if (mugiFab && mugiFab.shadowRoot) {
+/* 右下のユキ：カーソルを乗せている間（キーボードで選んでいる間も）は首をかしげたまま。
+   yuki-fukurou の「tilt」の姿勢を、ユキの中（shadow root）に足したスタイルで保つ。左のアンテナも少し倒す */
+if (yukiFab && yukiFab.shadowRoot) {
   const st = D.createElement('style');
-  st.textContent = '.hold-tilt .head{transform:translateX(3px) rotate(14deg)} .hold-tilt .ear-l{transform:rotate(-10deg)}';
-  mugiFab.shadowRoot.append(st);
-  const cat = mugiFab.shadowRoot.querySelector('.cat'), fab = $('#fab'), tilt = on => cat.classList.toggle('hold-tilt', on);
+  st.textContent = '.hold-tilt .head{transform:translateX(3px) rotate(14deg)} .hold-tilt .ant-l{animation:none; transform:rotate(-10deg)}';
+  yukiFab.shadowRoot.append(st);
+  const owl = yukiFab.shadowRoot.querySelector('.cat'), fab = $('#fab'), tilt = on => owl.classList.toggle('hold-tilt', on);
   fab.addEventListener('pointerenter', () => tilt(true));
   fab.addEventListener('pointerleave', () => tilt(false));
   fab.addEventListener('focus', () => tilt(fab.matches(':focus-visible')));
   fab.addEventListener('blur', () => tilt(false));
 }
-/* 隠し要素：ムギの頭の上でカーソルを左右にゆらし続けると、目を丸くし（向きを3回かえる）、そわそわして（5回）、
-   飛びつく（7回・2秒ほど）。1回のゆれは25px以上、ゆれの間が1.2秒あくと数え直し。
-   マウスのときだけ・チャットを開いていないときだけ。飛びついたあと5秒は休む */
-if (mugiFab && mugiFab.setMood) {
-  const fab = $('#fab'), say = $('.vs-mugi-say', fab), still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* 隠し要素：ユキの頭の上でカーソルを左右にゆらし続けると、目を丸くし（向きを3回かえる）、そわそわして（5回）、
+   飛びかかる（7回・2秒ほど）。1回のゆれは25px以上、ゆれの間が1.2秒あくと数え直し。
+   マウスのときだけ・チャットを開いていないときだけ。飛びかかったあと5秒は休む */
+if (yukiFab && yukiFab.setMood) {
+  const fab = $('#fab'), say = $('.vs-yuki-say', fab), still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lastX = null, dir = 0, run = 0, flips = [], busy = false, rest = 0;
-  const above = e => { const r = mugiFab.getBoundingClientRect(); return e.clientX > r.left - 120 && e.clientX < r.right + 30 && e.clientY > r.top - 170 && e.clientY < r.top + r.height * .35; };
+  const above = e => { const r = yukiFab.getBoundingClientRect(); return e.clientX > r.left - 120 && e.clientX < r.right + 30 && e.clientY > r.top - 170 && e.clientY < r.top + r.height * .35; };
   const pounce = e => {
     busy = true; flips = [];
-    const r = mugiFab.getBoundingClientRect();
+    const r = yukiFab.getBoundingClientRect();
     const px = Math.max(-140, Math.min(20, e.clientX - (r.left + r.width / 2))), py = Math.max(-150, Math.min(-40, e.clientY - (r.top + r.height * .35)));
-    mugiFab.style.setProperty('--px', Math.round(px) + 'px'); mugiFab.style.setProperty('--py', Math.round(py) + 'px'); mugiFab.style.setProperty('--rot', (px < 0 ? -12 : 12) + 'deg');
-    mugiFab.setMood('excited', { duration:1200 });
+    yukiFab.style.setProperty('--px', Math.round(px) + 'px'); yukiFab.style.setProperty('--py', Math.round(py) + 'px'); yukiFab.style.setProperty('--rot', (px < 0 ? -12 : 12) + 'deg');
+    yukiFab.setMood('excited', { duration:1200 });
     const land = () => {
-      mugiFab.classList.remove('vs-pounce');
-      mugiFab.setMood('happy', { duration:2200 });
-      say.textContent = 'にゃっ！'; setTimeout(() => { say.textContent = 'ムギに相談'; }, 1800);
+      yukiFab.classList.remove('vs-pounce');
+      yukiFab.setMood('happy', { duration:2200 });
+      say.textContent = 'ホウッ！'; setTimeout(() => { say.textContent = 'ユキに相談'; }, 1800);
       busy = false; rest = Date.now() + 5000;
     };
     if (still()) { land(); return; }
-    mugiFab.classList.remove('vs-pounce'); void mugiFab.offsetWidth; mugiFab.classList.add('vs-pounce');
+    yukiFab.classList.remove('vs-pounce'); void yukiFab.offsetWidth; yukiFab.classList.add('vs-pounce'); yukiFab.play('flap');  // 羽ばたいて飛びかかる
     setTimeout(land, 950);
   };
   addEventListener('pointermove', e => {
@@ -2170,8 +2170,8 @@ if (mugiFab && mugiFab.setMood) {
     if (flips.length && now - flips[flips.length - 1] > 1200) flips = [];
     const n = flips.length, held = n ? now - flips[0] : 0;
     if (n >= 7 && held >= 1800) pounce(e);
-    else if (n >= 5 && mugiFab.mood !== 'excited') mugiFab.setMood('excited', { duration:1500 });
-    else if (n >= 3 && n < 5 && mugiFab.mood !== 'surprised') mugiFab.setMood('surprised', { duration:1500 });
+    else if (n >= 5 && yukiFab.mood !== 'excited') yukiFab.setMood('excited', { duration:1500 });
+    else if (n >= 3 && n < 5 && yukiFab.mood !== 'surprised') yukiFab.setMood('surprised', { duration:1500 });
   }, { passive:true });
 }
 function openChat(){
@@ -2190,12 +2190,12 @@ function botSay(text, links){
   if (!canSpeak) { chat.log.push({ from:'ai', text:String(text).replace(/\[[a-z]+\]/g, ''), links: links || [] }); renderChat(); return Promise.resolve(); }
   const m = { from:'ai', text:'', links:[], typing:true };
   let added = false;
-  if (mugiFab && mugiFab.speak) mugiFab.speak(text);  // 右下のムギも同じ文を口を動かして話す
-  return mugi.speak(text, {
+  if (yukiFab && yukiFab.speak) yukiFab.speak(text);  // 右下のユキも同じ文を口を動かして話す
+  return yuki.speak(text, {
     onChar: c => { if (!added) { chat.log.push(m); added = true; } m.text += c; renderChat(); }
   }).then(() => {
     if (!added) chat.log.push(m);
-    m.text = window.MuraNeko.stripTags(text); m.links = links || []; m.typing = false; renderChat();
+    m.text = window.YukiFukurou.stripTags(text); m.links = links || []; m.typing = false; renderChat();
   });
 }
 function meSay(text){ chat.log.push({ from:'me', text }); renderChat(); }
@@ -2206,47 +2206,47 @@ function renderChat(){
 }
 if (canSpeak) {
   const status = $('#chat-status');
-  mugi.addEventListener('speechstart', () => { status.textContent = 'しゃべり中…'; });
-  mugi.addEventListener('speechend', () => { status.textContent = 'プロトタイプ・回答は例です'; });
+  yuki.addEventListener('speechstart', () => { status.textContent = 'しゃべり中…'; });
+  yuki.addEventListener('speechend', () => { status.textContent = 'プロトタイプ・回答は例です'; });
 }
 function resetChat(){
-  if (canSpeak) { mugi.stop(); if (mugiFab) mugiFab.stop(); }
+  if (canSpeak) { yuki.stop(); if (yukiFab) yukiFab.stop(); }
   chat.log = []; renderChat();
-  botSay('[happy]こんにちは、村のネコのムギだよ。[neutral]困っていることを入力するか、下から選んでにゃ。', [['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]);
+  botSay('[happy]こんにちは、村のフクロウのユキだよ。[neutral]困っていることを入力するか、下から選んでね。',[['@ask:サーバーにつながらない','つながらない'],['@ask:生物を失った','生物を失った'],['@ask:ランクの違いを知りたい','ランクの違い'],['@ask:管理者に依頼したい','管理者依頼']]);
 }
-/* ムギの返事（例）。半目でのんびり、ぼそっと短く。ときどき語尾に「にゃ」 */
+/* ユキの返事（例）。半目でのんびり、ぼそっと短く。考えるときは「ほう…」とつぶやく */
 const ANSWERS = [
-  { k:['こんにち','こんばん','おはよ','はじめまして','hello'], a:'[happy][nod]こんにちは。今日も焚き火はあったかいにゃ。' },
+  { k:['こんにち','こんばん','おはよ','はじめまして','hello'], a:'[happy][nod]こんにちは。今日も焚き火はあったかいね。' },
   { k:['ありがと'], a:'[happy][bow]どういたしまして。また焚き火に寄ってってね。' },
-  { k:['かわい','好き','すき'], a:'[shy]…べつに、うれしくないし。[love]……ちょっとだけ、うれしいにゃ。' },
-  { k:['接続','つなが','入れない','見つからない','落ち'], a:'[thinking]うーん…[nod]毎日5:00の再起動中は、数分つながらないにゃ。それ以外なら「困った時一覧」を見てみて。', l:[['trouble','困った時一覧'],['maps','マップステータス']] },
-  { k:['失','ロスト','消え','死ん','なくし','復元'], a:'[sad]それはつらいにゃ…。[nod]まずスクライブで記録を確かめて。復元は管理者依頼（Elder）で受け付けてるよ（BRONZE以上・有償）。', l:[['scribe','スクライブ'],['request','管理者依頼']] },
-  { k:['依頼','管理者','名前','スタック','出られ','はまっ'], a:'[nod]管理者への依頼は、Village PortalのElderで受け付けてるにゃ。[shake]管理者へのDMは禁止だよ。', l:[['request','管理者依頼']] },
-  { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'[excited]特典は比較表にまとめてあるにゃ。[smug]ARKと連携するだけでも、無料の特典があるんだよ。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
-  { k:['コマンド','pod','/'], a:'[nod]コマンド一覧から探せるにゃ。コピーボタンで、そのまま貼り付けられるよ。', l:[['commands','コマンド一覧']] },
-  { k:['撤去','期限','休','放置'], a:'[thinking]1つのマップに入れば、全マップの期限がのびるにゃ。[nod]連携済なら30日、ランクで最大60日だよ。', l:[['ranks','ランクごとの日数']] },
-  { k:['連携','コード','link'], a:'[nod]参加手順の「ARKと連携」でコードを発行して、ARKのゲーム内チャット（Enterキーで開く）に /link コード と入力して送信してにゃ。', l:[['join-asa','ARK:SAの参加手順']] },
-  { k:['嫌がらせ','迷惑','揉め','相談窓口'], a:'[nod]ほかの人に見られたくない相談は、相談窓口から管理者だけに送れるにゃ。', l:[['consult','相談窓口'],['rules','ルール']] },
-  { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'[nod]ルールは、絵つきでひとつずつまとめてあるにゃ。', l:[['rules','ルール']] },
-  { k:['参加','はじめ','初めて','始め'], a:'[happy]ようこそ！[nod]参加手順を上から進めれば遊べるにゃ。', l:[['join','参加手順']] }
+  { k:['かわい','好き','すき'], a:'[shy]…べつに、うれしくないし。[love]……ちょっとだけ、うれしい。' },
+  { k:['接続','つなが','入れない','見つからない','落ち'], a:'[thinking]ほう…[nod]毎日5:00の再起動中は、数分つながらないんだ。それ以外なら「困った時一覧」を見てみて。', l:[['trouble','困った時一覧'],['maps','マップステータス']] },
+  { k:['失','ロスト','消え','死ん','なくし','復元'], a:'[sad]それはつらいね…。[nod]まずスクライブで記録を確かめて。復元は管理者依頼（Elder）で受け付けてるよ（BRONZE以上・有償）。', l:[['scribe','スクライブ'],['request','管理者依頼']] },
+  { k:['依頼','管理者','名前','スタック','出られ','はまっ'], a:'[nod]管理者への依頼は、Village PortalのElderで受け付けてる。[shake]管理者へのDMは禁止だよ。', l:[['request','管理者依頼']] },
+  { k:['ランク','特典','bronze','silver','gold','diamond','課金','月額'], a:'[excited]特典は比較表にまとめてあるよ。[smug]ARKと連携するだけでも、無料の特典があるんだ。', l:[['ranks','ランク比較'],['@rank:SILVER','SILVERを申し込む']] },
+  { k:['コマンド','pod','/'], a:'[nod]コマンド一覧から探せるよ。コピーボタンで、そのまま貼り付けられる。', l:[['commands','コマンド一覧']] },
+  { k:['撤去','期限','休','放置'], a:'[thinking]ほう…1つのマップに入れば、全マップの期限がのびるんだ。[nod]連携済なら30日、ランクで最大60日だよ。', l:[['ranks','ランクごとの日数']] },
+  { k:['連携','コード','link'], a:'[nod]参加手順の「ARKと連携」でコードを発行して、ARKのゲーム内チャット（Enterキーで開く）に /link コード と入力して送信してね。', l:[['join-asa','ARK:SAの参加手順']] },
+  { k:['嫌がらせ','迷惑','揉め','相談窓口'], a:'[nod]ほかの人に見られたくない相談は、相談窓口から管理者だけに送れるよ。', l:[['consult','相談窓口'],['rules','ルール']] },
+  { k:['ルール','禁止','違反','嫌がらせ','迷惑'], a:'[nod]ルールは、絵つきでひとつずつまとめてあるよ。', l:[['rules','ルール']] },
+  { k:['参加','はじめ','初めて','始め'], a:'[happy][flap]ようこそ！[nod]参加手順を上から進めれば遊べるよ。', l:[['join','参加手順']] }
 ];
 function answer(text){
   const t = text.toLowerCase(), hit = ANSWERS.find(x => x.k.some(k => t.indexOf(k) >= 0));
   if (hit) botSay(hit.a, hit.l);
-  else botSay('[tilt]うまく答えられなかったにゃ。[neutral]「困った時一覧」か、管理者依頼（Elder）を使ってみて。', [['trouble','困った時一覧'],['request','管理者依頼']]);
+  else botSay('[tilt]ほう…うまく答えられなかった。[neutral]「困った時一覧」か、管理者依頼（Elder）を使ってみて。', [['trouble','困った時一覧'],['request','管理者依頼']]);
 }
 function startRank(arg){
-  if (!state.signedIn) { chat.resume = () => startRank(arg); botSay('[nod]ランクの申し込みには、Discordでのログインが必要にゃ。', [['@login','Discordでログイン']]); return; }
+  if (!state.signedIn) { chat.resume = () => startRank(arg); botSay('[nod]ランクの申し込みには、Discordでのログインが必要だよ。', [['@login','Discordでログイン']]); return; }
   const a = String(arg).split(':'), bill = a[1] === 'year' ? 'year' : 'month';
   const col = RANK_COLS.find(c => c[0] === a[0] && c[2] === 'buy') || RANK_COLS[3], p = rankPrice(col[0], bill), label = col[0] + (bill === 'year' ? '・年払い' : '・月払い');
-  botSay('[excited]' + label + '（' + fmt(p.n) + p.unit + '）を申し込むにゃ。[neutral]残高は ' + fmt(state.balance) + ' Moneta だよ。', [['@rank-ok:' + label, '申し込む'], ['@cancel','やめる']]);
+  botSay('[excited]' + label + '（' + fmt(p.n) + p.unit + '）を申し込む？[neutral]残高は ' + fmt(state.balance) + ' Moneta だよ。', [['@rank-ok:' + label, '申し込む'], ['@cancel','やめる']]);
 }
 function onUserText(text){ const t = text.trim(); if (!t) return; meSay(t); setTimeout(() => answer(t), 400); }
 function botAction(a){
   const i = a.indexOf(':'), cmd = i < 0 ? a : a.slice(0, i), arg = i < 0 ? '' : a.slice(i + 1);
-  if (cmd === 'cancel') botSay('[neutral]やめたにゃ。ほかに困っていることはある？');
+  if (cmd === 'cancel') botSay('[neutral]やめておいたよ。ほかに困っていることはある？');
   else if (cmd === 'rank') startRank(arg);
-  else if (cmd === 'rank-ok') { botSay('[happy][bow]' + arg + 'の申し込みを受け付けたにゃ（プロトタイプなので、支払いは発生しないよ）。', [['mypage','マイページ']]); snack(arg + 'を申し込みました（プロトタイプ）'); }
+  else if (cmd === 'rank-ok') { botSay('[happy][bow]' + arg + 'の申し込みを受け付けたよ。[neutral]プロトタイプなので、支払いは発生しない。', [['mypage','マイページ']]); snack(arg + 'を申し込みました（プロトタイプ）'); }
   else if (cmd === 'login') openLogin(() => { const f = chat.resume; chat.resume = null; if (f) f(); });
   else if (cmd === 'ask') onUserText(arg);
 }
