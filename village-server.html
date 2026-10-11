@@ -788,14 +788,18 @@ body:not(.vs-ready) .page.active{animation:none}
 
   <!-- ===================== 参加手順：ゲームを選ぶ ===================== -->
   <div class="page" id="p-join">
-    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#home" aria-label="TOPに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">どちらで遊びますか？</h1></nav>
-    <!-- はじめての人がまず読みたい「サーバー紹介」への入口。ゲームを選ぶ前の、細い1行 -->
+    <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#home" aria-label="TOPに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">参加手順</h1></nav>
+    <!-- はじめての人がまず読みたい「サーバー紹介」への入口。いちばん上に置き、ゲームを選ぶまとまりとは間をあける -->
     <a class="vs-row wave vs-join-intro vs-mt" href="#intro">
       <span class="vs-join-thumb"><img src="img/village-stairs.jpg" alt="" loading="lazy"></span>
       <span class="max"><span class="vs-label"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg>はじめての方へ</span><b class="vs-title-m">どんなサーバー？</b><span class="vs-support">写真と4つのポイントで、1分でわかります</span></span>
       <i class="vs-go">arrow_forward</i>
     </a>
-    <div class="grid vs-mt" id="join-choices"></div>
+    <!-- 「どちらで遊びますか？」は、答えになるゲームのカードのすぐ上に -->
+    <section class="vs-section" aria-labelledby="join-pick">
+      <h2 class="vs-title-l" id="join-pick">どちらで遊びますか？</h2>
+      <div class="grid vs-mt-s" id="join-choices"></div>
+    </section>
   </div>
 
   <!-- ===================== 参加手順：ステップ ===================== -->
@@ -3277,7 +3281,7 @@ function show(route, focus){
   $$('#main > .page').forEach(p => p.classList.toggle('active', p.id === 'p-' + r.page));
   renderCrumbs(route);
   /* サーバー紹介は、ゲームを選ぶ画面（はじめての人の入口）から来たときは「←」でそこへ戻す */
-  if (r.page === 'intro') { const b = $('#p-intro .vs-back'), j = from === 'join'; b.setAttribute('href', j ? '#join' : '#about'); b.setAttribute('aria-label', j ? 'ゲームの選択に戻る' : 'サーバーについてに戻る'); syncCarousel(); }
+  if (r.page === 'intro') { const b = $('#p-intro .vs-back'), j = from === 'join'; b.setAttribute('href', j ? '#join' : '#about'); b.setAttribute('aria-label', j ? '参加手順に戻る' : 'サーバーについてに戻る'); syncCarousel(); }
   $$('[data-nav]').forEach(a => {
     const on = a.dataset.nav === r.nav;
     if (!a.classList.contains('button')) a.classList.toggle('active', on);
