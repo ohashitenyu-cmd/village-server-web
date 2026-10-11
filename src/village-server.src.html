@@ -2321,7 +2321,14 @@ $('#chat-reset').addEventListener('click', resetChat);
 /* ---------- サーバー紹介の写真（カルーセル）。写真が増えたら img/ に置いて、ここに1行足すだけ：[ファイル, 写真の説明（読み上げ用）, 見出し] ---------- */
 const INTRO_PHOTOS = [
   ['img/village-jungle.jpg', 'ジャングルの岩場で、プレイヤーと生物が並んで記念撮影している様子', 'ジャングルで記念撮影'],
-  ['img/village-desert.jpg', '砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子', '砂漠の遺跡で狩りの真っ最中']
+  ['img/village-desert.jpg', '砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子', '砂漠の遺跡で狩りの真っ最中'],
+  ['img/village-dried-fish.webp', '木と草ぶきの家が並ぶ村の通りで、釣った魚が竿につるして干されている様子', '村の通りに干し魚'],
+  ['img/village-light-birds.webp', '星空とオーロラの下で、色とりどりに光る鳥の生物たちが渦を描くように並んでいる様子', '夜空に舞う光の鳥たち'],
+  ['img/village-cave.webp', '青い生物に乗ったサバイバーが、光の差しこむ大きな洞窟を崖の上から見下ろしている様子', '光の差す洞窟をのぞきこむ'],
+  ['img/village-gate.webp', 'きらめく光の粒の中で、サバイバーが金色に光る巨大な構造物の前に立っている様子', '巨大な構造物の前で'],
+  ['img/village-tower-house.webp', '近未来的な巨大な建物のふもとに建てた、オレンジ色の屋根の木の家', '廃都市のふもとの一軒家'],
+  ['img/village-party.webp', '木の部屋の丸いテーブルを、鳥や竜などいろいろな生物たちが囲んでいる様子', '生物たちのテーブル会議'],
+  ['img/village-aurora.webp', 'オーロラと月の夜空の下、大きな鳥に乗ったサバイバーが光るオベリスクを見つめている様子', 'オーロラとオベリスク']
 ];
 function renderPhotos(){
   $('#intro-photos').innerHTML = INTRO_PHOTOS.map((p, i) => '<li aria-roledescription="スライド" aria-label="' + (i + 1) + ' / ' + INTRO_PHOTOS.length + '"><figure class="vs-photo"><img src="' + esc(p[0]) + '" alt="' + esc(p[1]) + '" loading="lazy"><figcaption>' + esc(p[2]) + '</figcaption></figure></li>').join('');
