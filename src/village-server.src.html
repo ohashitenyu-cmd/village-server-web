@@ -234,7 +234,22 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 
 /* ---- TOP：お知らせ（公式Discordの #お知らせ の最新1件。何件も並べるとTOPの情報が多すぎるため）。1件だけなので区画の面は付けず、見出しの下にタイトルだけの折りたたみ行を1つ ---- */
 .vs-sechead+.vs-support{margin-block-start:.25rem !important}
-.vs-news-t{flex-direction:column; align-items:flex-start !important; gap:.125rem !important}
+/* お知らせ：直近1週間ぶんを1枚の面に1行ずつ（件ごとに別の面にしない）。閉じているときは種類のアイコン・題名1行・何日前だけ。
+   開くと種類・日付・本文。題名が長いときは閉じている間だけ「…」で切る */
+.vs-news{display:flex; flex-direction:column; padding:.25rem; border-radius:1.25rem; background-color:var(--vs-tile-bg); box-shadow:var(--vs-e1)}
+.vs-news-i>summary{display:flex; align-items:center; gap:.75rem; min-block-size:3.25rem; padding:.375rem .75rem; border-radius:1rem; list-style:none; cursor:pointer; transition:background-color var(--speed2)}
+.vs-news-i>summary::-webkit-details-marker{display:none}
+.vs-news-i>summary:hover{background-color:var(--vs-hover)}
+.vs-news-i>summary:focus-visible{outline:2px solid var(--primary); outline-offset:-2px}
+.vs-news-ic{flex:none; inline-size:2rem; block-size:2rem; border-radius:50%; display:grid; place-items:center; background:var(--surface-container-high)}
+.vs-news-ic>i{--_size:1.125rem}
+.vs-news-tt{flex:1; min-inline-size:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:.9375rem; font-weight:700; line-height:1.5}
+.vs-news-i[open] .vs-news-tt{white-space:normal; word-break:auto-phrase; overflow-wrap:break-word}
+.vs-news-when{flex:none; font-size:.75rem; color:var(--on-surface-variant); font-variant-numeric:tabular-nums}
+.vs-news-x{padding:0 .75rem 1rem calc(.75rem + 2rem + .75rem)}
+.vs-news-x>p{margin:.25rem 0 0 !important; font-size:.875rem; line-height:1.7; color:var(--on-surface-variant)}
+.vs-news-more{align-self:flex-start; margin:0 .25rem .25rem calc(.75rem + 2rem + .25rem) !important}
+@media (max-width:600px){ .vs-news-x{padding-inline-start:.75rem} .vs-news-more{margin-inline-start:.25rem !important} }
 .vs-news-meta{display:inline-flex; align-items:center; gap:.5rem; font-size:.75rem; font-weight:700}
 .vs-news-meta>time{font-weight:500; color:var(--on-surface-variant); font-variant-numeric:tabular-nums}
 
@@ -740,8 +755,8 @@ body:not(.vs-ready) .page.active{animation:none}
       <div class="vs-sechead">
         <h2 id="news-title" class="vs-title-l">お知らせ</h2>
       </div>
-      <p class="vs-support">公式Discordの #お知らせ から、最新の1件を表示しています（プロトタイプでは例）。</p>
-      <ul class="vs-rlist vs-mt-s" id="news"></ul>
+      <p class="vs-support">公式Discordの #お知らせ から、直近1週間のものを新しい順に表示しています（プロトタイプでは例）。</p>
+      <div class="vs-news vs-mt-s" id="news"></div>
     </section>
     <section class="vs-section vs-panel" aria-labelledby="tiles-title">
       <div class="vs-sechead">
@@ -2015,20 +2030,31 @@ function renderMyRank(){
     '</ul>' + planMeter(i) + '<div class="vs-plan-foot"><a class="button border" href="#ranks"><span>ランクを比較・変更する</span><i>arrow_forward</i></a></div></div></div>';
 }
 
-/* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から最新の1件を取り込む想定 ---------- */
+/* ---------- お知らせ（例）。本番は公式Discordの #お知らせ から直近1週間ぶんを取り込む想定。新しい順 ---------- */
 const NEWS = [
+  { d:'2026-10-10', c:'maint', t:'The Center を再起動しました', x:'10月10日 21:30ごろにサーバーが止まったため、再起動しました。今は通常どおり遊べます。' },
   { d:'2026-10-08', c:'maint', t:'全マップのメンテナンスのお知らせ', x:'10月12日 5:00〜7:00 に、アップデートを適用するため全マップを停止します。終わりしだい、ここでお知らせします。' },
+  { d:'2026-10-06', c:'rule', t:'ルールを更新しました', x:'グリッチ・バグの悪用の禁止に、例を追加しました。ルールのページで確認できます。' },
   { d:'2026-10-05', c:'event', t:'イベント開催のお知らせ', x:'10月10日〜10月20日のあいだ、テイムと繁殖の倍率が上がります。' },
-  { d:'2026-09-28', c:'rule', t:'ルールを更新しました', x:'グリッチ・バグの悪用の禁止に、例を追加しました。ルールのページで確認できます。' }
+  { d:'2026-09-28', c:'event', t:'建築コンテストの結果発表', x:'たくさんの応募をありがとうございました。結果はDiscordの #イベント で発表しています。' }
 ];
 const NEWS_CAT = { maint:['メンテナンス','construction','ink-blue'], event:['イベント','celebration','ink-purple'], rule:['ルール','gavel','ink-red'] };
+/* TOPに出すのは直近1週間（今日を入れて7日）。閉じているときは「種類のアイコン・題名1行・何日前」だけにして、最初は3件まで。
+   残りは「あと◯件」でたたむ。開けるのは一度に1件。1週間に1件もなければ、最後の1件だけ出す */
+const NEWS_DAYS = 7, NEWS_SHOW = 3;
+let newsAll = false;
+const daysAgo = d => { const t = new Date(); t.setHours(0, 0, 0, 0); return Math.round((t - new Date(d + 'T00:00:00')) / 864e5); };
+const agoLabel = n => n <= 0 ? '今日' : n === 1 ? '昨日' : n + '日前';
 function renderNews(){
-  $('#news').innerHTML = NEWS.slice(0, 1).map(n => {
-    const c = NEWS_CAT[n.c], dt = n.d.split('-');
-    return '<li class="vs-rrow nocheck"><details><summary><span class="vs-ric"><i class="' + c[2] + '">' + c[1] + '</i></span><span class="vs-rtitle vs-news-t"><span class="vs-news-meta ' + c[2] + '">' + c[0] + '<time datetime="' + n.d + '">' + Number(dt[1]) + '月' + Number(dt[2]) + '日</time></span><b>' + esc(n.t) + '</b></span><i class="vs-chev">expand_more</i></summary>' +
-      '<div class="vs-rbody"><p class="vs-body vs-muted">' + esc(n.x) + '</p></div></details></li>';
-  }).join('');
+  const recent = NEWS.filter(n => daysAgo(n.d) < NEWS_DAYS), list = recent.length ? recent : NEWS.slice(0, 1), rest = Math.max(0, list.length - NEWS_SHOW);
+  $('#news').innerHTML = list.map((n, i) => {
+    const c = NEWS_CAT[n.c], dt = n.d.split('-'), md = Number(dt[1]) + '月' + Number(dt[2]) + '日';
+    return '<details name="vs-news" class="vs-news-i"' + (i >= NEWS_SHOW && !newsAll ? ' hidden' : '') + '><summary><span class="vs-news-ic"><i class="' + c[2] + '">' + c[1] + '</i></span>' +
+      '<span class="vs-news-tt"><span class="vs-sr">' + c[0] + '：</span>' + esc(n.t) + '</span><time class="vs-news-when" datetime="' + n.d + '">' + (recent.length ? agoLabel(daysAgo(n.d)) : md) + '</time><i class="vs-chev">expand_more</i></summary>' +
+      '<div class="vs-news-x"><span class="vs-news-meta ' + c[2] + '">' + c[0] + '<time datetime="' + n.d + '">' + md + '</time></span><p>' + esc(n.x) + '</p></div></details>';
+  }).join('') + (rest ? '<button type="button" class="transparent small vs-news-more" aria-expanded="' + newsAll + '"><span>' + (newsAll ? 'たたむ' : 'あと' + rest + '件') + '</span><i>' + (newsAll ? 'expand_less' : 'expand_more') + '</i></button>' : '');
 }
+$('#news').addEventListener('click', e => { if (e.target.closest('.vs-news-more')) { newsAll = !newsAll; renderNews(); $('.vs-news-more', $('#news')).focus(); } });
 
 /* ---------- マップステータス（例）。本番はサーバーの状態から取り込む想定。s：on＝稼働中／boot＝起動中／off＝停止中 ---------- */
 const MAP_STATUS = [
