@@ -312,6 +312,17 @@ nav.vs-pagehead{gap:.25rem; min-block-size:3.5rem; flex-wrap:nowrap}
 /* ---- 参加手順 ---- */
 .vs-game{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; block-size:100%; border-radius:1.5rem; overflow:hidden}
 #join-choices{max-inline-size:52rem}
+/* ゲームを選ぶ前の「どんなサーバー？」：写真の小窓つきの押せる1行（ゲームのカードと同じ幅） */
+.vs-join-intro{max-inline-size:52rem; padding-block:.75rem !important}
+.vs-join-thumb{flex:none; inline-size:4.5rem; block-size:4.5rem; border-radius:1rem; overflow:hidden; background:var(--surface-container-high)}
+.vs-join-thumb>img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover}
+.vs-join-intro .max{display:flex; flex-direction:column; gap:.125rem; min-inline-size:0; word-break:auto-phrase; overflow-wrap:break-word}
+.vs-join-intro .vs-label{display:flex; align-items:center; gap:.375rem; color:var(--vs-green-ink)}
+.vs-join-intro .vs-label>.vs-wakaba{inline-size:1rem; block-size:1rem; flex:none}
+@media (max-width:600px){ .vs-join-thumb{inline-size:3.5rem; block-size:3.5rem; border-radius:.75rem} }
+/* サーバー紹介の最後：読み終えたら、そのまま参加の準備へ */
+.vs-intro-next{display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 1.5rem}
+.vs-intro-next>*{margin:0 !important}
 .vs-game-img{display:block; aspect-ratio:368/172; max-inline-size:100%; overflow:hidden; border-radius:0; background:var(--vs-night)}
 .vs-game-img img{display:block; inline-size:100%; block-size:100%; max-inline-size:100%; object-fit:cover; border-radius:0; transition:transform var(--speed3)}
 .vs-game:hover .vs-game-img img{transform:scale(1.03)}
@@ -770,6 +781,12 @@ body:not(.vs-ready) .page.active{animation:none}
   <!-- ===================== 参加手順：ゲームを選ぶ ===================== -->
   <div class="page" id="p-join">
     <nav class="vs-pagehead"><a class="button circle transparent vs-back" href="#home" aria-label="TOPに戻る"><i>arrow_back</i></a><h1 class="vs-headline" tabindex="-1">どちらで遊びますか？</h1></nav>
+    <!-- はじめての人がまず読みたい「サーバー紹介」への入口。ゲームを選ぶ前の、細い1行 -->
+    <a class="vs-row wave vs-join-intro vs-mt" href="#intro">
+      <span class="vs-join-thumb"><img src="img/village-stairs.jpg" alt="" loading="lazy"></span>
+      <span class="max"><span class="vs-label"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg>はじめての方へ</span><b class="vs-title-m">どんなサーバー？</b><span class="vs-support">写真と4つのポイントで、1分でわかります</span></span>
+      <i class="vs-go">arrow_forward</i>
+    </a>
     <div class="grid vs-mt" id="join-choices"></div>
   </div>
 
@@ -836,6 +853,10 @@ body:not(.vs-ready) .page.active{animation:none}
     <div class="grid vs-section">
       <figure class="s12 m6 vs-photo"><img src="img/village-jungle.jpg" alt="ジャングルの岩場で、プレイヤーと生物が並んで記念撮影している様子" loading="lazy"><figcaption>ジャングルで記念撮影</figcaption></figure>
       <figure class="s12 m6 vs-photo"><img src="img/village-desert.jpg" alt="砂漠の遺跡で、火を吐くドラゴンが巨大な生物と戦っている様子" loading="lazy"><figcaption>砂漠の遺跡で狩りの真っ最中</figcaption></figure>
+    </div>
+    <div class="vs-section vs-intro-next">
+      <p class="vs-title-m">雰囲気がつかめたら、参加の準備へ</p>
+      <a class="button primary-container" href="#join"><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg><span>参加手順へ進む</span><i>arrow_forward</i></a>
     </div>
   </div>
 
@@ -1196,7 +1217,7 @@ body:not(.vs-ready) .page.active{animation:none}
         </a>
         <a class="button border small vs-mt-s" href="#" data-ext="Discordの招待リンク"><span>Discordに参加</span><i>open_in_new</i></a>
       </div>
-      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg>はじめての方</h2><ul><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
+      <nav class="s6 m3 l2" aria-label="はじめての方"><div><h2><svg class="vs-wakaba" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6 4.8 3v11.8l7.2 6.4 7.2-6.4V3zM12 8.6v12.6"></path><path class="f" d="M12 8.6 19.2 3v11.8L12 21.2z"></path></svg>はじめての方</h2><ul><li><a href="#intro">サーバー紹介</a></li><li><a href="#join">参加手順</a></li><li><a href="#rules">ルール</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サーバーについて"><div><h2>サーバーについて</h2><ul><li><a href="#maps">マップステータス</a></li><li><a href="#intro">サーバー紹介</a></li><li><a href="#rates">サーバー倍率</a></li><li><a href="#commands">コマンド一覧</a></li><li><a href="#api">導入API解説</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="サポート"><div><h2>サポート</h2><ul><li><a href="#trouble">困った時一覧</a></li><li><a href="#scribe">スクライブ</a></li><li><a href="#request">管理者依頼</a></li><li><a href="#ranks">ランク比較・購入</a></li></ul></div></nav>
       <nav class="s6 m3 l2" aria-label="そのほか"><div><h2>そのほか</h2><ul><li><a href="#mypage">マイページ</a></li><li><a href="#" data-ext="Village Portal">Village Portal<i>open_in_new</i></a></li><li><a href="#" data-ext="Wiki">Wiki<i>open_in_new</i></a></li></ul></div></nav>
@@ -2297,10 +2318,12 @@ function renderCrumbs(route){
   }).join('') + '</ol>';
 }
 function show(route, focus){
-  const r = ROUTES[route]; state.route = route;
+  const r = ROUTES[route], from = state.route; state.route = route;
   if (r.game && r.game !== state.game) setGame(r.game, true);
   $$('#main > .page').forEach(p => p.classList.toggle('active', p.id === 'p-' + r.page));
   renderCrumbs(route);
+  /* サーバー紹介は、ゲームを選ぶ画面（はじめての人の入口）から来たときは「←」でそこへ戻す */
+  if (r.page === 'intro') { const b = $('#p-intro .vs-back'), j = from === 'join'; b.setAttribute('href', j ? '#join' : '#about'); b.setAttribute('aria-label', j ? 'ゲームの選択に戻る' : 'サーバーについてに戻る'); }
   $$('[data-nav]').forEach(a => {
     const on = a.dataset.nav === r.nav;
     if (!a.classList.contains('button')) a.classList.toggle('active', on);
